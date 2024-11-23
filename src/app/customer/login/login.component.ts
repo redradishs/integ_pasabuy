@@ -1,51 +1,3 @@
-/*import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../service/auth.service';
-
-@Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
-})
-export class LoginComponent {
-  email: string = '';
-  password: string = '';
-  errorMessage: string = ''; 
-  loading: boolean = false; 
-  
-  constructor(private authService: AuthService, private router: Router) {}
-  
-  onLogin() {
-    if (!this.email || !this.password) {
-      this.errorMessage = 'Please fill in all fields';
-      return;
-    }
-
-    this.loading = true;
-    
-    const data = {
-      email: this.email,
-      password: this.password
-    };
-
-    this.authService.userLogin(data).subscribe(
-      (response: any) => {
-        console.log('Login Successful.', response);
-        this.authService.setToken(response.jwt);
-        this.router.navigate(['/home']);
-        this.loading = false;
-      },
-      (error: any) => {
-        this.errorMessage = error;
-        this.loading = false;
-      }
-    );
-  }
-}*/
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -106,7 +58,6 @@ export class LoginComponent implements OnInit {
     const storedEmail = localStorage.getItem('rememberedEmail');
     if (storedEmail) {
       this.loginForm.patchValue({ email: storedEmail });
-      //this.loginForm.patchValue({ rememberMe: true });
     }
   }
 
@@ -122,7 +73,7 @@ export class LoginComponent implements OnInit {
           // Login success: store the JWT token and navigate to home
           this.authService.setToken(response.jwt, rememberMe);
           if (rememberMe) {
-            localStorage.setItem('rememberedEmail', email); // Store email if Remember Me is checked
+            localStorage.setItem('rememberedEmail', email);
           }
           Swal.fire({
             title: 'Login Successful',
@@ -144,13 +95,11 @@ export class LoginComponent implements OnInit {
           this.resetFormState();
         },
         complete: () => {
-          // Ensure states are reset after any response
           this.loading = false;
           this.clicked = false;
         }
       });
     } else {
-      // If form is invalid, display an error message
       this.errorMessage = 'Please fill in all fields';
       Swal.fire({
         title: 'Error',

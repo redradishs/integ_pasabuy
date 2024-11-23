@@ -1,56 +1,100 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormControl, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../service/auth.service';
-import { Router, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [CommonModule,
+            ReactiveFormsModule,
+            MatIconModule,
+            MatCheckboxModule,
+            MatInputModule,
+            MatFormFieldModule,
+            MatButtonModule,
+            RouterModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  name: string = '';
+   signupForm: FormGroup; 
+    name: string = '';
     email: string = '';
     password: string = '';
+    confirmPassword: string = ''; 
     errorMessage: string = ''; 
+    loading: boolean = false; 
+    clicked = false;
 
 
-    constructor(private authService: AuthService, private router: Router){
+    constructor(private authService: AuthService, 
+                private router: Router,
+                private fb: FormBuilder,
+                private cdr: ChangeDetectorRef){
 
+      this.signupForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      contactNumber: ['', [Validators.required, Validators.pattern('^\\+63\\d{9}$')]],
+      password: ['', Validators.required], // Password required
+      confirmPassword: ['', Validators.required]
+    });
+  }
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+  }
+
+  onSignup() {
+    if (this.signupForm.invalid) {
+      // Check if form is invalid
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please fill in all required fields correctly',
+      });
+      return;
     }
 
+    // Get the form values
+    const { name, email, password, confirmPassword } = this.signupForm.value;
 
-    /*onSignup() {
-      if (!this.name || !this.email || !this.password) {
-        alert('Please fill in all fields');
-        return;
-      }
-
-
-      const data = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      };
-
-      this.authService.userSignUp(data).subscribe(
-        (response: any) => {
-          console.log(response.message);
-          this.authService.setToken(response.jwt);
-          this.router.navigate(['/login']);
-        },
-        (error: any) => {
-          if (error.status === 409) {
-            alert('Email already exists.');
-          } else if (error.status === 400) {
-            alert('Please provide all required fields.');
-          } else {
-            alert('An unexpected error occurred. Please try again later.');
-          }
-        }
-      );
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Password mismatch',
+        text: 'Passwords do not match',
+      });
+      return;
     }
-*/
+
+    // Proceed with signup logic
+    const data = { name, email, password };
+
+    this.clicked = true;
+    setTimeout(() => {
+      console.log('User signed up successfully:', data);
+      Swal.fire({
+        icon: 'success',
+        title: 'Sign up successful!',
+        text: 'You can now log in.',
+      });
+      this.router.navigate(['/login']);
+    }, 1000);
+
+    setTimeout(() => {
+      this.clicked = false;
+    }, 2000);
+  }
 }

@@ -1,4 +1,5 @@
-/*import { isPlatformBrowser } from '@angular/common';
+/*
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
@@ -114,7 +115,7 @@ export class AuthService {
       return null;
     }
   }
-
+  
   // Check if the token is expired
   private isTokenExpired(token: string): boolean {
     const decodedToken = this.decodeToken(token);
@@ -168,8 +169,6 @@ export class AuthService {
 
             if (isPlatformBrowser(this.platformId)) {
               console.log('Login response:', res);
-              //sessionStorage.setItem('jwt', token);
-              //this.saveUserData();
               if (rememberMe) {
                 localStorage.setItem('jwt', token);
               } else {
@@ -196,7 +195,6 @@ export class AuthService {
 
   setToken(token: string, rememberMe: boolean): void {
     if (isPlatformBrowser(this.platformId)) {
-     // sessionStorage.setItem('jwt', token);
      if (rememberMe) {
       localStorage.setItem('jwt', token); 
     } else {
@@ -206,24 +204,8 @@ export class AuthService {
 }
     //SAVE USER DATA
     saveUserData(): void {
-      //const token = sessionStorage.getItem('jwt');
       let token = '';
 
-     // if (token) {
-       // const decodedToken: any = jwtDecode(token);
-        //if (decodedToken && decodedToken.data) {
-          //this.userData = decodedToken.data;
-          //console.log("User data saved:", this.userData);
-    
-          // Save user ID to sessionStorage
-          //sessionStorage.setItem('userId', this.userData.id.toString());
-        //} else {
-          //console.error("Invalid user data:", decodedToken);
-        //}
-      //} else {
-        //console.error("JWT not found in sessionStorage.");
-      //}
-    //}
     if (isPlatformBrowser(this.platformId)) {
       token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt') || '';
     }
@@ -306,4 +288,3 @@ export class AuthService {
       return false;
     }
   }
-

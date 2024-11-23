@@ -22,7 +22,7 @@ export class SignupComponent {
     }
 
 
-    onSignup() {
+    /*onSignup() {
       if (!this.name || !this.email || !this.password) {
         alert('Please fill in all fields');
         return;
@@ -52,5 +52,5 @@ export class SignupComponent {
         }
       );
     }
-
+*/
 }

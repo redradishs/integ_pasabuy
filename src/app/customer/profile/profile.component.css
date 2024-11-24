@@ -1,66 +1,129 @@
-.mod {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
+/* Existing CSS */
 .lagayan {
-    margin-top: 4rem;
+  margin-top: 4rem;
 }
 
 .prof {
-    display: flex;
-    justify-content: end;
-    background-color: red;
+  display: flex;
+  justify-content: end;
+  padding: 1rem;
+  border-radius: 15px;
 }
 
 .gig {
-    display: flex;
-    justify-content: center;
-    margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
-.inputp {
-    display: flex;
-    justify-content: space-between;
-    gap: 10rem;
-    margin-bottom: 2rem;
+.profile-container img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mod {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mod h4 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.mod p {
+  font-size: 1rem;
+  color: #555;
 }
 
 button {
-    font-family: inherit;
-    font-size: 15px;
-    background: #212121;
-    color: white;
-    fill: rgb(155, 153, 153);
-    padding: 0.8em 1em;
-    padding-left: 0.9em;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border: none;
-    border-radius: 15px;
-    font-weight: 1000;
-  }
-  
-  button span {
-    display: block;
-    margin-left: 0.3em;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  button svg {
-    display: block;
-    transform-origin: center center;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  button:hover {
-    background: #000;
+  font-family: inherit;
+  font-size: 15px;
+  background: #212121;
+  color: white;
+  padding: 0.8em 1em;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+  background: #000;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.details h5 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.details hr {
+  border: none;
+  border-top: 2px solid #ddd;
+  margin: 10px 0;
+}
+
+.inputp {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.inputp label {
+  font-weight: bold;
+  flex: 1;
+  white-space: nowrap;
+}
+
+.inputp input {
+  flex: 2;
+  padding: 0.8rem;
+  border: none;
+  border-bottom: 2px solid #ddd;
+  outline: none;
+  transition: border-bottom 0.3s ease;
+  font-size: 1rem;
+}
+
+.inputp input:focus {
+  border-bottom: 2px solid #000;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .mod {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
   }
 
-  
-  button:active {
-    transform: scale(0.95);
+  .inputp {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
   }
-  
+
+  .profile-container img {
+      width: 100px;
+      height: 100px;
+  }
+}

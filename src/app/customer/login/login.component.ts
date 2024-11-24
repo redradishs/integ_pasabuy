@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -15,14 +14,15 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,
-            ReactiveFormsModule,
-            MatIconModule,
-            MatCheckboxModule,
-            MatInputModule,
-            MatFormFieldModule,
-            MatButtonModule,
-            RouterModule
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -30,14 +30,14 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
-  loading: boolean = false; 
+  loading: boolean = false;
   clicked = false;
   rememberMe: boolean = false;
 
   constructor(
-              private router: Router,
-              private formBuilder: FormBuilder,
-              private authService: AuthService
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', [
@@ -63,15 +63,19 @@ export class LoginComponent implements OnInit {
 
   userLogin(): void {
     if (this.loginForm.valid) {
-      this.clicked = true; 
+      this.clicked = true;
       this.loading = true;
   
+      // Create a data object to pass to the service
       const { email, password, rememberMe } = this.loginForm.value;
   
-      this.authService.login(email, password, rememberMe).subscribe({
+      // Pass the data object to the authService
+      const loginData = { email, password, rememberMe };
+  
+      this.authService.userLogin(loginData).subscribe({
         next: (response: any) => {
           // Login success: store the JWT token and navigate to home
-          this.authService.setToken(response.jwt, rememberMe);
+          this.authService.setToken(response.jwt);
           if (rememberMe) {
             localStorage.setItem('rememberedEmail', email);
           }
@@ -109,10 +113,11 @@ export class LoginComponent implements OnInit {
       });
     }
   }
+  
+
   private resetFormState(): void {
     this.loginForm.patchValue({ password: '' });
     this.loading = false;
     this.clicked = false;
-  
   }
 }

@@ -20,7 +20,6 @@ interface Vendor {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  pageTitle: string = ''; 
   breadcrumbs: Array<{ label: string; link: string; iconViewBox: string }> = [];
   vendors: any[] = [];
    
@@ -28,7 +27,6 @@ export class HomeComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.fetchPageTitle();
     this.setupBreadcrumbs();
     this.vendors = [
       {
@@ -132,14 +130,6 @@ export class HomeComponent implements OnInit {
         reviewsCount: 1200 
       },
     ];
-  }
-
-  fetchPageTitle(): void {
-    const testData = {
-      pageTitle: 'Home', 
-    };
-
-    this.pageTitle = testData.pageTitle;
   }
   
   setupBreadcrumbs(): void {

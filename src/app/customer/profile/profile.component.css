@@ -16,12 +16,28 @@
   margin-top: 1rem;
 }
 
-.profile-container img {
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 150px;
   height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
 }
+
+.profile-picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background-color: #70f1aa;
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  border-radius: 50%;
+  text-transform: uppercase;
+}
+
 
 .mod {
   display: flex;

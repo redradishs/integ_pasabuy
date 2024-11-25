@@ -1,0 +1,57 @@
+
+.page {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f5f1f1;
+    padding: 1rem 0;
+}
+
+.mgb {
+    background-color: #fff;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.payments {
+    display: flex;
+    justify-content: space-around;
+}
+
+.payments .form-check {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.product {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1rem;
+    background-color: #f9f9f9;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+hr {
+    border: 1px solid #ddd;
+}
+
+button {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    color: #fff;
+}

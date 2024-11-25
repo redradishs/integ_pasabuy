@@ -1,8 +1,7 @@
 <app-header></app-header>
 <section class="py-8 antialiased bg-gray-50 dark:bg-gray-900 md:py-12">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
-
-      <!--HEADINGS(IF SAN LOCATION Home > Product )-->
+      <!--HEADINGS(IF SAN LOCATION)-->
       <div class="items-end justify-between mb-4 space-y-4 sm:flex sm:space-y-0 md:mb-8">
         <div>
           <nav class="flex" aria-label="Breadcrumb">
@@ -14,7 +13,15 @@
                   </svg>
                   {{ breadcrumbs[0].label}}
                 </a>
-              </li>  
+              </li>
+              <li aria-current="page">
+                <div class="flex items-center">
+                  <svg class="w-5 h-5 text-gray-400 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
+                  </svg>
+                  <span class="text-sm font-medium text-gray-500 ms-1 dark:text-gray-400 md:ms-2">{{ breadcrumbs[1].label}}</span>
+                </div>
+              </li>
             </ol>
           </nav>
           <h2 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{ pageTitle }}</h2>
@@ -22,19 +29,19 @@
         <div class="flex items-center space-x-4">
         </div>
       </div>
-      
+
         <!--CARD FOR STORES-->
       <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-        <div *ngFor="let vendor of vendors" class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
           <div class="w-full h-56">
-            <a [routerLink]="['/product', vendor.id]">
-              <img class="h-full mx-auto dark:hidden" [src]="'assets/' + (vendor.image || 'default.jpg')" alt="{{ vendor.name }}" />
-              <img class="hidden h-full mx-auto dark:block" [src]="'assets/' + (vendor.image || 'default.jpg')" alt="{{ vendor.name }}" />
+            <a href="menu">
+              <img class="h-full mx-auto dark:hidden" src="assets/kkb.jpg" alt="" />
+              <img class="hidden h-full mx-auto dark:block" src="assets/kkb.jpg" alt="" />
             </a>
           </div>
           <div class="pt-6">
             <div class="flex items-center justify-between gap-4 mb-4">
-              <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{ vendor.storeHours }}</span>
+                <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300"> Up to 15% off </span>
   
               <div class="flex items-center justify-end gap-1">
                 <button type="button" data-tooltip-target="tooltip-quick-look" class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -62,9 +69,7 @@
               </div>
             </div>
   
-            <a [routerLink]="['/product', vendor.id]" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">
-              {{ vendor.name }}
-            </a>
+            <a href="#" class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">Kusina Ni Kalbo</a>
 
             <!--STAR RATINGS-->
             <div class="flex items-center gap-2 mt-2">
@@ -112,15 +117,26 @@
                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
               </li>
             </ul>
+  
+            <div class="flex items-center justify-between gap-4 mt-4">
+              <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">$1,299</p>
+  
+              <button type="button" class="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                <svg class="w-5 h-5 -ms-2 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                </svg>
+                Add to cart
+              </button>
             </div>
           </div>
         </div>
-      
+        </div>
+      </div>
+      </section>
 
       <div class="w-full text-center">
         <button type="button" class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Show more</button>
       </div>
-      </div>
   <div>
 </div>
-</section>
+

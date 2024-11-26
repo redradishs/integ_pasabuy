@@ -16,5 +16,6 @@ export const routes: Routes = [
     {path: 'profile', component: ProfileComponent},
     {path: 'cart', component: CheckoutComponent},
     {path: 'checkout', component: CartComponent},
+    { path: 'checkout/:order_id', component: CartComponent },
     { path: '**', component: LoginComponent } 
 ];

@@ -33,4 +33,23 @@ export class ApiService {
   getVendorProfile(vendorId: number){
     return this.http.get(`${this.apiUrl}/viewvendorProfile/${vendorId}`);
   }
+
+
+
+  //endpoints for cart
+
+  getCheckout(id: number){
+    return this.http.get(`${this.apiUrl}/getCheckoutDetails/${id}`);  
+  }
+
+  getCart(id: number){
+    return this.http.get(`${this.apiUrl}/getOrderDetails/${id}`);
+  }
+
+
+
+
+  updateCartItem(id: number, quantity: any) {
+    return this.http.put(`${this.apiUrl}/updateCartItem/${id}`, {});
+  }
 }

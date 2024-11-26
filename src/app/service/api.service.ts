@@ -16,4 +16,21 @@ export class ApiService {
   getProfile(id: number){
     return this.http.get(`${this.apiUrl}/userDetails/${id}`);  
   }
+
+
+
+  //endpoints for home
+  getVendors(){
+    return this.http.get(`${this.apiUrl}/vendors`);
+  }
+
+  //endpoints for product vendor
+
+  getVendorProducts(vendorId: number){
+    return this.http.get(`${this.apiUrl}/vendorcart/${vendorId}`);
+  }
+
+  getVendorProfile(vendorId: number){
+    return this.http.get(`${this.apiUrl}/viewvendorProfile/${vendorId}`);
+  }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from "../header/header.component";
+import { ApiService } from '../../service/api.service';
+import { AuthService } from '../../service/auth.service';
 
 interface Vendor {
   id: number;
@@ -22,12 +24,15 @@ interface Vendor {
 export class HomeComponent implements OnInit {
   breadcrumbs: Array<{ label: string; link: string; iconViewBox: string }> = [];
   vendors: any[] = [];
+  vendorList: any[] = [];
    
 
-  constructor() {}
+  constructor(private api: ApiService, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.setupBreadcrumbs();
+    this.vendor();
+
     this.vendors = [
       {
         id: 1,
@@ -130,6 +135,19 @@ export class HomeComponent implements OnInit {
         reviewsCount: 1200 
       },
     ];
+  }
+
+
+  vendor(): void {
+    this.api.getVendors().subscribe((resp:any) => {
+      if(resp){
+        this.vendorList = resp.data;
+        console.log(this.vendorList);
+      } else {
+        console.error("Error fetching")
+      }
+    })
+
   }
   
   setupBreadcrumbs(): void {

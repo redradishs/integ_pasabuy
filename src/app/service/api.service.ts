@@ -46,10 +46,24 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/getOrderDetails/${id}`);
   }
 
-
-
-
   updateCartItem(id: number, quantity: any) {
     return this.http.put(`${this.apiUrl}/updateCartItem/${id}`, {});
   }
+
+  checkout(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/updateOrder/${id}`, data);
+  }
+
+  deleteItem(order_id: number, product_id: number){
+    return this.http.delete(`${this.apiUrl}/deleteItemOrder/${order_id}/${product_id}`);
+  }
+
+  addQuantity(order_id: number, product_id: number){
+    return this.http.put(`${this.apiUrl}/addQuantity/${order_id}/${product_id}`, {});
+  }
+  
+  subtractQuantity(order_id: number, product_id: number){
+    return this.http.put(`${this.apiUrl}/minusQuantity/${order_id}/${product_id}`, {});
+  }
+
 }

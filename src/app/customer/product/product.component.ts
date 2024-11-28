@@ -20,6 +20,7 @@ interface Product {
   rating: number;
   reviewsCount: number;
   quantity: number;
+  fullImageUrl: string;
 }
 interface Vendor {
   id: number;
@@ -112,9 +113,14 @@ export class ProductComponent implements OnInit {
 
   viewproducts(vendorId: number): void {
     this.api.getVendorProducts(vendorId).subscribe((resp: any) => {
-      if(resp){
-        this.products = resp.data;
-        console.log(this.products);
+      if(resp){ 
+        this.products = resp.data.map((product: any) => {
+          return {
+            ...product,
+            fullImageUrl: `http://localhost/tindahub_backend/api/${product.prod_img}`,
+          };
+        });
+        console.log(this.products); // Debugging purposes
       } else {
         console.error("Error no products")
       }
@@ -135,8 +141,21 @@ export class ProductComponent implements OnInit {
 
 
   loadCart(): void {
-    this.cartItems = this.cart.getCartItems();
+    const cartItems = this.cart.getCartItems();
+    if (cartItems && cartItems.length > 0) {
+      this.cartItems = cartItems.map((item: any) => {
+        return {
+          ...item,
+          fullImageUrl: item.fullImageUrl || `http://localhost/tindahub_backend/api/${item.prod_img}`,
+        };
+      });
+      console.log(this.cartItems); 
+    } else {
+      console.error("No items in the cart");
+      this.cartItems = [];
+    }
   }
+  
 
   removeFromCart(productId: number): void {
     this.cart.removeFromCart(productId);
@@ -220,6 +239,7 @@ export class ProductComponent implements OnInit {
     this.http.post(`http://localhost/unimart_pasabuy/api/add_itemsOrder/${orderId}`, orderData).subscribe(
       (response) => {
         console.log('Order items saved successfully:', response);
+        localStorage.removeItem('cart'); 
         this.router.navigate(['/checkout'], {
           state: { orderId: orderId }
         });

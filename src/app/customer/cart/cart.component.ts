@@ -6,17 +6,23 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { CartServiceService } from '../../service/cart-service.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-
+  orderData = {
+    pickupTime: '',
+    specialInstruction: '',
+    modeOfPayment: ''
+  }
 
   order_id: number = 0;
   carts: any[] = [];
@@ -29,7 +35,6 @@ export class CartComponent {
 
   
   ngOnInit(): void {
-    this.loadCart();
     initFlowbite();
     this.getCart(this.order_id);
     this.getCheckout(this.order_id);
@@ -52,9 +57,7 @@ export class CartComponent {
   }
 
 
-  loadCart(): void {
-    this.cartItems = this.cart.getCartItems();
-  }
+
 
 
   
@@ -74,14 +77,58 @@ export class CartComponent {
 
 
   getCheckout(order_id: number): void {
-    try {
-      this.api.getCheckout(this.order_id).subscribe((resp: any) => {
-        this.cartItems = resp.data;
-        console.log(this.cartItems);
-      })
-    } catch (error) {
-    };
+    this.api.getCheckout(order_id).subscribe(
+      (resp: any) => {
+        try {
+          console.log('Checkout Response:', resp);
+  
+          if (resp && Array.isArray(resp.data)) {
+            this.cartItems = resp.data.map((item: any) => ({
+              ...item,
+              fullImageUrl: item.product_prod_img
+                ? `http://localhost/tindahub_backend/api/${item.product_prod_img}`
+                : 'assets/unimartLogi.png',
+            
+            }));
+            console.log('Full API response:', resp);
+            console.log('Response data:', resp.data);
+            
+          } else {
+            console.error('Response data is not an array or is missing');
+            this.carts = [];
+          }
+        } catch (error) {
+          console.error('Error processing checkout response', error);
+          this.cartItems = [];
+        }
+      },
+      (error) => {
+        console.error('Error fetching checkout data:', error);
+      }
+    );
   }
+
+
+  proceedToCheckout(): void {
+    const data = {
+      pickup_time: this.orderData.pickupTime,
+      special_instruction: this.orderData.specialInstruction,
+      mode_of_payment: this.orderData.modeOfPayment
+    };
+  
+    this.api.checkout(this.order_id, data).subscribe(
+      (resp: any) => {
+        console.log("Checkout Successful", resp);
+        // this.router.navigate(['/home'], { state: { orderId: this.order_id } });
+      },
+      (error) => {
+        console.error("Checkout Failed", error);
+        alert('There was an error during checkout. Please try again.');
+      }
+    );
+  }
+  
+  
 
   getUserDetails(id: number): void {
     this.api.getProfile(id).subscribe((resp: any) => {
@@ -117,23 +164,76 @@ updateCartItem(item: any): void {
 }
 
 calculateTotal(): number {
-  console.log('Cart Items:', this.cartItems);
-  console.log('Voucher Amount:', this.voucherAmount);
-  
-  return this.cartItems.reduce((total, item) => {
-    console.log('Item:', item);
-    console.log('Quantity:', item.quantity, 'Price:', item.unit_price);
-    
-    const itemTotal = (item.quantity || 0) * (item.unit_price || 0); 
-    console.log('Item Total:', itemTotal);
+  console.log('cartItems:', this.cartItems);
+  console.log('voucherAmount:', this.voucherAmount);
 
+  return (this.cartItems || []).reduce((total, item) => {
+    const itemTotal = (item.quantity || 0) * (item.unit_price || 0);
     return total + itemTotal;
   }, 0) - (this.voucherAmount || 0);
 }
 
 getTotalItems(): number {
-  return this.cartItems.reduce((total, item) => total + (item.quantity || 0), 0);
+  return (this.cartItems || []).reduce((total, item) => {
+    if (!item) return total;
+    return total + (item.quantity || 0);
+  }, 0);
 }
+
+
+getCurrentDateTime(): string {
+  const currentDate = new Date();
+  
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true,
+  };
+
+  const formattedDate = currentDate.toLocaleString('en-US', options);
+  
+  return formattedDate;
+}
+
+
+add(order_id: number, product_id: number){
+  this.api.addQuantity(this.order_id, product_id).subscribe((resp: any) => {
+    try {
+      this.getCheckout(this.order_id);
+      console.log(this.cartItems);
+    } catch (err) {
+      console.error("Error fetching cart", err);
+    }
+  })
+}
+
+sub(order_id: number, product_id: number){
+  this.api.subtractQuantity(this.order_id, product_id).subscribe((resp: any) => {
+    try {
+      this.getCheckout(this.order_id);
+      console.log(this.cartItems);
+    } catch (err) {
+      console.error("Error fetching cart", err);
+    }
+  })
+}
+
+delete(order_id: number, product_id: number){
+  this.api.deleteItem(this.order_id, product_id).subscribe((resp: any) => {
+    try {
+      this.getCheckout(this.order_id);
+      console.log(this.cartItems);
+    } catch (err) {
+      console.error("Error fetching cart", err);
+    }
+  })
+}
+
+
 
 
 

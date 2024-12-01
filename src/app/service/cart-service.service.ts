@@ -30,10 +30,13 @@ export class CartServiceService {
   
     // Remove a product from the cart
     removeFromCart(productId: number): void {
+      // Filter out the specific item
       this.cartItems = this.cartItems.filter(item => item.product_id !== productId);
+    
+      // Save the updated cart to localStorage or backend
       this.saveCartToLocalStorage();
     }
-  
+    
     // Clear the entire cart
     clearCart(): void {
       this.cartItems = [];

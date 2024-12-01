@@ -21,8 +21,8 @@ export class CartComponent {
   orderData = {
     pickupTime: '',
     specialInstruction: '',
-    modeOfPayment: ''
-  }
+    modeOfPayment: '',
+    order_status: ''  }
 
   order_id: number = 0;
   carts: any[] = [];
@@ -46,6 +46,9 @@ export class CartComponent {
         console.log("User not found");
       }
     })
+
+    this.orderData.pickupTime = this.getDateTimeOneHourAgo();
+    
   }
 
   constructor(private api: ApiService, private router: Router, private auth: AuthService, private cart: CartServiceService){
@@ -56,6 +59,16 @@ export class CartComponent {
     }
   }
 
+  getDateTimeOneHourAgo(): string {
+    const now = new Date();
+    now.setHours(now.getHours() + 1); 
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  }
 
 
 
@@ -113,13 +126,16 @@ export class CartComponent {
     const data = {
       pickup_time: this.orderData.pickupTime,
       special_instruction: this.orderData.specialInstruction,
-      mode_of_payment: this.orderData.modeOfPayment
+      mode_of_payment: this.orderData.modeOfPayment,
+      order_status: this.orderData.order_status
     };
   
     this.api.checkout(this.order_id, data).subscribe(
       (resp: any) => {
         console.log("Checkout Successful", resp);
-        // this.router.navigate(['/home'], { state: { orderId: this.order_id } });
+        this.router.navigate(['/orderstatus'], {
+          state: { orderId: this.order_id }
+        });
       },
       (error) => {
         console.error("Checkout Failed", error);

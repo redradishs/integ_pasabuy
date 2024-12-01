@@ -1,0 +1,9 @@
+.completed {
+    color: #047857; /* Green color to indicate completed status */
+    font-weight: bold;
+  }
+  
+  .completed svg {
+    fill: #047857; /* Change the SVG icon color for completed steps */
+  }
+  

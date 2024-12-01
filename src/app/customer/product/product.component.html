@@ -108,7 +108,7 @@
         class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <!-- PROD IMAGE -->
         <div class="w-full h-56">
-          <a [routerLink]="['/product', product.product_id]">
+          <a (click)="addToCart(product)">
             <img class="h-full mx-auto dark:hidden" [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
             <img class="hidden h-full mx-auto dark:block" [src]="product.fullImageUrl"
               alt="{{ product.product_name }}" />
@@ -118,7 +118,7 @@
         <!--PROD DETAILSs -->
         <div class="pt-6">
           <!-- PROD NAME-->
-          <a [routerLink]="['/product', product.product_id]"
+          <a (click)="addToCart(product)"
             class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">
             {{ product.product_name }}
           </a>

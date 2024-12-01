@@ -145,7 +145,7 @@
             <div class="details mb-3">
                 <label for="pickup-time" class="form-label font-semibold text-gray-900 dark:text-white">PickUp time for:
                     {{ getCurrentDateTime() }}</label>
-                <input type="time" id="pickup-time" [(ngModel)]="orderData.pickupTime" name="pickupTime"
+                <input type="datetime-local" id="pickup-time" [(ngModel)]="orderData.pickupTime" name="pickupTime"
                     class="form-control">
             </div>
             <hr>

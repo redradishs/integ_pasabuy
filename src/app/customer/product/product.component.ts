@@ -120,7 +120,7 @@ export class ProductComponent implements OnInit {
             fullImageUrl: `http://localhost/tindahub_backend/api/${product.prod_img}`,
           };
         });
-        console.log(this.products); // Debugging purposes
+        console.log(this.products);
       } else {
         console.error("Error no products")
       }
@@ -151,16 +151,23 @@ export class ProductComponent implements OnInit {
       });
       console.log(this.cartItems); 
     } else {
-      console.error("No items in the cart");
       this.cartItems = [];
     }
   }
   
 
-  removeFromCart(productId: number): void {
-    this.cart.removeFromCart(productId);
-    this.loadCart();
+  removeFromCart(productId: number): void {  
+    const updatedCart = this.cartItems.filter(item => item.product_id !== productId);
+    if (updatedCart.length === this.cartItems.length) {
+      console.warn('Product not found in the cart!');
+    }
+    this.cartItems = updatedCart;
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  
+    this.loadCart(); 
   }
+  
+  
 
   clearCart(): void {
     this.cart.clearCart();

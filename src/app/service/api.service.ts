@@ -66,4 +66,16 @@ export class ApiService {
     return this.http.put(`${this.apiUrl}/minusQuantity/${order_id}/${product_id}`, {});
   }
 
+
+  //orderstatus page
+
+  getOrderStatus(order_id: number) {
+    return this.http.get(`${this.apiUrl}/getspecifiedorderStatus/${order_id}`);
+  }
+
+
+  cancelorder(order_id: number) {
+    return this.http.put(`${this.apiUrl}/cancelorder/${order_id}`, {});
+  }
+
 }

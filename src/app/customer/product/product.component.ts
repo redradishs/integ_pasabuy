@@ -6,7 +6,7 @@ import { HeaderComponent } from '../header/header.component';
 import { ApiService } from '../../service/api.service';
 import { AuthService } from '../../service/auth.service';
 import { CartServiceService } from '../../service/cart-service.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 interface Product {

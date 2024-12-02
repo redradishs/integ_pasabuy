@@ -43,8 +43,8 @@
 
       <div class="flex items-center gap-4 p-4">
         <!--STORE IMAGE-->
-        <img class="object-cover w-20 h-20rounded-full md:w-44 md:h-44"
-          [src]="'assets/' + (vendorProfile || 'unimartLogo.png')" alt="{{ vendorProfile.vendor_name }}">
+        <img class="object-cover w-20 h-20rounded-full md:w-44 md:h-44" [src]="'assets/' + ('unimartLogo.png')"
+          alt="{{ vendorProfile.vendor_name }}">
 
         <!--STORE DETAILS-->
         <div class="flex flex-col justify-between leading-normal">
@@ -84,90 +84,86 @@
       </div>
 
       <!-- FILTER TAGS BUTTONS -->
-      <div class="relative flex flex-wrap items-center justify-center gap-3 py-4 mt-3 mb-4 md:py-8 sm:mt-6 sm:mb-6 lg:mt-12 xl:mt-16">
+      <div
+        class="relative flex flex-wrap items-center justify-center gap-3 py-4 mt-3 mb-4 md:py-8 sm:mt-6 sm:mb-6 lg:mt-12 xl:mt-16">
         <button type="button"
-          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-blue-700 bg-white border border-blue-600 rounded-full hover:text-white hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 md:text-base md:px-5 me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">All
+          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-blue-700 bg-white border border-blue-600 rounded-full hover:text-orange-600 hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 md:text-base md:px-5 me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">All
           categories</button>
-        <button type="button"
-          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-gray-900 bg-white border border-white rounded-full hover:border-gray-200 hover:border-2 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 focus:ring-2 focus:outline-none focus:ring-gray-300 md:text-base me-2 dark:text-white dark:focus:ring-gray-800">Food</button>
-        <button type="button"
-          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-gray-900 bg-white border border-white rounded-full hover:border-gray-200 hover:border-2 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 focus:ring-2 focus:outline-none focus:ring-gray-300 md:text-base me-2 dark:text-white dark:focus:ring-gray-800">Drinks</button>
-        <button type="button"
-          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-gray-900 bg-white border border-white rounded-full hover:border-gray-200 hover:border-2 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 focus:ring-2 focus:outline-none focus:ring-gray-300 md:text-base me-2 dark:text-white dark:focus:ring-gray-800">Others</button>
+        <button *ngFor="let item of categories" type="button"
+          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-gray-900 bg-white border border-white rounded-full hover:text-orange-500 hover:border-gray-200 hover:border-2 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 focus:ring-2 focus:outline-none focus:ring-gray-300 md:text-base me-2 dark:text-white dark:focus:ring-gray-800">{{item.category}}</button>
       </div>
     </div>
   </div>
 </section>
 
-  
 
-    <!-- ito yung start ng product page  -->
 
-    <!--PRODUCT LIST -->
-    <section class="container py-4 antialiased bg-gray-50 dark:bg-gray-900 md:py-6">
-    <div class="grid gap-4 py-8 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-      <div *ngFor="let product of products"
-        class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <!-- PROD IMAGE -->
-        <div class="w-full h-56 cursor-pointer">
-          <a (click)="navigateToProductDetails(product)">
-            <img class="h-full mx-auto dark:hidden" [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
-            <img class="hidden h-full mx-auto dark:block" [src]="product.fullImageUrl"
-              alt="{{ product.product_name }}" />
-          </a>
-        </div>
+<!-- ito yung start ng product page  -->
 
-        <!--PROD DETAILSs -->
-        <div class="pt-6">
-          <!-- PROD NAME-->
-          <a (click)="navigateToProductDetails(product)"
-            class="text-lg font-semibold leading-tight text-gray-900 cursor-pointer hover:underline dark:text-white">
-            {{ product.product_name }}
-          </a>
+<!--PRODUCT LIST -->
+<section class="container py-4 antialiased bg-gray-50 dark:bg-gray-900 md:py-6">
+  <div class="grid gap-4 py-8 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+    <div *ngFor="let product of products"
+      class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
+      <!-- PROD IMAGE -->
+      <div class="w-full h-56 cursor-pointer">
+        <a (click)="navigateToProductDetails(product)">
+          <img class="h-full mx-auto dark:hidden" [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
+          <img class="hidden h-full mx-auto dark:block" [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
+        </a>
+      </div>
 
-          <!-- STAR RATINGS-->
-          <div class="flex items-center gap-2 mt-2">
-            <div class="flex items-center">
-              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-                <svg *ngIf="star <= product.rating" class="w-4 h-4 text-yellow-400" aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-                <svg *ngIf="star > product.rating" class="w-4 h-4 text-gray-300" aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M12 17.75l-5.6 3.2 1.5-6.4L2 9.3l6.6-.6 2.4-6.2L12 5.6l2.4-6.2 6.6.6-4.9 5.8 1.5 6.4L12 17.75z" />
-                </svg>
-              </ng-container>
-            </div>
+      <!--PROD DETAILSs -->
+      <div class="pt-6">
+        <!-- PROD NAME-->
+        <a (click)="navigateToProductDetails(product)"
+          class="text-lg font-semibold leading-tight text-gray-900 cursor-pointer hover:underline dark:text-white">
+          {{ product.product_name }}
+        </a>
 
-            <!--PROD RATINGS-->
-            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ product.category }}</p>
-            <!--<p class="text-sm font-medium text-gray-500 dark:text-gray-400"> Cart: {{ product.quantity }}</p>-->
+        <!-- STAR RATINGS-->
+        <div class="flex items-center gap-2 mt-2">
+          <div class="flex items-center">
+            <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+              <svg *ngIf="star <= product.rating" class="w-4 h-4 text-yellow-400" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+              </svg>
+              <svg *ngIf="star > product.rating" class="w-4 h-4 text-gray-300" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 17.75l-5.6 3.2 1.5-6.4L2 9.3l6.6-.6 2.4-6.2L12 5.6l2.4-6.2 6.6.6-4.9 5.8 1.5 6.4L12 17.75z" />
+              </svg>
+            </ng-container>
           </div>
 
-          <!--PROD PRICE-->
-          <p class="mt-2 text-xl font-bold text-gray-900 dark:text-white">
-            ₱{{ product.price }}
-          </p>
-
-          <!-- ADD TO CART BUTTON-->
-          <button
-            class="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-            (click)="addToCart(product)">
-            Add to Cart
-          </button>
+          <!--PROD RATINGS-->
+          <p class="text-sm font-medium text-gray-900 dark:text-white">{{ product.category }}</p>
+          <!--<p class="text-sm font-medium text-gray-500 dark:text-gray-400"> Cart: {{ product.quantity }}</p>-->
         </div>
+
+        <!--PROD PRICE-->
+        <p class="mt-2 text-xl font-bold text-gray-900 dark:text-white">
+          ₱{{ product.price }}
+        </p>
+
+        <!-- ADD TO CART BUTTON-->
+        <button
+          class="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          (click)="addToCart(product)">
+          Add to Cart
+        </button>
       </div>
     </div>
-    </section>
+  </div>
+</section>
 
 
 
 
 <!-- SECTION FOR THE ORDER SUMMARY -->
-<!--<section *ngIf="cartItems.length > 0" class="py-8 antialiased bg-white dark:bg-gray-900 md:py-5">
+<section *ngIf="cartItems.length > 0" class="py-8 antialiased bg-white dark:bg-gray-900 md:py-5">
   <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Items added to your cart:</h2>
 
@@ -284,4 +280,4 @@
       </div>
     </div>
   </div>
-</section>-->
+</section>

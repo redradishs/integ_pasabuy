@@ -34,6 +34,10 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/viewvendorProfile/${vendorId}`);
   }
 
+  getCategories(id: number){
+    return this.http.get(`${this.apiUrl}/productCategory/${id}`);
+  }
+
 
 
   //endpoints for cart

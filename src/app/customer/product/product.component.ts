@@ -57,7 +57,7 @@ interface VendorProfile {
 export class ProductComponent implements OnInit {
   breadcrumbs: Array<{ label: string; link: string; iconViewBox: string }> = [];
   products: Product[] = [];
-  vendorId: number | null = null;
+  vendorId: number = 0;
   cartItems: any[] = []; 
   quantity: number = 1;
   itemPrice: number = 0;
@@ -66,6 +66,7 @@ export class ProductComponent implements OnInit {
   orderId: number = 0;
   pickup_time = '0000-00-00 12:00';
   order_status = 'Pending';
+  categories: any;
 
 
   vendorProfile: VendorProfile | null = null;
@@ -90,6 +91,7 @@ export class ProductComponent implements OnInit {
     this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
     this.viewVendorProfile(this.vendorId)
     this.viewproducts(this.vendorId);
+    this.getCategories(this.vendorId);
     this.loadCart()
   }
 
@@ -185,7 +187,7 @@ export class ProductComponent implements OnInit {
   }
   
 
-  /*removeFromCart(productId: number): void {  
+  removeFromCart(productId: number): void {  
     const updatedCart = this.cartItems.filter(item => item.product_id !== productId);
     if (updatedCart.length === this.cartItems.length) {
       console.warn('Product not found in the cart!');
@@ -286,7 +288,21 @@ export class ProductComponent implements OnInit {
       }
     );
 
-  }*/
+  }
+
+  getCategories(vendorId: number){
+    this.api.getCategories(this.vendorId).subscribe((resp: any) => {
+      if(resp){
+        this.categories = resp.data;
+        console.log(this.categories);
+      } else {
+        console.error("Error no categories")
+      }
+    })
+  }
+
+
+  
   
 
 }

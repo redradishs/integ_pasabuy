@@ -80,33 +80,47 @@ export class InvoiceComponent {
 
   downloadPDF() {
     const invoiceElement = document.getElementById('invoice');
-
-    if (invoiceElement) {
-      html2canvas(invoiceElement).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        
-        const imgWidth = 190;
-        const pageHeight = 297; 
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        let heightLeft = imgHeight;
-        let position = 0;
-
+    
+    if (!invoiceElement) {
+      console.error('Invoice element not found!');
+      return;
+    }
+  
+    // Ensure the element is visible before rendering
+    const wasHidden = invoiceElement.classList.contains('hidden');
+    invoiceElement.classList.remove('hidden');
+  
+    html2canvas(invoiceElement).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const imgWidth = 190; // Adjust the image width to fit within the PDF
+      const pageHeight = 297; // Standard A4 page height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  
+      let heightLeft = imgHeight;
+      let position = 0;
+  
+      // Add the first page
+      pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+  
+      // Add remaining pages, if needed
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight; // Adjust position for the next page
+        pdf.addPage();
         pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
-
-        while (heightLeft > 0) {
-          position = heightLeft - imgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-        }
-
-        pdf.save('invoice.pdf');
-      });
-    } else {
-      console.error('Invoice element not found!');
-    }
+      }
+  
+      // Save the PDF file
+      pdf.save('invoice.pdf');
+    }).finally(() => {
+      // Restore hidden class if it was originally hidden
+      if (wasHidden) {
+        invoiceElement.classList.add('hidden');
+      }
+    });
   }
+    
 }

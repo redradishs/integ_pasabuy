@@ -8,6 +8,7 @@ import { AuthService } from '../../service/auth.service';
 import { CartServiceService } from '../../service/cart-service.service';
 import { FormsModule} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 interface Product {
   product_id: number;
@@ -45,7 +46,11 @@ interface VendorProfile {
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, RouterModule, FormsModule],
+  imports: [CommonModule, 
+            HeaderComponent, 
+            RouterModule, 
+            FormsModule
+          ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
@@ -64,7 +69,12 @@ export class ProductComponent implements OnInit {
 
 
   vendorProfile: VendorProfile | null = null;
-  constructor(private route: ActivatedRoute, private api: ApiService, private auth: AuthService, private cart: CartServiceService, private router: Router, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, 
+              private api: ApiService, 
+              private auth: AuthService, 
+              private cart: CartServiceService,
+               private router: Router, 
+               private http: HttpClient) {}
 
   ngOnInit(): void {
     this.auth.getCurrentUser().subscribe(user => {
@@ -98,7 +108,15 @@ export class ProductComponent implements OnInit {
     ];
   }
 
-
+  navigateToProductDetails(product: any): void {
+    console.log('array of Product:', this.products); // Debug log
+    if (product && product.vendor_id) {
+      this.router.navigate(['/productDetails', product.vendor_id]);
+    } else {
+      console.error('Product data is missing or invalid.');
+    }
+  }
+  
 
   viewVendorProfile(vendorId: number): void {
     this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
@@ -137,6 +155,17 @@ export class ProductComponent implements OnInit {
     }
     localStorage.setItem('cart', JSON.stringify(this.cartItems));
     console.log(this.cartItems)
+    Swal.fire({
+      title: 'Item Added!',
+      text: `${product.product_name} has been added to your cart.`,
+      icon: 'success',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true
+    });
+
   }
 
 
@@ -156,7 +185,7 @@ export class ProductComponent implements OnInit {
   }
   
 
-  removeFromCart(productId: number): void {  
+  /*removeFromCart(productId: number): void {  
     const updatedCart = this.cartItems.filter(item => item.product_id !== productId);
     if (updatedCart.length === this.cartItems.length) {
       console.warn('Product not found in the cart!');
@@ -257,13 +286,7 @@ export class ProductComponent implements OnInit {
       }
     );
 
-  }
+  }*/
   
-
-
-
-
-
-
 
 }

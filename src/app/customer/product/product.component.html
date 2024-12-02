@@ -109,8 +109,8 @@
       <div *ngFor="let product of products"
         class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <!-- PROD IMAGE -->
-        <div class="w-full h-56">
-          <a (click)="addToCart(product)">
+        <div class="w-full h-56 cursor-pointer">
+          <a (click)="navigateToProductDetails(product)">
             <img class="h-full mx-auto dark:hidden" [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
             <img class="hidden h-full mx-auto dark:block" [src]="product.fullImageUrl"
               alt="{{ product.product_name }}" />
@@ -120,8 +120,8 @@
         <!--PROD DETAILSs -->
         <div class="pt-6">
           <!-- PROD NAME-->
-          <a (click)="addToCart(product)"
-            class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">
+          <a (click)="navigateToProductDetails(product)"
+            class="text-lg font-semibold leading-tight text-gray-900 cursor-pointer hover:underline dark:text-white">
             {{ product.product_name }}
           </a>
 
@@ -144,7 +144,7 @@
 
             <!--PROD RATINGS-->
             <p class="text-sm font-medium text-gray-900 dark:text-white">{{ product.category }}</p>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400"> Cart: {{ product.quantity }}</p>
+            <!--<p class="text-sm font-medium text-gray-500 dark:text-gray-400"> Cart: {{ product.quantity }}</p>-->
           </div>
 
           <!--PROD PRICE-->
@@ -167,7 +167,7 @@
 
 
 <!-- SECTION FOR THE ORDER SUMMARY -->
-<section *ngIf="cartItems.length > 0" class="py-8 antialiased bg-white dark:bg-gray-900 md:py-5">
+<!--<section *ngIf="cartItems.length > 0" class="py-8 antialiased bg-white dark:bg-gray-900 md:py-5">
   <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Items added to your cart:</h2>
 
@@ -284,4 +284,4 @@
       </div>
     </div>
   </div>
-</section>
+</section>-->

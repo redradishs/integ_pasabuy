@@ -13,7 +13,11 @@ import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [HeaderComponent, 
+            CommonModule, 
+            FormsModule, 
+            ReactiveFormsModule
+          ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
@@ -70,13 +74,6 @@ export class CartComponent {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   }
 
-
-
-
-  
-
-
-
   getCart(id: number): void {
     this.api.getCart(this.order_id).subscribe((resp: any) => {
       try {
@@ -100,7 +97,7 @@ export class CartComponent {
               ...item,
               fullImageUrl: item.product_prod_img
                 ? `http://localhost/tindahub_backend/api/${item.product_prod_img}`
-                : 'assets/unimartLogi.png',
+                : 'assets/unimartLogo.png',
             
             }));
             console.log('Full API response:', resp);

@@ -12,6 +12,7 @@ module.exports = {
       }
     },
     fontFamily: {
+      montserrat: ['Montserrat', 'sans-serif'],
       'body': [
     'Inter', 
     'ui-sans-serif', 
@@ -45,9 +46,12 @@ module.exports = {
     'Segoe UI Emoji', 
     'Segoe UI Symbol', 
     'Noto Color Emoji'
+  ],
+  cursive: [
+    'Dancing Script', 'cursive',
   ]
-    }
-  },
+}
+},
   plugins: [
     require('flowbite/plugin')
   ],

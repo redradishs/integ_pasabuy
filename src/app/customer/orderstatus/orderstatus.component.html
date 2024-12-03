@@ -5,7 +5,7 @@
             <div class="w-full justify-between items-center flex sm:flex-row flex-col gap-3">
                 <div class="w-full flex-col justify-center sm:items-start items-center gap-1 inline-flex">
                     <h2 class="text-gray-500 text-2xl font-semibold font-manrope leading-9">Order
-                        <span class="text-indigo-600">#3287{{carts.order_id}}</span>
+                        <span class="text-indigo-600">#UNMEXP{{carts.order_id}}</span>
                     </h2>
                     <span class="text-gray-500 text-base font-medium leading-relaxed">{{ formatDate(carts.order_date)
                         }}</span>
@@ -165,7 +165,7 @@
                     <div class="text-end" *ngIf="carts">
                         <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Invoice #
                         </h2>
-                        <span class="mt-1 block text-gray-500 dark:text-neutral-500">34657{{carts.oder_id}}</span>
+                        <span class="mt-1 block text-gray-500 dark:text-neutral-500">#UNMEXP{{carts.oder_id}}</span>
                     </div>
 
                 </div>

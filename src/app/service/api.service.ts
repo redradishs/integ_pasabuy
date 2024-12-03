@@ -82,4 +82,11 @@ export class ApiService {
     return this.http.put(`${this.apiUrl}/cancelorder/${order_id}`, {});
   }
 
+
+  //endpoints for order history
+
+  orderhistory(id: number){
+    return this.http.get(`${this.apiUrl}/orderhistory/${id}`);
+  }
+
 }

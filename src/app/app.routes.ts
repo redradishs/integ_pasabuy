@@ -9,6 +9,7 @@ import { CartComponent } from './customer/cart/cart.component';
 import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { OrderstatusComponent } from './customer/orderstatus/orderstatus.component';
 import { InvoiceComponent } from './customer/invoice/invoice.component';
+import { OrderhistoryComponent } from './customer/orderhistory/orderhistory.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -23,5 +24,6 @@ export const routes: Routes = [
     { path: 'checkout/:order_id', component: CartComponent },
     { path: 'orderstatus', component: OrderstatusComponent },
     { path: 'invoice', component: InvoiceComponent },
+    { path: 'orderhistory', component: OrderhistoryComponent},
     { path: '**', component: LoginComponent } 
 ];

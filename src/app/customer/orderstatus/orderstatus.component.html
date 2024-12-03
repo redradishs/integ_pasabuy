@@ -24,7 +24,7 @@
                 </button>
 
                 <!-- Home Button -->
-                <button
+                <button (click)="goHomeHehe()"
                     class="sm:w-fit w-full px-3.5 py-2 bg-green-600 hover:bg-green-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex mb-2 sm:mb-0">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                         <path d="M9 3L3 9H5V15H11V9H13L9 3Z" fill="white" />
@@ -122,13 +122,13 @@
                                 <div class="w-full justify-between items-start gap-6 inline-flex">
                                     <h6 class="text-gray-500 text-base font-normal leading-relaxed">Subtotal</h6>
                                     <h6 class="text-right text-gray-500 text-base font-medium leading-relaxed">
-                                        ₱{{carts.total_amount }}</h6>
+                                        {{formatCurrency(carts.total_amount)}}</h6>
                                 </div>
                             </div>
                             <div class="w-full justify-between items-start gap-6 inline-flex">
                                 <h5 class="text-gray-900 text-lg font-semibold leading-relaxed">Total</h5>
                                 <h5 class="text-right text-gray-900 text-lg font-semibold leading-relaxed">
-                                    ₱{{carts.total_amount }}
+                                    {{formatCurrency(carts.total_amount)}}
                                 </h5>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                     <div class="text-end" *ngIf="carts">
                         <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Invoice #
                         </h2>
-                        <span class="mt-1 block text-gray-500 dark:text-neutral-500">#UNMEXP{{carts.oder_id}}</span>
+                        <span class="mt-1 block text-gray-500 dark:text-neutral-500">#UNMEXP{{carts.order_id}}</span>
                     </div>
 
                 </div>
@@ -235,13 +235,15 @@
                                 <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                                     Rate
                                 </h5>
-                                <p class="text-gray-800 dark:text-neutral-200">₱{{item.product_price}}</p>
+                                <p class="text-gray-800 dark:text-neutral-200">{{formatCurrency(item.product_price)}}
+                                </p>
                             </div>
                             <div>
                                 <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                                     Amount</h5>
-                                <p class="sm:text-end text-gray-800 dark:text-neutral-200">₱{{item.quantity *
-                                    item.product_price}}</p>
+                                <p class="sm:text-end text-gray-800 dark:text-neutral-200">
+                                    {{formatCurrency(item.quantity *
+                                    item.product_price)}}</p>
                             </div>
                             <div class="sm:hidden border-b border-gray-200 dark:border-neutral-700"></div>
 
@@ -256,12 +258,14 @@
                         <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
                             <dl class="grid sm:grid-cols-5 gap-x-3">
                                 <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Subtotal:</dt>
-                                <dd class="col-span-2 text-gray-500 dark:text-neutral-500">₱{{carts.total_amount}}</dd>
+                                <dd class="col-span-2 text-gray-500 dark:text-neutral-500">
+                                    {{formatCurrency(carts.total_amount)}}</dd>
                             </dl>
 
                             <dl class="grid sm:grid-cols-5 gap-x-3">
                                 <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Total:</dt>
-                                <dd class="col-span-2 text-gray-500 dark:text-neutral-500">₱{{carts.total_amount}}</dd>
+                                <dd class="col-span-2 text-gray-500 dark:text-neutral-500">
+                                    {{formatCurrency(carts.total_amount)}}</dd>
                             </dl>
 
                             <dl class="grid sm:grid-cols-5 gap-x-3">

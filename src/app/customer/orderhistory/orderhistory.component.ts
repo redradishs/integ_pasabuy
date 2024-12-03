@@ -66,6 +66,21 @@ export class OrderhistoryComponent {
     })
   }
 
+  orderAgain(order_id: number){
+    this.api.orderagain(order_id).subscribe((resp: any) => {
+      console.log('Order has been ordered again')
+      this.viewOrderHistory(this.userId);
+      const newOrderId = resp.data.new_order_id;
+
+      this.router.navigate(['/checkout'], {
+        state: { orderId: newOrderId }
+      });
+
+    }, error => {
+      console.error("Error ordering again", error);
+    })
+  }
+
 
 
 }

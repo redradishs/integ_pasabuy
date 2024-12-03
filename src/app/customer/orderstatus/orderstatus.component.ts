@@ -225,6 +225,18 @@ export class OrderstatusComponent {
     });
   }
 
+  goHomeHehe(){
+    this.router.navigate(['/home']);
+  }
+
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+      minimumFractionDigits: 2
+    }).format(value);
+  }
+
 
   
 

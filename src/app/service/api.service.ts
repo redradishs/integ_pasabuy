@@ -89,4 +89,8 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/orderhistory/${id}`);
   }
 
+  orderagain(id: number){
+    return this.http.post(`${this.apiUrl}/reorder/${id}`, {});
+  }
+
 }

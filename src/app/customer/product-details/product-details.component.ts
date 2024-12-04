@@ -79,8 +79,7 @@ export class ProductDetailsComponent implements OnInit {
                 this.viewVendorProfile(this.vendorId)
                 this.viewproducts(this.vendorId);
                 this.loadCart()
-
-}
+              }
 
 setupBreadcrumbs(): void {
   this.breadcrumbs = [

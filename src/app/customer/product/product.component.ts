@@ -68,9 +68,15 @@ export class ProductComponent implements OnInit {
   pickup_time = '0000-00-00 12:00';
   order_status = 'Pending';
   categories: any;
+  
+  averageRating: number = 0;
+  ratingDistribution: { [key: number]: number } = {}; 
+  totalRatings: number = 0;
+  productDetails: any = {};
+  
 
 
-  vendorProfile: VendorProfile | null = null;
+  vendorProfile: VendorProfile = { rating: 0, vendor_id: 0, vendor_name: '', image: '', location: '', operating_hours: '', description: '' };
   constructor(private route: ActivatedRoute, 
               private api: ApiService, 
               private auth: AuthService, 
@@ -95,6 +101,7 @@ export class ProductComponent implements OnInit {
     this.viewproducts(this.vendorId);
     this.getCategories(this.vendorId);
     this.loadCart()
+    this.getRatings(this.vendorId);
   }
 
   setupBreadcrumbs(): void {
@@ -292,6 +299,13 @@ export class ProductComponent implements OnInit {
 
   }
 
+  reviewpage(){
+    this.router.navigate(['/reviewpage'], {
+      state: { vendor_id: this.vendorId }
+    });
+
+  }
+
   getCategories(vendorId: number){
     this.api.getCategories(this.vendorId).subscribe((resp: any) => {
       if(resp){
@@ -308,6 +322,32 @@ export class ProductComponent implements OnInit {
     this.router.navigate(['/chat']);
   }
 
+  getRatings(vendorId: number): void {
+    this.api.getreview(vendorId).subscribe((resp: any) => {
+        if (resp && resp.data) {
+            this.calculateAverageRating(resp.data);
+        } else {
+            console.error('No rating data found');
+        }
+    }, error => {
+        console.error('Error fetching ratings:', error);
+    });
+}
+
+calculateAverageRating(reviews: any[]): void {
+    const total = reviews.length;
+    let sum = 0;
+
+    this.ratingDistribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+    reviews.forEach(review => {
+        sum += review.rating; 
+        this.ratingDistribution[review.rating] = (this.ratingDistribution[review.rating] || 0) + 1; 
+    });
+
+    this.averageRating = total > 0 ? (sum / total) : 0; 
+    this.totalRatings = total; 
+}
 
   
   

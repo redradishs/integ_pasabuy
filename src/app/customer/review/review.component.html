@@ -1,0 +1,127 @@
+<app-header></app-header>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Average Rating Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Average Rating</h2>
+            <div class="flex items-center mb-4">
+                <span class="text-4xl font-bold">{{ averageRating | number: '1.1-1' }}</span>
+                <div class="ml-2 text-yellow-500">
+                    <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+                        <i [ngClass]="{'fas fa-star': averageRating >= star, 'far fa-star': averageRating < star}"></i>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <div *ngFor="let rating of [5, 4, 3, 2, 1]" class="flex items-center">
+                    <span class="w-6">{{ rating }}</span>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mx-2">
+                        <div class="bg-orange-700 h-2.5 rounded-full"
+                            [style.width]="(ratingDistribution[rating] / totalRatings * 100) + '%'"></div>
+                    </div>
+                    <span>{{ (ratingDistribution[rating] / totalRatings * 100) | number: '1.0-0' }}%</span>
+                </div>
+            </div>
+        </div>
+        <!-- Submit Your Review Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Submit Your Review</h2>
+            <form (ngSubmit)="submitReview()">
+                <div class="mb-4 text-center">
+                    <label class="block text-gray-700 mb-2">Add Your Rating *</label>
+                    <div class="text-yellow-500 text-2xl">
+                        <i *ngFor="let star of stars; let i = index" (click)="setRating(i + 1)"
+                            [ngClass]="{'fas fa-star': rating >= i + 1, 'far fa-star': rating < i + 1}">
+                        </i>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="name">Name: {{name}}</label>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="review">Write Your Review *</label>
+                    <textarea id="review" name="review" [(ngModel)]="comment" placeholder="Write here..."
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                </div>
+                <div class="flex justify-between">
+                    <button type="submit" class="bg-orange-700 text-white px-4 py-2 rounded-lg">Submit Review</button>
+                    <button *ngIf="reviewed == true" (click)="home()"
+                        class="bg-orange-700 text-white px-4 py-2 rounded-lg">HOME</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<section class="container bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    <h2 class="text-2xl font-semibold text-gray-900 text-center dark:text-white">Recent Reviews for TinolangKalbo</h2>
+    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+
+        <div class="mt-6 divide-y divide-gray-200 dark:divide-gray-700">
+            <div *ngFor="let item of reviews" class="gap-3 pb-6 sm:flex sm:items-start">
+                <div class="shrink-0 space-y-2 sm:w-48 md:w-72">
+                    <div class="flex items-center gap-0.5">
+                        <!-- Render stars based on the rating -->
+                        <ng-container *ngFor="let star of [].constructor(5); let i = index">
+                            <svg *ngIf="i < item.rating" class="h-4 w-4 text-yellow-300" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                            <svg *ngIf="i >= item.rating" class="h-4 w-4 text-gray-300" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                        </ng-container>
+                    </div>
+
+                    <div class="space-y-0.5">
+                        <p class="text-base font-semibold text-gray-900 dark:text-white">{{item.user_name}}</p>
+                        <p class="text-sm font-normal text-gray-500 dark:text-gray-400">{{item.review_date}}</p>
+                    </div>
+
+                    <div class="inline-flex items-center gap-1">
+                        <svg class="h-5 w-5 text-primary-700 dark:text-primary-500" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <p class="text-sm font-medium text-gray-900 dark:text-white">Verified purchase</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 min-w-0 flex-1 space-y-4 sm:mt-0">
+                    <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{item.comment}}</p>
+
+                    <div class="flex items-center gap-4">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Does this violate our rules?</p>
+                        <div class="flex items-center">
+                            <input id="reviews-radio-1" type="radio" value="" name="reviews-radio"
+                                class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                            <label for="reviews-radio-1"
+                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Yes: </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="reviews-radio-2" type="radio" value="" name="reviews-radio"
+                                class="h-4 w-4 border-gray-300 bg-gray-100 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600" />
+                            <label for="reviews-radio-2"
+                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No: </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

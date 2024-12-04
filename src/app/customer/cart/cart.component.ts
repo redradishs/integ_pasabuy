@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { initFlowbite } from 'flowbite';
 import { HeaderComponent } from "../header/header.component";
 import { ApiService } from '../../service/api.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { CartServiceService } from '../../service/cart-service.service';
 import { CommonModule } from '@angular/common';
@@ -16,12 +16,15 @@ import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
   imports: [HeaderComponent, 
             CommonModule, 
             FormsModule, 
-            ReactiveFormsModule
+            ReactiveFormsModule,
+            RouterModule
           ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
+  breadcrumbs: Array<{ label: string; link: string; iconViewBox: string }> = [];
+
   orderData = {
     pickupTime: '',
     specialInstruction: '',
@@ -50,6 +53,7 @@ export class CartComponent {
         console.log("User not found");
       }
     })
+    this.setupBreadcrumbs();  
 
     this.orderData.pickupTime = this.getDateTimeOneHourAgo();
     
@@ -62,6 +66,35 @@ export class CartComponent {
       console.log(this.order_id)
     }
   }
+
+
+  setupBreadcrumbs(): void {
+    this.breadcrumbs = [
+      {
+        label: 'Home',
+        link: '/home',
+        iconViewBox: '0 0 20 20',
+      },
+      {
+        label: 'Product',
+        link: '/product',
+        iconViewBox: ''
+      },
+      {
+        label: 'Product-Details',
+        link: '/productDetails',
+        iconViewBox: ''
+      },
+      {
+        label: 'Checkout',
+        link: '/productDetails',
+        iconViewBox: ''
+      }
+  
+    ];
+  }
+
+  
 
   getDateTimeOneHourAgo(): string {
     const now = new Date();

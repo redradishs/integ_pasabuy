@@ -52,6 +52,8 @@ export class OrderstatusComponent {
   statusLength: number = 0;
   userProfile: any;
 
+  vendor_id: number = 0;
+
   ngOnInit(): void {
     this.getCart(this.order_id);
     this.getCheckout(this.order_id);
@@ -86,6 +88,8 @@ export class OrderstatusComponent {
     this.api.getCart(this.order_id).subscribe((resp: any) => {
       try {
         this.carts = resp.data;
+        this.vendor_id = resp.data.vendor_id;
+
         console.log("cart res", this.carts);
       } catch (error) {
         console.error("Error fetching cart", error);
@@ -149,6 +153,10 @@ export class OrderstatusComponent {
       this.orderStatus = resp.data;
       console.log("status", this.orderStatus);
       this.statusLength = this.orderStatus.length;
+      if (this.orderStatus.length > 0) {
+        this.currentstatus = this.orderStatus[this.orderStatus.length - 1].status;
+    }
+    console.log("Current order status:", this.currentstatus);
       console.log("Order status length:", this.statusLength);
     }, error => {
       console.error("Error fetching order status", error);
@@ -159,7 +167,7 @@ export class OrderstatusComponent {
     if (!this.intervalId) {
       this.intervalId = setInterval(() => {
         this.getSpecificStatus(this.order_id);
-      }, 5000); // Poll every 5 seconds
+      }, 5000); 
     }
   }
 
@@ -235,6 +243,12 @@ export class OrderstatusComponent {
       currency: 'PHP',
       minimumFractionDigits: 2
     }).format(value);
+  }
+
+  review(){
+    this.router.navigate(['/review'], {
+      state: { vendor_id: this.vendor_id }
+    });
   }
 
 

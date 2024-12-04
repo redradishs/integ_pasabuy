@@ -1,6 +1,6 @@
 <app-header></app-header>
-<section class="container py-8 antialiased bg-gray-50 dark:bg-gray-900 md:py-12">
-  <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+<section class="container antialiased bg-gray-50 dark:bg-gray-900 md:py-4">
+  <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-2">
     <!--HEADINGS(IF SAN LOCATION)-->
     <div class="items-end justify-between mb-4 space-y-4 sm:flex sm:space-y-0 md:mb-8">
       <div>
@@ -35,138 +35,82 @@
       </div>
     </div>
   </div>
-
-  <!-- BANNER -->
-  <div class="flex flex-wrap items-start justify-between max-w-screen-xl gap-4 mx-auto position-">
-    <div *ngIf="vendorProfile"
-      class="w-full bg-white border border-gray-200 rounded-lg shadow h-52 dark:bg-gray-800 dark:border-gray-700">
-
-      <div class="flex items-center gap-4 p-4">
-        <!--STORE IMAGE-->
-        <img class="object-cover w-20 h-20rounded-full md:w-44 md:h-44" [src]="'assets/' + ('unimartLogo.png')"
-          alt="{{ vendorProfile.vendor_name }}">
-
-        <!--STORE DETAILS-->
-        <div class="flex flex-col justify-between leading-normal">
-          <!-- STORE NAME-->
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {{vendorProfile.vendor_name}}
-          </h5>
-
-          <!--STORE STATUS/HOURS-->
-          <div class="flex items-center mb-3 space-x-2">
-            <!--ICON/OPEN-->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-              stroke="currentColor" class="w-5 h-5 text-green-500">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p class="text-sm font-medium text-gray-700 dark:text-gray-400">Open</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">{{vendorProfile.operating_hours}}</span>
-          </div>
-
-          <!-- RATINGS -->
-          <div class="flex items-center space-x-2">
-            <div class="flex text-yellow-400">
-              <!-- Dynamically Render Stars Based on Ratings -->
-              <svg *ngFor="let n of [].constructor(5); let i = index"
-                [ngClass]="{'text-yellow-400': i < vendorProfile.rating, 'text-gray-300': i >= vendorProfile.rating}"
-                xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.956a1 1 0 00.95.69h4.18c.969 0 1.371 1.24.588 1.81l-3.388 2.465a1 1 0 00-.364 1.118l1.287 3.957c.3.921-.755 1.688-1.539 1.118L10 13.348l-3.39 2.464c-.783.57-1.838-.197-1.539-1.118l1.287-3.957a1 1 0 00-.364-1.118L2.606 8.383c-.783-.57-.38-1.81.588-1.81h4.18a1 1 0 00.95-.69l1.286-3.956z" />
-              </svg>
-            </div>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-400">{{vendorProfile.rating }}/5</span>
-          </div>
-
-          <!-- REVIEWS COUNT -->
-          <p class="text-sm text-gray-500 dark:text-gray-400">{{vendorProfile.rating }} reviews</p>
-        </div>
-        <!-- TO DO: MAKE IT APPEAR ON THE RIGHT  -->
-        <button (click)="
-            goToChat({
-              vendor_id: vendorProfile.vendor_id,
-              vendor_name: vendorProfile.vendor_name
-            })
-          " class="btn btn-primary">
-          Chat with {{ vendorProfile.vendor_name }}
-        </button>
-      </div>
-
-      <!-- FILTER TAGS BUTTONS -->
-      <div
-        class="relative flex flex-wrap items-center justify-center gap-3 py-4 mt-3 mb-4 md:py-8 sm:mt-6 sm:mb-6 lg:mt-12 xl:mt-16">
-        <button type="button"
-          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-blue-700 bg-white border border-blue-600 rounded-full hover:text-orange-600 hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 md:text-base md:px-5 me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">All
-          categories</button>
-        <button *ngFor="let item of categories" type="button"
-          class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-gray-900 bg-white border border-white rounded-full hover:text-orange-500 hover:border-gray-200 hover:border-2 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 focus:ring-2 focus:outline-none focus:ring-gray-300 md:text-base me-2 dark:text-white dark:focus:ring-gray-800">{{item.category}}</button>
-      </div>
-    </div>
-  </div>
 </section>
 
-
-
-<!-- ito yung start ng product page  -->
-
-<!--PRODUCT LIST -->
-<section class="container py-4 antialiased bg-gray-50 dark:bg-gray-900 md:py-6">
-  <div class="grid gap-4 py-8 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-    <div *ngFor="let product of products"
-      class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-      <!-- PROD IMAGE -->
-      <div class="w-full h-56 cursor-pointer">
-        <a (click)="navigateToProductDetails(product)">
-          <img class="h-full mx-auto dark:hidden" [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
-          <img class="hidden h-full mx-auto dark:block" [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
-        </a>
+<!-- baner page -->
+<div *ngIf="vendorProfile" class="container w-full">
+  <div
+    class="bg-white rounded-lg shadow p-10 flex flex-col md:flex-row items-center space-y-6 md:space-y-0 md:space-x-6 w-full max-w-8xl justify-end">
+    <img alt="{{ vendorProfile.vendor_name }}" class="w-24 h-24" [src]="'assets/' + ('unimartLogo.png')" />
+    <div class="flex-1 text-center md:text-left">
+      <h1 class="text-2xl font-bold">{{vendorProfile.vendor_name}}</h1>
+      <div class="flex flex-col md:flex-row items-center md:space-x-2 mt-2">
+        <i class="fas fa-check-circle text-green-500"></i>
+        <span class="text-gray-600">Open</span>
+        <span class="text-gray-600">{{vendorProfile.operating_hours}}</span>
       </div>
-
-      <!--PROD DETAILSs -->
-      <div class="pt-6">
-        <!-- PROD NAME-->
-        <a (click)="navigateToProductDetails(product)"
-          class="text-lg font-semibold leading-tight text-gray-900 cursor-pointer hover:underline dark:text-white">
-          {{ product.product_name }}
-        </a>
-
-        <!-- STAR RATINGS-->
-        <div class="flex items-center gap-2 mt-2">
+      <a (click)="reviewpage()">
+        <div class="flex flex-col md:flex-row items-center md:space-x-2 mt-2">
           <div class="flex items-center">
             <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-              <svg *ngIf="star <= product.rating" class="w-4 h-4 text-yellow-400" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-              </svg>
-              <svg *ngIf="star > product.rating" class="w-4 h-4 text-gray-300" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M12 17.75l-5.6 3.2 1.5-6.4L2 9.3l6.6-.6 2.4-6.2L12 5.6l2.4-6.2 6.6.6-4.9 5.8 1.5 6.4L12 17.75z" />
+              <svg class="h-4 w-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path *ngIf="averageRating >= star"
+                  d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                <path *ngIf="averageRating < star"
+                  d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
+                  fill="none" stroke="currentColor" />
               </svg>
             </ng-container>
           </div>
-
-          <!--PROD RATINGS-->
-          <p class="text-sm font-medium text-gray-900 dark:text-white">{{ product.category }}</p>
-          <!--<p class="text-sm font-medium text-gray-500 dark:text-gray-400"> Cart: {{ product.quantity }}</p>-->
+          <span class="text-gray-600">({{ averageRating | number: '1.1-1' }})</span>
+          <a class="text-blue-600 underline" href="#">{{ totalRatings }}</a>
+          <span class="text-gray-600">({{ averageRating | number: '1.1-1' }}) Review</span>
         </div>
+      </a>
+    </div>
+    <button (click)="goToChat({ vendor_id: vendorProfile.vendor_id, vendor_name: vendorProfile.vendor_name })"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+      Chat with {{ vendorProfile.vendor_name }}
+    </button>
+  </div>
+  <div
+    class="relative flex flex-wrap items-center justify-center gap-3 py-2 mt-3 mb-1 md:py-8 sm:mt-6 sm: mb-6 lg:mt-12 xl:mt-16">
+    <button type="button"
+      class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-blue-700 bg-white border border-blue-600 rounded-full hover:text-orange-600 hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 md:text-base md:px-5 me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">
+      All categories
+    </button>
+    <button *ngFor="let item of categories" type="button"
+      class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-gray-900 bg-white border border-white rounded-full hover:text-orange-500 hover:border-gray-200 hover:border-2 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 focus:ring-2 focus:outline-none focus:ring-gray-300 md:text-base me-2 dark:text-white dark:focus:ring-gray-800">
+      {{item.category}}
+    </button>
+  </div>
+</div>
+<!-- Product Page -->
+<div class="container mx-auto p-4">
+  <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+    <div *ngFor="let product of products"
+      class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+      <a (click)="navigateToProductDetails(product)">
+        <img alt="Three cups of Pearl Tea with different flavors" class="w-full h-48 object-cover"
+          [src]="product.fullImageUrl" alt="{{ product.product_name }}" />
+      </a>
+      <div class="p-4">
+        <a (click)="navigateToProductDetails(product)">
+          <h2 class="text-xl font-semibold"> {{ product.product_name }}</h2>
+        </a>
 
-        <!--PROD PRICE-->
-        <p class="mt-2 text-xl font-bold text-gray-900 dark:text-white">
-          ₱{{ product.price }}
-        </p>
-
-        <!-- ADD TO CART BUTTON-->
+        <p class="text-gray-500">{{ product.category }}</p>
+        <p class="text-lg font-bold"> ₱{{ product.price }}</p>
         <button
-          class="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+          class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center"
           (click)="addToCart(product)">
-          Add to Cart
+          <i class="fas fa-cart-plus mr-2"></i> Add to Cart
         </button>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 
 

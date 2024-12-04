@@ -93,4 +93,15 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/reorder/${id}`, {});
   }
 
+
+  //review component
+
+  addreview(id: number, data: any){
+    return this.http.post(`${this.apiUrl}/add_review/${id}`, data);
+  }
+
+  getreview(id: number){
+    return this.http.get(`${this.apiUrl}/getreviews/${id}`);
+  }
+
 }

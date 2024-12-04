@@ -10,6 +10,7 @@ import { CheckoutComponent } from './customer/checkout/checkout.component';
 import { OrderstatusComponent } from './customer/orderstatus/orderstatus.component';
 import { InvoiceComponent } from './customer/invoice/invoice.component';
 import { OrderhistoryComponent } from './customer/orderhistory/orderhistory.component';
+import { ChatComponent } from './customer/chat/chat.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -25,5 +26,6 @@ export const routes: Routes = [
     { path: 'orderstatus', component: OrderstatusComponent },
     { path: 'invoice', component: InvoiceComponent },
     { path: 'orderhistory', component: OrderhistoryComponent},
+    { path: 'chat', component: ChatComponent},
     { path: '**', component: LoginComponent } 
 ];

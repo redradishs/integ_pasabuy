@@ -9,6 +9,7 @@ import { CartServiceService } from '../../service/cart-service.service';
 import { FormsModule} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../service/shared.service';
 
 interface Product {
   product_id: number;
@@ -75,7 +76,8 @@ export class ProductComponent implements OnInit {
               private auth: AuthService, 
               private cart: CartServiceService,
                private router: Router, 
-               private http: HttpClient) {}
+               private http: HttpClient,
+              private sharedservice: SharedService) {}
 
   ngOnInit(): void {
     this.auth.getCurrentUser().subscribe(user => {
@@ -299,6 +301,11 @@ export class ProductComponent implements OnInit {
         console.error("Error no categories")
       }
     })
+  }
+
+  goToChat(vendor: { vendor_id: number; vendor_name: string }): void {
+    this.sharedservice.setVendor(vendor);
+    this.router.navigate(['/chat']);
   }
 
 

@@ -1,0 +1,107 @@
+<app-header></app-header>
+
+<div class="sm:ml-3 mr-3">
+    <div
+        class="rounded-lg bg-gray-50 dark:bg-gray-900 shadow-lg flex flex-col lg:flex-row gap-6 h-screen lg:h-[870px] md:h-[750px]">
+        <!-- Sidebar for Contact List -->
+        <div class="lg:w-1/4 bg-white shadow-lg dark:bg-gray-800 rounded-lg p-4 overflow-y-auto"
+            [class.hidden]="!showContacts && !isLargeScreen">
+            <h2 class="text-lg font-semibold mb-4 dark:text-white">Contacts</h2>
+            <ul>
+                <li *ngFor="let contact of contacts" class="mb-3">
+                    <button
+                        class="w-full text-left p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center gap-3"
+                        (click)="selectContact(contact)">
+                        <!-- Initials Avatar -->
+                        <div
+                            class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                            {{ getInitials(contact.vendor_name) }}
+                        </div>
+                        <span class="dark:text-gray-300 font-medium">{{
+                            contact.vendor_name
+                            }}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Chatbox -->
+        <div class="lg:w-3/4 bg-white dark:bg-gray-900 shadow-lg rounded-lg flex flex-col h-full">
+            <!-- Chat Header -->
+            <div class="p-4 border-b dark:border-gray-700 flex items-center justify-between">
+                <div *ngIf="selectedContact; else defaultHeader" class="flex items-center">
+                    <div
+                        class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold mr-3">
+                        {{ getInitials(selectedContact.vendor_name) }}
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold dark:text-white">
+                            {{ selectedContact.vendor_name }}
+                        </h3>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Online</span>
+                    </div>
+                </div>
+
+                <!-- Default Header Message when no contact is selected -->
+                <ng-template #defaultHeader>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        Select a contact to start chatting
+                    </div>
+                </ng-template>
+
+                <!-- Toggle Button for Contact List -->
+                <button
+                    class="lg:hidden p-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+                    (click)="toggleContacts()">
+                    📜 Contacts
+                </button>
+            </div>
+
+            <div #messagesContainer class="flex-1 p-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 rounded-b-lg">
+                <div *ngIf="!selectedContact"
+                    class="flex justify-center items-center h-full text-gray-500 dark:text-gray-400">
+                    Click on a contact to start chatting!
+                </div>
+
+                <div *ngFor="let message of messages" class="mb-4 flex items-end"
+                    [ngClass]="{ 'justify-end': message.senderType === 'user' }">
+                    <!-- Avatar -->
+                    <div *ngIf="message.senderType !== 'user'"
+                        class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold mr-3">
+                        {{ getInitials(selectedContact?.vendor_name || "") }}
+                    </div>
+
+                    <!-- Message Container -->
+                    <div>
+                        <div class="p-3 rounded-lg max-w-md" [ngClass]="{
+                'bg-blue-500 text-white': message.senderType === 'user',
+                'bg-gray-200 dark:bg-gray-700 dark:text-gray-300':
+                  message.senderType !== 'user'
+              }">
+                            <div class="text-sm">
+                                {{ message.content }}
+                            </div>
+                        </div>
+                        <!-- Timestamp -->
+                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1" [ngClass]="{
+                'text-right': message.senderType === 'user'
+              }">
+                            {{ message.timestamp }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Input -->
+            <div *ngIf="selectedContact"
+                class="p-4 border-t dark:border-gray-700 flex items-center gap-3 bg-gray-50 dark:bg-gray-900">
+                <input [(ngModel)]="newMessage" type="text" placeholder="Type a message..."
+                    (keydown.enter)="sendMessage()"
+                    class="flex-1 bg-gray-100 dark:bg-gray-800 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400" />
+                <button (click)="sendMessage()" class="p-3 rounded-lg hover:bg-blue-600">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

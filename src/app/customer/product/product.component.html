@@ -81,6 +81,15 @@
           <!-- REVIEWS COUNT -->
           <p class="text-sm text-gray-500 dark:text-gray-400">{{vendorProfile.rating }} reviews</p>
         </div>
+        <!-- TO DO: MAKE IT APPEAR ON THE RIGHT  -->
+        <button (click)="
+            goToChat({
+              vendor_id: vendorProfile.vendor_id,
+              vendor_name: vendorProfile.vendor_name
+            })
+          " class="btn btn-primary">
+          Chat with {{ vendorProfile.vendor_name }}
+        </button>
       </div>
 
       <!-- FILTER TAGS BUTTONS -->

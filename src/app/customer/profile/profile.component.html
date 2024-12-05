@@ -1,5 +1,4 @@
-<app-header></app-header>
-<div class="container">
+<!--<div class="container">
     <div class="container lagayan">
         <div class="row">
             <div class="col-3 prof">
@@ -59,4 +58,75 @@
         </div>
 
     </div>
+</div>-->
+<app-header></app-header>
+<div class="container px-4 py-8 mx-auto">
+  <div class="flex flex-col gap-8 md:flex-row">
+    <!-- Profile Section -->
+    <div class="w-full md:w-1/4">
+      <div class="p-4 text-center bg-gray-200 rounded-lg shadow-lg">
+        <div class="flex items-center justify-center w-24 h-24 mx-auto text-3xl text-white bg-blue-500 rounded-full">
+          {{ userProfile.name ? userProfile.name.charAt(0).toUpperCase() : '' }}
+        </div>
+        <p class="mt-4 text-lg font-semibold">{{ userProfile.name }}</p>
+        <p class="text-gray-600">Profile</p>
+      </div>
+    </div>
+
+    <!-- Details Section -->
+    <div class="w-full md:w-3/4">
+      <div class="p-6 bg-white rounded-lg shadow-lg">
+        <h4 class="mb-2 text-xl font-bold">Profile: {{userProfile.name}}</h4>
+        <p class="mb-4 text-gray-600">Update your profile and details</p>
+        
+        <!-- Save Button -->
+        <div class="mb-4 text-right">
+          <button class="px-4 py-2 text-white transition bg-green-600 rounded-lg hover:bg-green-700">
+            <span>Save</span>
+          </button>
+        </div>
+
+        <!-- Basic Details Section -->
+        <div class="mb-6">
+          <h5 class="mb-2 text-lg font-semibold">Basic Details</h5>
+          <hr class="mb-4">
+          <div class="space-y-4">
+            <div class="flex flex-col">
+              <label for="username" class="text-sm font-medium text-gray-700">Username:</label>
+              <input id="username" type="text" placeholder="Enter your username" [(ngModel)]="userProfile.name"
+                class="p-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="flex flex-col">
+              <label for="contact" class="text-sm font-medium text-gray-700">Contact Number:</label>
+              <input id="contact" type="text" placeholder="Enter your contact number" [(ngModel)]="userProfile.contact_number"
+                class="p-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="flex flex-col">
+              <label for="email" class="text-sm font-medium text-gray-700">Email:</label>
+              <input id="email" type="text" placeholder="Enter a valid email" [(ngModel)]="userProfile.email"
+                class="p-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+          </div>
+        </div>
+
+        <!-- Update Password Section -->
+        <div>
+          <h5 class="mb-2 text-lg font-semibold">Update Password</h5>
+          <hr class="mb-4">
+          <div class="space-y-4">
+            <div class="flex flex-col">
+              <label for="current-password" class="text-sm font-medium text-gray-700">Current Password:</label>
+              <input id="current-password" type="password" placeholder="Enter your current password"
+                class="p-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="flex flex-col">
+              <label for="new-password" class="text-sm font-medium text-gray-700">New Password:</label>
+              <input id="new-password" type="password" placeholder="Enter your new password"
+                class="p-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

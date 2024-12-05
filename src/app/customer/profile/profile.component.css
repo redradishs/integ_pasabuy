@@ -1,6 +1,6 @@
 
 
-.prof {
+/*.prof {
   display: flex;
   justify-content: end;
   padding: 1rem;
@@ -119,10 +119,10 @@ button:active {
 
 .inputp input:focus {
   border-bottom: 2px solid #000;
-}
+}*/
 
 /* Media Queries */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   .mod {
       flex-direction: column;
       align-items: flex-start;
@@ -135,8 +135,8 @@ button:active {
       gap: 0.5rem;
   }
 
-  .profile-container img {
+ .profile-container img {
       width: 100px;
       height: 100px;
   }
-}
+}*/

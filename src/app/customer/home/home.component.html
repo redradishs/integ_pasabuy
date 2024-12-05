@@ -3,7 +3,7 @@
   <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
 
     <!--HEADINGS(IF SAN LOCATION Home > Product )-->
-    <div class="items-end justify-between mb-4 space-y-4 sm:flex sm:space-y-0 md:mb-8">
+    <div class="items-end justify-between space-y-4 sm:flex sm:space-y-0 ">
       <div>
         <nav class="flex" aria-label="Breadcrumb">
           <ol class="inline-flex space-x-1 items- md:space-x-2 rtl:space-x-reverse">
@@ -26,112 +26,48 @@
     </div>
 
 
-    <!--STORE CARDS-->
-    <div class="grid gap-4 mb-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+    <div class="flex flex-wrap">
       <div *ngFor="let vendor of vendorList"
-        class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <div class="w-full h-56">
-          <a [routerLink]="['/product', vendor.vendor_id]">
-            <img class="h-full mx-auto dark:hidden" [src]="'assets/' + (vendor.image || 'unimartLogo.png')"
-              alt="{{ vendor.vendor_name}}" />
-            <img class="hidden h-full mx-auto dark:block" [src]="'assets/' + (vendor.image || 'unimartLogo.png')"
-              alt="{{ vendor.vendor_name }}" />
-          </a>
+        class="bg-white rounded-lg border-2 border-gray-200 p-6 w-full sm:w-80 m-4 transform transition duration-500 hover:scale-105">
+        <a [routerLink]="['/product', vendor.vendor_id]">
+          <img alt="Company logo with abstract design in orange and blue colors"
+            class="w-full h-40 object-cover mb-4 rounded-t-lg"
+            [src]="'assets/' + (vendor.image || 'unimartLogo.png')" />
+        </a>
+
+        <div class="bg-blue-100 text-blue-700 text-sm rounded-md p-2 mb-4">
+          {{vendor.operating_hours}}
         </div>
-        <div class="pt-6">
-          <div class="flex items-center justify-between gap-4 mb-4">
-            <span
-              class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300">{{
-              vendor.operating_hours }}</span>
-
-            <!--QUICK LOOK-->
-            <div class="flex items-center justify-end gap-1">
-              <button type="button" data-tooltip-target="tooltip-quick-look"
-                class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                <span class="sr-only"> Quick look </span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                  fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-width="2"
-                    d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
-                  <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-              </button>
-              <div id="tooltip-quick-look" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                data-popper-placement="top">
-                Quick look
-                <div class="tooltip-arrow" data-popper-arrow=""></div>
-              </div>
-
-              <!-- ADD TO FAVE-->
-              <button type="button" data-tooltip-target="tooltip-add-to-favorites"
-                class="p-2 text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                <span class="sr-only"> Add to Favorites </span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                  viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z" />
-                </svg>
-              </button>
-              <div id="tooltip-add-to-favorites" role="tooltip"
-                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                data-popper-placement="top">
-                Add to favorites
-                <div class="tooltip-arrow" data-popper-arrow=""></div>
-              </div>
-            </div>
-          </div>
-
-          <!--VENDORS NAME-->
-          <a [routerLink]="['/product', vendor.vendor_id]"
-            class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">
-            {{ vendor.vendor_name }}
+        <div class="flex justify-between items-center mb-4">
+          <a [routerLink]="['/product', vendor.vendor_id]">
+            <h2 class="text-xl font-semibold">{{vendor.vendor_name}}</h2>
           </a>
 
-          <!--STAR RATINGS-->
-          <div class="flex items-center gap-2 mt-2">
-            <div class="flex items-center">
-              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-                <svg *ngIf="star <= vendor.rating" class="w-4 h-4 text-yellow-400" aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                </svg>
-                <svg *ngIf="star > vendor.rating" class="w-4 h-4 text-gray-300" aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M12 17.75l-5.6 3.2 1.5-6.4L2 9.3l6.6-.6 2.4-6.2L12 5.6l2.4-6.2 6.6.6-4.9 5.8 1.5 6.4L12 17.75z" />
-                </svg>
-              </ng-container>
-            </div>
-
-            <!--VENDORS RATING-->
-            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ vendor.rating }}</p>
-            <!--REVIEW COUNT-->
-            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ vendor.location }}</p>
-
+          <div class="flex space-x-2">
+            <i class="fas fa-eye"></i>
+            <i class="far fa-heart"></i>
           </div>
-
-          <!--ICON FOR FAST SERVICE/BESTPRICE-->
-          <ul class="flex items-center gap-4 mt-2">
-            <li class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-              </svg>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Fast Service</p>
-            </li>
-
-            <li class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                  d="M8 7V6c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1h-1M3 18v-7c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7c0 .6-.4 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-              </svg>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Best Price</p>
-            </li>
-          </ul>
+        </div>
+        <div class="flex items-center mb-2">
+          <div class="flex items-center text-yellow-500">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+          <span class="ml-2 text-gray-700">4.5</span>
+        </div>
+        <p class="text-gray-600 mb-4">{{vendor.location}}</p>
+        <div class="flex space-x-4 text-gray-600">
+          <div class="flex items-center space-x-1">
+            <i class="fas fa-shipping-fast"></i>
+            <span>Fast Service</span>
+          </div>
+          <div class="flex items-center space-x-1">
+            <i class="fas fa-tags"></i>
+            <span>Best Price</span>
+          </div>
         </div>
       </div>
     </div>

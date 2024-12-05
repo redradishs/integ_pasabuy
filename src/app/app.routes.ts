@@ -13,6 +13,7 @@ import { OrderhistoryComponent } from './customer/orderhistory/orderhistory.comp
 import { ChatComponent } from './customer/chat/chat.component';
 import { ReviewComponent } from './customer/review/review.component';
 import { ReviewpageComponent } from './customer/reviewpage/reviewpage.component';
+import { CheckouttestComponent } from './customer/checkouttest/checkouttest.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -31,5 +32,6 @@ export const routes: Routes = [
     { path: 'chat', component: ChatComponent},
     { path: 'review', component: ReviewComponent},
     { path: 'reviewpage', component: ReviewpageComponent},
+    { path: 'checkouttest', component: CheckouttestComponent},
     { path: '**', component: LoginComponent } 
 ];

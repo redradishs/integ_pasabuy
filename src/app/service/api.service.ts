@@ -71,6 +71,18 @@ export class ApiService {
   }
 
 
+  updatePaymentId(id:number, payment_id: any){
+    return this.http.put(`${this.apiUrl}/paymentIdreg/${id}/${payment_id}`, {});
+  }
+
+  paymentSuccess(id: number){
+    return this.http.put(`${this.apiUrl}/payment/${id}`, {});
+  }
+
+  paymentRevert(id: number){
+    return this.http.put(`${this.apiUrl}/unpaid/${id}`, {});
+  }
+
   //orderstatus page
 
   getOrderStatus(order_id: number) {

@@ -134,6 +134,21 @@
                                         {{formatCurrency(carts.total_amount)}}</h6>
                                 </div>
                             </div>
+                            <div class="w-full pb-1.5 flex-col justify-start items-start gap-4 flex">
+                                <div class="w-full justify-between items-start gap-6 inline-flex">
+                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Mode of Payment</h6>
+                                    <h6 class="text-right text-gray-500 text-base font-medium leading-relaxed">
+                                        {{carts.mode_of_payment}}</h6>
+                                </div>
+                            </div>
+                            <div class="w-full pb-1.5 flex-col justify-start items-start gap-4 flex">
+                                <div class="w-full justify-between items-start gap-6 inline-flex">
+                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Payment Status</h6>
+                                    <h6 class="text-right text-gray-500 text-base font-medium leading-relaxed">
+                                        {{ carts.isPaid === 0 ? 'Not Paid' : 'Paid' }}
+                                    </h6>
+                                </div>
+                            </div>
                             <div class="w-full justify-between items-start gap-6 inline-flex">
                                 <h5 class="text-gray-900 text-lg font-semibold leading-relaxed">Total</h5>
                                 <h5 class="text-right text-gray-900 text-lg font-semibold leading-relaxed">

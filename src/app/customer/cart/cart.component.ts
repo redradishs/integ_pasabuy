@@ -7,6 +7,7 @@ import { AuthService } from '../../service/auth.service';
 import { CartServiceService } from '../../service/cart-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { PaymongoService } from '../../service/paymongo.service';
 
 
 
@@ -38,6 +39,9 @@ export class CartComponent {
   prifiledata: any;
   voucherAmount: number = 0; 
 
+  amount: number = 999999; 
+  description: string = 'Payment for Order #12345'; 
+
 
 
   
@@ -59,7 +63,7 @@ export class CartComponent {
     
   }
 
-  constructor(private api: ApiService, private router: Router, private auth: AuthService, private cart: CartServiceService){
+  constructor(private api: ApiService, private router: Router, private auth: AuthService, private cart: CartServiceService, private paymongo: PaymongoService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.order_id = navigation.extras.state['orderId'];
@@ -107,15 +111,25 @@ export class CartComponent {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   }
 
-  getCart(id: number): void {
-    this.api.getCart(this.order_id).subscribe((resp: any) => {
-      try {
-        this.carts = resp.data;
-        console.log(this.carts);
-      } catch (error) {
-        console.error("Error fetching cart", error);
-      }
-    })
+  getCart(id: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.api.getCart(id).subscribe(
+        (resp: any) => {
+          try {
+            this.carts = resp.data;
+            console.log(this.carts);
+            resolve(this.carts); 
+          } catch (error) {
+            console.error("Error fetching cart", error);
+            reject(error);
+          }
+        },
+        (error) => {
+          console.error("Error fetching cart", error);
+          reject(error);
+        }
+      );
+    });
   }
 
 
@@ -152,7 +166,43 @@ export class CartComponent {
   }
 
 
-  proceedToCheckout(): void {
+  // proceedToCheckout(): void {
+  //   const data = {
+  //     pickup_time: this.orderData.pickupTime,
+  //     special_instruction: this.orderData.specialInstruction,
+  //     mode_of_payment: this.orderData.modeOfPayment,
+  //     order_status: this.orderData.order_status
+  //   };
+  
+  //   this.api.checkout(this.order_id, data).subscribe(
+  //     (resp: any) => {
+  //       console.log("Checkout Successful", resp);
+  //       this.router.navigate(['/orderstatus'], {
+  //         state: { orderId: this.order_id }
+  //       });
+  //     },
+  //     (error) => {
+  //       console.error("Checkout Failed", error);
+  //       alert('There was an error during checkout. Please try again.');
+  //     }
+  //   );
+  // }
+
+
+  async proceedToCheckout() {
+  const cartResponse = await this.getCart(this.order_id); 
+
+    if (!cartResponse) {
+      console.error("Cart response is invalid.");
+      alert('There was an error fetching the cart. Please try again.');
+      return; 
+    }
+
+  const totalAmountInPesos = parseFloat(cartResponse.total_amount);
+  const totalAmountInCents = Math.round(totalAmountInPesos * 100); 
+  const orderId = cartResponse.order_id;
+  const description = `#UMXEXP${orderId}`; 
+
     const data = {
       pickup_time: this.orderData.pickupTime,
       special_instruction: this.orderData.specialInstruction,
@@ -160,12 +210,37 @@ export class CartComponent {
       order_status: this.orderData.order_status
     };
   
+
     this.api.checkout(this.order_id, data).subscribe(
-      (resp: any) => {
+      async (resp: any) => {
         console.log("Checkout Successful", resp);
-        this.router.navigate(['/orderstatus'], {
-          state: { orderId: this.order_id }
-        });
+  
+        if (this.orderData.modeOfPayment === 'Cash-on-Pickup') {
+          this.router.navigate(['/orderstatus'], {
+            state: { orderId: this.order_id }
+          });
+        } else if (this.orderData.modeOfPayment === 'Gcash') {
+          try {
+            const paymentLink = await this.paymongo.createPaymentLink(totalAmountInCents, description);
+            console.log('Payment Link:', paymentLink);
+
+          const paymentId = paymentLink.data.id;
+          console.log("this is the payument", paymentId)
+          await this.updateOrderWithPaymentId(this.order_id, paymentId);
+
+            if (paymentLink.data.attributes.checkout_url) {
+              window.open(paymentLink.data.attributes.checkout_url, '_blank');
+            } else {
+              console.error('Checkout URL not found in response.');
+            }
+          } catch (error) {
+            console.error('Payment link creation failed:', error);
+            alert('There was an error creating the payment link. Please try again.');
+          }
+          this.router.navigate(['/orderstatus'], {
+            state: { orderId: this.order_id }
+          });
+        }
       },
       (error) => {
         console.error("Checkout Failed", error);
@@ -173,9 +248,16 @@ export class CartComponent {
       }
     );
   }
-  
-  
 
+  async updateOrderWithPaymentId(orderId: number, paymentId: string) {
+    try {
+        const response = await this.api.updatePaymentId(orderId, paymentId).toPromise();
+        console.log('Order updated with payment ID successfully:', response);
+    } catch (error) {
+        console.error('Error updating order with payment ID:', error);
+    }
+}
+  
   getUserDetails(id: number): void {
     this.api.getProfile(id).subscribe((resp: any) => {
       try {
@@ -278,15 +360,5 @@ delete(order_id: number, product_id: number){
     }
   })
 }
-
-
-
-
-
-
-
-
-
-
 
 }

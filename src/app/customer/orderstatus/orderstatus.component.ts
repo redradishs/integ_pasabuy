@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CommonModule, DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { PaymongoService } from '../../service/paymongo.service';
 
 
 interface cartsSS {
@@ -40,6 +41,7 @@ export class OrderstatusComponent {
 
   order_status = "placed"
   intervalId: any;
+  linkData: any;
 
   order_id: number = 0;
   carts: any;
@@ -51,8 +53,10 @@ export class OrderstatusComponent {
   currentstatus = "placed"
   statusLength: number = 0;
   userProfile: any;
-
+  
+  paymentStatus: string = '';
   vendor_id: number = 0;
+  linkId: string = '';
 
   ngOnInit(): void {
     this.getCart(this.order_id);
@@ -74,7 +78,7 @@ export class OrderstatusComponent {
     this.stopPolling();
   }
 
-  constructor(private api: ApiService, private auth: AuthService, private router: Router, private datePipe: DatePipe){
+  constructor(private api: ApiService, private auth: AuthService, private router: Router, private datePipe: DatePipe, private paymongo: PaymongoService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.order_id = navigation.extras.state['orderId'];
@@ -89,12 +93,32 @@ export class OrderstatusComponent {
       try {
         this.carts = resp.data;
         this.vendor_id = resp.data.vendor_id;
+        this.linkId = resp.data.payment_id;
+        console.log("this is the link id", this.linkId)
+        this.retrieveLink(this.linkId);
+
 
         console.log("cart res", this.carts);
       } catch (error) {
         console.error("Error fetching cart", error);
       }
     })
+  }
+
+  paymentSuccess(orderId: number) {
+    this.api.paymentSuccess(orderId).subscribe((resp: any) => {
+      console.log('Payment Success Response:', resp);
+    }, (error) => {
+      console.error('Error in payment success API:', error);
+    });
+  }
+
+  paymentRevert(orderId: number) {
+    this.api.paymentRevert(orderId).subscribe((resp: any) => {
+      console.log('Payment Revert Response:', resp);
+    }, (error) => {
+      console.error('Error in payment revert API:', error);
+    });
   }
 
   formatDate(date: string): string {
@@ -252,10 +276,22 @@ export class OrderstatusComponent {
   }
 
 
-  
+  async retrieveLink(linkId: string): Promise<void> {
+    try {
+      this.linkData = await this.paymongo.getLinkById(linkId);
+      console.log('Link Data:', this.linkData);
 
+      this.paymentStatus = this.linkData.data.attributes.status;
+      console.log('Payment Status:', this.paymentStatus);
 
+      if (this.paymentStatus === 'paid') {
+        this.paymentSuccess(this.order_id); 
+      }  else if (this.paymentStatus === 'unpaid') {
+        this.paymentRevert(this.order_id); 
+      }
 
-
-
+    } catch (error) {
+      console.log("Not paid by Paymongo");
+    }
+  }
 }

@@ -156,61 +156,72 @@
 </section>
 
 
-<section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Customer's Information</h2>
 
 
 
-        <div
-            class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
-
-
-            <div *ngIf="prifiledata" class="details mb-3">
-                <p><strong>Name:</strong> {{ prifiledata.name}}</p>
-                <p><strong>Contact Number:</strong> {{ prifiledata.contact_number}}</p>
+<div class="container py-8 bg-gray-100 flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full">
+        <div class="flex items-center mb-6">
+            <img src="https://storage.googleapis.com/a1aa/image/iYIu1qtjV4LoJBGRvZ9aHlYpveFbvH3VSlnSLp12TUpkK37JA.jpg"
+                alt="Company Logo" class="w-12 h-12 rounded-full mr-4">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Customer's Information</h1>
+        </div>
+        <div *ngIf="prifiledata" class="mb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 sm:mb-0">
+                    <i class="fas fa-user text-gray-500 mr-2"></i>
+                    <span class="font-semibold text-gray-700">Name:</span>
+                    <span class="text-gray-600 ml-2">{{prifiledata.name}}</span>
+                </div>
+                <div class="flex items-center">
+                    <i class="fas fa-phone-alt text-gray-500 mr-2"></i>
+                    <span class="font-semibold text-gray-700">Contact Number:</span>
+                    <span class="text-gray-600 ml-2">{{prifiledata.contact_number}}</span>
+                </div>
             </div>
-            <hr>
-            <p class="text-xl font-semibold text-gray-900 dark:text-white">PickUp Time</p>
-
-            <div class="details mb-3">
-                <label for="pickup-time" class="form-label font-semibold text-gray-900 dark:text-white">PickUp time for:
-                    {{ getCurrentDateTime() }}</label>
+        </div>
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-3 text-gray-800 flex items-center">
+                <i class="fas fa-clock text-gray-500 mr-2"></i>
+                PickUp Time
+            </h2>
+            <div class="flex items-center mb-3">
                 <input type="datetime-local" id="pickup-time" [(ngModel)]="orderData.pickupTime" name="pickupTime"
                     class="form-control">
             </div>
-            <hr>
-            <p class="text-xl font-semibold text-gray-900 dark:text-white">Special Instructions</p>
-
-            <div class="details mb-3">
-                <textarea name="note" id="note" rows="3" [(ngModel)]="orderData.specialInstruction"
-                    placeholder="Please add two straws" class="form-control"></textarea>
-            </div>
-            <hr>
-            <p class="text-xl font-semibold text-gray-900 dark:text-white">Mode of Payment</p>
-            <div class="payments">
-                <div class="form-check">
-                    <input type="radio" id="cash" name="payment" [(ngModel)]="orderData.modeOfPayment"
-                        value="Cash-On-Pickup" class="form-check-input" checked>
-                    <label for="cash" class="form-check-label">Cash-on-Pickup</label>
-                </div>
-                <div class="form-check">
-                    <input type="radio" id="gcash" name="payment" [(ngModel)]="orderData.modeOfPayment" value="Gcash"
-                        class="form-check-input">
-                    <label for="gcash" class="form-check-label">Gcash</label>
-                </div>
-            </div>
-
-
-            <a (click)="proceedToCheckout()"
-                class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Proceed
-                to Checkout</a>
-
-
+            <p class="text-gray-600">PickUp time for: {{ getCurrentDateTime() }}</p>
         </div>
-
-
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-3 text-gray-800 flex items-center">
+                <i class="fas fa-pencil-alt text-gray-500 mr-2"></i>
+                Special Instructions
+            </h2>
+            <textarea
+                class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="3" [(ngModel)]="orderData.specialInstruction">Please add two straws</textarea>
+        </div>
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-3 text-gray-800 flex items-center">
+                <i class="fas fa-money-bill-wave text-gray-500 mr-2"></i>
+                Mode of Payment
+            </h2>
+            <div class="flex items-center space-x-6">
+                <label class="flex items-center text-gray-700">
+                    <input type="radio" id="cash" name="payment" [(ngModel)]="orderData.modeOfPayment"
+                        value="Cash-on-Pickup" class="form-radio h-5 w-5 text-blue-600">
+                    <span class="ml-2">Cash-on-Pickup</span>
+                </label>
+                <label class="flex items-center text-gray-700">
+                    <input type="radio" id="cash" name="payment" [(ngModel)]="orderData.modeOfPayment"
+                        class="form-radio h-5 w-5 text-blue-600" value="Gcash">
+                    <span class="ml-2">PayMongo</span>
+                </label>
+            </div>
+        </div>
+        <button (click)="proceedToCheckout()" class=" bg-blue-600 text-white py-2 px-4 sm:py-3 sm:px-6 rounded-lg w-full text-base sm:text-lg
+            font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+            <i class="fas fa-shopping-cart mr-2"></i>
+            Proceed to Checkout
+        </button>
     </div>
-
-
-</section>
+</div>

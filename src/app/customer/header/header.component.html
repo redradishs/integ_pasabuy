@@ -60,18 +60,18 @@
 
         <div id="myCartDropdown1"
           class="z-10 hidden max-w-sm p-4 mx-auto space-y-4 overflow-hidden antialiased bg-white rounded-lg shadow-lg dark:bg-gray-800">
-          <div class="grid grid-cols-2">
+          <div  *ngFor="let item of cartItems" class="grid grid-cols-2">
             <div>
               <a href="#"
-                class="text-sm font-semibold leading-none text-gray-900 truncate dark:text-white hover:underline">Apple
-                iPhone 15</a>
-              <p class="mt-0.5 truncate text-sm font-normal text-gray-500 dark:text-gray-400">$599</p>
+                class="text-sm font-semibold leading-none text-gray-900 truncate dark:text-white hover:underline">
+                {{ item.product_name }}</a>
+              <p class="mt-0.5 truncate text-sm font-normal text-gray-500 dark:text-gray-400">₱{{ getProductPrice(item) }}</p>
             </div>
 
             <div class="flex items-center justify-end gap-6">
-              <p class="text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Qty: 1</p>
+              <p class="text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Qty: {{ item.quantity }}</p>
 
-              <button data-tooltip-target="tooltipRemoveItem1a" type="button"
+              <button (click)="removeItem(item)" data-tooltip-target="tooltipRemoveItem1a" type="button"
                 class="text-red-600 hover:text-red-700 dark:text-red-500 dark:hover:text-red-600">
                 <span class="sr-only"> Remove </span>
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -89,9 +89,10 @@
             </div>
           </div>
 
-          <a [routerLink]="['/checkout']" title=""
+          <!--<a (click)="proceedToCheckout()" title="Proceed to checkout"
             class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            role="button"> Proceed to Checkout </a>
+              role="button">Proceed to Checkout
+            </a>-->
         </div>
 
         <button id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"

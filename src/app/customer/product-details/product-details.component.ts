@@ -76,6 +76,7 @@ export class ProductDetailsComponent implements OnInit {
             
                 this.setupBreadcrumbs();
                 this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
+                console.log('Vendor ID:', this.vendorId);
                 this.viewVendorProfile(this.vendorId)
                 this.viewproducts(this.vendorId);
                 this.loadCart()
@@ -90,11 +91,11 @@ setupBreadcrumbs(): void {
     },
     {
       label: 'Product',
-      link: '/product',
+      link:  '/product ', 
       iconViewBox: ''
     },
     {
-      label: 'Product-Details',
+      label: 'Item Summary',
       link: '/productDetails',
       iconViewBox: ''
     }

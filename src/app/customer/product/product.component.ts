@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { SharedService } from '../../service/shared.service';
 
-interface Product {
+export interface Product {
   product_id: number;
   vendor_id: number;
   product_name: string;
@@ -24,7 +24,7 @@ interface Product {
   quantity: number;
   fullImageUrl: string;
 }
-interface Vendor {
+export interface Vendor {
   id: number;
   name: string;
   image: string;
@@ -34,7 +34,7 @@ interface Vendor {
 }
 
 
-interface VendorProfile {
+export interface VendorProfile {
   vendor_id: number;
   vendor_name: string;
   image?: string;
@@ -48,7 +48,7 @@ interface VendorProfile {
   selector: 'app-product',
   standalone: true,
   imports: [CommonModule, 
-            HeaderComponent, 
+            HeaderComponent,
             RouterModule, 
             FormsModule
           ],
@@ -113,7 +113,7 @@ export class ProductComponent implements OnInit {
       },
       {
         label: 'Product',
-        link: '/product',
+        link:  `/product/${this.vendorId}`,  
         iconViewBox: ''
       }
     ];

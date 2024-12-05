@@ -83,7 +83,8 @@ export class LoginComponent implements OnInit {
             title: 'Login Successful',
             text: 'You have successfully logged in!',
             icon: 'success',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+             confirmButtonColor: '#4CAF50'
           });
           this.router.navigate(['/home']);
         },
@@ -94,7 +95,8 @@ export class LoginComponent implements OnInit {
             title: 'Error',
             text: this.errorMessage,
             icon: 'error',
-            confirmButtonText: 'OK'
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#FF5733'
           });
           this.resetFormState();
         },
@@ -109,7 +111,8 @@ export class LoginComponent implements OnInit {
         title: 'Error',
         text: this.errorMessage,
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#FF5733' 
       });
     }
   }

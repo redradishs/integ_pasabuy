@@ -15,6 +15,7 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0;
+  background-color: #000;
 }
 
 .container {
@@ -132,4 +133,3 @@ mat-checkbox {
 .login-button:hover {
   background-color: #D0D0D0;
 }
-

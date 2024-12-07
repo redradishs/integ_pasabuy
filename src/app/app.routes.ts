@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './customer/login/login.component';
 import { SignupComponent } from './customer/signup/signup.component';
 import { ForgotPasswordComponent } from './customer/forgot-password/forgot-password.component';
+import { TermsComponent } from './customer/terms/terms.component';
 import { ProfileComponent } from './customer/profile/profile.component';
 import { HomeComponent } from './customer/home/home.component';
 import { ProductComponent } from './customer/product/product.component';
@@ -20,20 +21,21 @@ export const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
     {path: 'login', component: LoginComponent},
     {path: 'signup', component: SignupComponent},
-    {path : 'forgot-password', component: ForgotPasswordComponent},
+    {path: 'forgot-password', component: ForgotPasswordComponent},
+    {path: 'terms', component: TermsComponent},
     {path: 'home', component: HomeComponent},
     {path: 'product/:vendorId', component: ProductComponent},
     {path: 'productDetails/:vendorId', component: ProductDetailsComponent},
     {path: 'profile', component: ProfileComponent},
     {path: 'cart', component: CheckoutComponent},
     {path: 'checkout', component: CartComponent},
-    { path: 'checkout/:order_id', component: CartComponent },
-    { path: 'orderstatus', component: OrderstatusComponent },
-    { path: 'invoice', component: InvoiceComponent },
-    { path: 'orderhistory', component: OrderhistoryComponent},
-    { path: 'chat', component: ChatComponent},
-    { path: 'review', component: ReviewComponent},
-    { path: 'reviewpage', component: ReviewpageComponent},
-    { path: 'checkouttest', component: CheckouttestComponent},
-    { path: '**', component: LoginComponent } 
+    {path: 'checkout/:order_id', component: CartComponent },
+    {path: 'orderstatus', component: OrderstatusComponent },
+    {path: 'invoice', component: InvoiceComponent },
+    {path: 'orderhistory', component: OrderhistoryComponent},
+    {path: 'chat', component: ChatComponent},
+    {path: 'review', component: ReviewComponent},
+    {path: 'reviewpage', component: ReviewpageComponent},
+    {path: 'checkouttest', component: CheckouttestComponent},
+    {path: '**', component: LoginComponent } 
 ];

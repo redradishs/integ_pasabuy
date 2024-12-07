@@ -67,7 +67,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.loadCartItems();
 
-    // Trigger cart dropdown open once the component is initialized
     this.openCartDropdown();
 
     this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
@@ -86,8 +85,6 @@ export class HeaderComponent implements OnInit {
     this.cartItems = this.cart.getCartItems();
   }
   
-
-  // Function to trigger the dropdown button click event
   openCartDropdown(): void {
     const cartButton = document.getElementById('myCartDropdownButton1');
     if (cartButton) {
@@ -95,15 +92,12 @@ export class HeaderComponent implements OnInit {
     }
   }
   
-
-  // Get product price
   getProductPrice(item: any): number {
     return item.price * item.quantity;
   }
 
 
 
-// Remove item from the cart  
   removeItem(item: any): void {
   Swal.fire({
     title: 'Are you sure?',
@@ -123,8 +117,6 @@ export class HeaderComponent implements OnInit {
   });
 }
 
-
-  // Get the total price for all items in the cart
   getTotalPrice(): number {
     return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   }

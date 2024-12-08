@@ -23,52 +23,52 @@
       <div class="flex items-center space-x-4">
       </div>
     </div>
-    </div>
+  </div>
 
 
-    <div class="flex flex-wrap">
-      <div *ngFor="let vendor of vendorList"
-        class="bg-white rounded-lg border-2 border-gray-200 p-6 w-full sm:w-80 m-4 transform transition duration-500 hover:scale-105">
+  <div class="flex flex-wrap">
+    <div *ngFor="let vendor of vendorList"
+      class="bg-white rounded-lg border-2 border-gray-200 p-6 w-full sm:w-80 m-4 transform transition duration-500 hover:scale-105">
+      <a [routerLink]="['/product', vendor.vendor_id]">
+        <img alt="Company logo with abstract design in orange and blue colors"
+          class="w-full h-40 object-cover mb-4 rounded-t-lg"
+          [src]="'http://localhost/tindahub_backend/api/' + (vendor.vendor_profile_image)" />
+      </a>
+
+      <div class="bg-blue-100 text-blue-700 text-sm rounded-md p-2 mb-4">
+        {{vendor.operating_hours}}
+      </div>
+      <div class="flex justify-between items-center mb-4">
         <a [routerLink]="['/product', vendor.vendor_id]">
-          <img alt="Company logo with abstract design in orange and blue colors"
-            class="w-full h-40 object-cover mb-4 rounded-t-lg"
-            [src]="'assets/' + (vendor.image || 'unimartLogo.png')" />
+          <h2 class="text-xl font-semibold">{{vendor.vendor_name}}</h2>
         </a>
 
-        <div class="bg-blue-100 text-blue-700 text-sm rounded-md p-2 mb-4">
-          {{vendor.operating_hours}}
+        <div class="flex space-x-2">
+          <i class="fas fa-eye"></i>
+          <i class="far fa-heart"></i>
         </div>
-        <div class="flex justify-between items-center mb-4">
-          <a [routerLink]="['/product', vendor.vendor_id]">
-            <h2 class="text-xl font-semibold">{{vendor.vendor_name}}</h2>
-          </a>
-
-          <div class="flex space-x-2">
-            <i class="fas fa-eye"></i>
-            <i class="far fa-heart"></i>
-          </div>
+      </div>
+      <div class="flex items-center mb-2">
+        <div class="flex items-center text-yellow-500">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
         </div>
-        <div class="flex items-center mb-2">
-          <div class="flex items-center text-yellow-500">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-          </div>
-          <span class="ml-2 text-gray-700">4.5</span>
+        <span class="ml-2 text-gray-700">4.5</span>
+      </div>
+      <p class="text-gray-600 mb-4">{{vendor.location}}</p>
+      <div class="flex space-x-4 text-gray-600">
+        <div class="flex items-center space-x-1">
+          <i class="fas fa-shipping-fast"></i>
+          <span>Fast Service</span>
         </div>
-        <p class="text-gray-600 mb-4">{{vendor.location}}</p>
-        <div class="flex space-x-4 text-gray-600">
-          <div class="flex items-center space-x-1">
-            <i class="fas fa-shipping-fast"></i>
-            <span>Fast Service</span>
-          </div>
-          <div class="flex items-center space-x-1">
-            <i class="fas fa-tags"></i>
-            <span>Best Price</span>
-          </div>
+        <div class="flex items-center space-x-1">
+          <i class="fas fa-tags"></i>
+          <span>Best Price</span>
         </div>
       </div>
     </div>
+  </div>
 </section>

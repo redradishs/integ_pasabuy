@@ -76,11 +76,11 @@
   </div>
   <div
     class="relative flex flex-wrap items-center justify-center gap-3 py-2 mt-3 mb-6 md:py-8 sm:mt-6 sm: lg:mt-12 xl:mt-16">
-    <button type="button"
+    <button type="button" (click)="setCategory('All')"
       class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-blue-700 bg-white border border-blue-600 rounded-full hover:text-orange-600 hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 md:text-base md:px-5 me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">
       All categories
     </button>
-    <button *ngFor="let item of categories" type="button"
+    <button *ngFor="let item of categories" type="button" (click)="setCategory(item.category)"
       class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-gray-900 bg-white border border-white rounded-full hover:text-orange-500 hover:border-gray-200 hover:border-2 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 focus:ring-2 focus:outline-none focus:ring-gray-300 md:text-base me-2 dark:text-white dark:focus:ring-gray-800">
       {{item.category}}
     </button>
@@ -89,7 +89,7 @@
 <!-- Product Page -->
 <div class="container p-4 mx-auto">
   <div class="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-    <div *ngFor="let product of products"
+    <div *ngFor="let product of FilteredProducts"
       class="overflow-hidden transition duration-500 transform bg-white rounded-lg shadow-lg hover:scale-105">
       <a (click)="navigateToProductDetails(product)">
         <img alt="Three cups of Pearl Tea with different flavors" class="object-cover w-full h-48"

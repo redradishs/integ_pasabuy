@@ -60,12 +60,13 @@
 
         <div id="myCartDropdown1"
           class="z-10 hidden max-w-sm p-4 mx-auto space-y-4 overflow-hidden antialiased bg-white rounded-lg shadow-lg dark:bg-gray-800">
-          <div  *ngFor="let item of cartItems" class="grid grid-cols-2">
+          <div *ngFor="let item of cartItems" class="grid grid-cols-2">
             <div>
               <a href="#"
                 class="text-sm font-semibold leading-none text-gray-900 truncate dark:text-white hover:underline">
                 {{ item.product_name }}</a>
-              <p class="mt-0.5 truncate text-sm font-normal text-gray-500 dark:text-gray-400">₱{{ getProductPrice(item) }}</p>
+              <p class="mt-0.5 truncate text-sm font-normal text-gray-500 dark:text-gray-400">₱{{ getProductPrice(item)
+                }}</p>
             </div>
 
             <div class="flex items-center justify-end gap-6">

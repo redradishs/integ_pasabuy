@@ -85,7 +85,7 @@ export class CartComponent {
         iconViewBox: ''
       },
       {
-        label: 'Items-Summary',
+        label: 'Summary',
         link: '/productDetails',
         iconViewBox: ''
       },

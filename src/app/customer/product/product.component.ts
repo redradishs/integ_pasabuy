@@ -73,6 +73,7 @@ export class ProductComponent implements OnInit {
   ratingDistribution: { [key: number]: number } = {}; 
   totalRatings: number = 0;
   productDetails: any = {};
+  selectedCategory: String = 'All';
   
 
 
@@ -177,6 +178,17 @@ export class ProductComponent implements OnInit {
       timerProgressBar: true
     });
 
+  }
+
+  setCategory(category: string): void {
+    this.selectedCategory = category
+  }
+
+  get FilteredProducts() {
+    if(this.selectedCategory === 'All') {
+      return this.products;
+    } 
+    return this.products.filter(product => product.category === this.selectedCategory);
   }
 
 

@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "angular2-breadcrumb": "^0.0.2",
     "axios": "^1.7.9",
     "flowbite": "^2.5.2",
     "html2canvas": "^1.4.1",

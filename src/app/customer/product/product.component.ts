@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { ApiService } from '../../service/api.service';
@@ -8,7 +8,10 @@ import { AuthService } from '../../service/auth.service';
 import { CartServiceService } from '../../service/cart-service.service';
 import { FormsModule} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { filter } from 'rxjs';
 import Swal from 'sweetalert2';
+import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { ChangeDetectorRef } from '@angular/core';
 import { SharedService } from '../../service/shared.service';
 
 export interface Product {
@@ -50,7 +53,8 @@ export interface VendorProfile {
   imports: [CommonModule, 
             HeaderComponent,
             RouterModule, 
-            FormsModule
+            FormsModule,
+            BreadcrumbComponent
           ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
@@ -84,6 +88,7 @@ export class ProductComponent implements OnInit {
               private cart: CartServiceService,
                private router: Router, 
                private http: HttpClient,
+               private cdr: ChangeDetectorRef,
               private sharedservice: SharedService) {}
 
   ngOnInit(): void {
@@ -106,19 +111,48 @@ export class ProductComponent implements OnInit {
   }
 
   setupBreadcrumbs(): void {
-    this.breadcrumbs = [
-      {
-        label: 'Home',
-        link: '/home',
-        iconViewBox: '0 0 20 20',
-      },
-      {
-        label: 'Product',
-        link:  `/product/${this.vendorId}`,  
-        iconViewBox: ''
-      }
-    ];
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.breadcrumbs = this.createBreadcrumbs(this.route.root);
+        console.log('Breadcrumbs:', this.breadcrumbs);
+        this.cdr.detectChanges();
+      });
   }
+
+  createBreadcrumbs(route: ActivatedRoute, path: string = '', breadcrumbs: any[] = []): any[] {
+    const children: ActivatedRoute[] = route.children;
+  
+    if (children.length === 0) {
+      return breadcrumbs;
+    }
+  
+    for (const child of children) {
+      const routeData = child.snapshot.data;
+      const routeParams = child.snapshot.params;  // Get dynamic parameters (e.g., 'id')
+      let routePath = child.snapshot.url.map((segment) => segment.path).join('/');
+      console.log('Route Params:', routeParams);
+  
+      // Replace any dynamic parameters in the path (e.g., :id)
+      if (routeParams['id']) {
+        routePath = routePath.replace(':id', routeParams['id']);
+      }
+  
+      const fullPath = routePath ? `${path}/${routePath}` : path;
+  
+      if (routeData['breadcrumb']) {
+        breadcrumbs.push({
+          label: routeData['breadcrumb'],
+          link: fullPath,
+        });
+      }
+  
+      this.createBreadcrumbs(child, fullPath, breadcrumbs);
+    }
+  
+    return breadcrumbs;
+  }
+  
 
   navigateToProductDetails(product: any): void {
     console.log('array of Product:', this.products); // Debug log

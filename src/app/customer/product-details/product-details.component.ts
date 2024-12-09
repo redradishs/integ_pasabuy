@@ -8,6 +8,7 @@ import { AuthService } from '../../service/auth.service';
 import { CartServiceService } from '../../service/cart-service.service';
 import { FormsModule} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { BreadcrumbComponent } from "../breadcrumb/breadcrumb.component";
 
 interface VendorProfile {
   vendor_id: number;
@@ -35,11 +36,10 @@ interface Product {
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, 
-            HeaderComponent, 
-            RouterModule, 
-            FormsModule
-          ],
+  imports: [CommonModule,
+    HeaderComponent,
+    RouterModule,
+    FormsModule, BreadcrumbComponent],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
@@ -73,8 +73,6 @@ export class ProductDetailsComponent implements OnInit {
                   }
                 });
             
-            
-                this.setupBreadcrumbs();
                 this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
                 console.log('Vendor ID:', this.vendorId);
                 this.viewVendorProfile(this.vendorId)
@@ -82,26 +80,7 @@ export class ProductDetailsComponent implements OnInit {
                 this.loadCart()
               }
 
-setupBreadcrumbs(): void {
-  this.breadcrumbs = [
-    {
-      label: 'Home',
-      link: '/home',
-      iconViewBox: '0 0 20 20',
-    },
-    {
-      label: 'Product',
-      link:  '/product ', 
-      iconViewBox: ''
-    },
-    {
-      label: 'Item Summary',
-      link: '/productDetails',
-      iconViewBox: ''
-    }
 
-  ];
-}
 
 viewVendorProfile(vendorId: number): void {
   this.api.getVendorProfile(vendorId).subscribe((resp: any) => {

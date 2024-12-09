@@ -60,6 +60,11 @@
 
         <div id="myCartDropdown1"
           class="z-10 hidden max-w-sm p-4 mx-auto space-y-4 overflow-hidden antialiased bg-white rounded-lg shadow-lg dark:bg-gray-800">
+               <!-- Message for empty cart -->
+        <div *ngIf="cartItems.length === 0" class="text-center text-gray-500">
+          No items added to cart
+        </div>
+        <div *ngIf="cartItems.length > 0">
           <div *ngFor="let item of cartItems" class="grid grid-cols-2">
             <div>
               <a href="#"
@@ -68,6 +73,7 @@
               <p class="mt-0.5 truncate text-sm font-normal text-gray-500 dark:text-gray-400">₱{{ getProductPrice(item)
                 }}</p>
             </div>
+        
 
             <div class="flex items-center justify-end gap-6">
               <p class="text-sm font-normal leading-none text-gray-500 dark:text-gray-400">Qty: {{ item.quantity }}</p>
@@ -94,6 +100,7 @@
             class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               role="button">Proceed to Checkout
             </a>-->
+        </div>
         </div>
 
         <button id="userDropdownButton1" data-dropdown-toggle="userDropdown1" type="button"

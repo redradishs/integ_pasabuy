@@ -22,7 +22,7 @@ export class BreadcrumbComponent implements OnInit {
   ngOnInit(): void {
     this.breadcrumbService.breadcrumbs$.subscribe(breadcrumbs => {
       this.breadcrumbs = breadcrumbs;
-      console.log('Current breadcrumbs:', breadcrumbs);
-  });
-}
+      console.log('Received breadcrumbs:', breadcrumbs);
+    });
+  }
 }

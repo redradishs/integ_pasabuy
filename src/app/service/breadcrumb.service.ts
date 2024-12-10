@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,35 +12,46 @@ export class BreadcrumbService {
   breadcrumbs$ = this.breadcrumbsSubject.asObservable();
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+    // Listen to route changes and update breadcrumbs accordingly
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      const currentUrl = this.router.url;
-      this.updateBreadcrumbs(currentUrl);
+      // Get vendorId from the current route
+      const vendorId = this.getVendorIdFromRoute();
+      this.updateBreadcrumbs(vendorId); // Update breadcrumbs with the vendorId
     });
   }
 
-  updateBreadcrumbs(url: string): void {
+  // Function to get the vendorId from the route
+  private getVendorIdFromRoute(): number {
+    const vendorId = this.activatedRoute.snapshot.paramMap.get('vendorId');
+    return vendorId ? +vendorId : 0; // Return number or 0 if not found
+  }
+
+  // Update breadcrumbs with vendorId
+  updateBreadcrumbs(vendorId: number): void {
     let breadcrumbs = [];
+    const currentUrl = this.router.url;
 
-    console.log('Current URL:', url);
-
-    // Check for the home page or login page
-    if (url === '/' || url === '/home' || url === '') {
-        breadcrumbs.push({ label: 'Home', url: '/home' });
-    } else if (url === '/login') {
-        breadcrumbs.push({ label: 'Home', url: '/home' });
-        breadcrumbs.push({ label: 'Login', url: '/login' });
-    } else if (url.includes('product')) {
-        breadcrumbs.push({ label: 'Home', url: '/home' });
-        breadcrumbs.push({ label: 'Product', url: '/product' });
-    } else if (url.includes('productDetails')) {
-        breadcrumbs.push({ label: 'Home', url: '/home' });
-        breadcrumbs.push({ label: 'Product', url: '/product' });
-        breadcrumbs.push({ label: 'Item Summary', url: `/productDetails/${this.activatedRoute.snapshot.paramMap.get('vendorId')}` });
+    // Handle Home page
+    if (currentUrl === '/' || currentUrl === '/home' || currentUrl === '') {
+      breadcrumbs.push({ label: 'Home', url: '/home' });
     }
 
-    console.log('Breadcrumbs:', breadcrumbs);
+    // Handle Product page
+    else if (currentUrl.includes('/product')) {
+      breadcrumbs.push({ label: 'Home', url: '/home' });
+      breadcrumbs.push({ label: 'Product', url: `/product/${vendorId}` });
+    }
+
+    // Handle Product Details page
+    else if (currentUrl.startsWith('/productDetails')) {
+      breadcrumbs.push({ label: 'Home', url: '/home' });
+      breadcrumbs.push({ label: 'Product', url: `/product/${vendorId}` });
+      breadcrumbs.push({ label: 'Item Summary', url: `/productDetails/${vendorId}` });
+    }
+
+    // Set the breadcrumbs
     this.breadcrumbsSubject.next(breadcrumbs);
-}
+  }
 }

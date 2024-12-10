@@ -81,8 +81,8 @@ export class HeaderComponent implements OnInit {
                 });
                 this.router.events.subscribe((event) => {
                   if (event instanceof NavigationEnd) {
-                    this.loadCartItems(); // Refresh cart items or any data when the navigation ends
-                    this.cdr.detectChanges(); // Ensure the view is updated
+                    this.loadCartItems();
+                    this.cdr.detectChanges();
                   }
                 });
   }
@@ -104,8 +104,6 @@ export class HeaderComponent implements OnInit {
     return item.price * item.quantity;
   }
 
-
-
   removeItem(item: any): void {
   Swal.fire({
     title: 'Are you sure?',
@@ -125,9 +123,9 @@ export class HeaderComponent implements OnInit {
         text: 'The item has been removed from your cart.',
         icon: 'success',
         confirmButtonText: 'OK',
-        confirmButtonColor: '#28a745', // Custom green color for OK button
+        confirmButtonColor: '#28a745',
         customClass: {
-          confirmButton: 'custom-ok-btn'  // Custom class for the OK button
+          confirmButton: 'custom-ok-btn'
         }
       });
       this.cdr.detectChanges();

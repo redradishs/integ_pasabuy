@@ -29,7 +29,7 @@
   <div class="flex flex-wrap">
     <div *ngFor="let vendor of vendorList"
       class="bg-white rounded-lg border-2 border-gray-200 p-6 w-full sm:w-80 m-4 transform transition duration-500 hover:scale-105">
-      <a [routerLink]="['/product', vendor.vendor_id]">
+      <a [routerLink]="['/store', vendor.vendor_id]">
         <img alt="Company logo with abstract design in orange and blue colors"
           class="w-full h-40 object-cover mb-4 rounded-t-lg"
           [src]="'http://localhost/tindahub_backend/api/' + (vendor.vendor_profile_image)" />
@@ -39,7 +39,7 @@
         {{vendor.operating_hours}}
       </div>
       <div class="flex justify-between items-center mb-4">
-        <a [routerLink]="['/product', vendor.vendor_id]">
+        <a [routerLink]="['/store', vendor.vendor_id]">
           <h2 class="text-xl font-semibold">{{vendor.vendor_name}}</h2>
         </a>
 

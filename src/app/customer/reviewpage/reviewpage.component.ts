@@ -22,6 +22,8 @@ export class ReviewpageComponent {
   reviews: any[] = [];
   name: string = '';
   reviewed: boolean = false;
+  vendor_name: string = '';
+  vendor_img: string = '';
 
   averageRating: number = 0;
   ratingDistribution: { [key: number]: number } = {}; 
@@ -47,6 +49,7 @@ export class ReviewpageComponent {
 
     this.getreview(this.vendor_id);
     this.getRatings(this.vendor_id); 
+    this.viewVendorProfile(this.vendor_id);
     
   }
 
@@ -103,6 +106,21 @@ export class ReviewpageComponent {
       }
     })
   }
+
+  viewVendorProfile(vendorId: number): void {
+    this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
+      if (resp){
+        this.vendor_img = resp.data.vendor_profile_image;
+        this.vendor_name = resp.data.vendor_name;
+        console.log(resp.data);
+      } else {
+        console.error("Error no vendor")
+      }
+    })
+  }
+
+
+
 
   getRatings(vendorId: number): void {
     this.api.getreview(vendorId).subscribe((resp: any) => {

@@ -11,17 +11,25 @@ export class CartServiceService {
    }
 
 
-  addToCart(product: any, quantity: number = 1): void {
-    const existingItem = this.cartItems.find(item => item.product_id === product.product_id);
-
+   addToCart(product: any, quantity: number = 1, size?: any): void {
+    const variationId = size ? size.variation_id : null;
+    const existingItem = this.cartItems.find(item => 
+      item.product_id === product.product_id && item.variation_id === variationId
+    );
+  
     if (existingItem) {
-      existingItem.quantity += quantity; // Increment quantity if product exists
+      existingItem.quantity += quantity; 
     } else {
-      this.cartItems.push({ ...product, quantity });
+      this.cartItems.push({
+        ...product,
+        variation_id: variationId,
+        quantity
+      });
     }
-
+  
     this.saveCartToLocalStorage();
   }
+  
     // Get all cart items
     getCartItems(): any[] {
       this.loadCartFromLocalStorage();

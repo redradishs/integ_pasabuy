@@ -16,6 +16,7 @@ import { ChatComponent } from './customer/chat/chat.component';
 import { ReviewComponent } from './customer/review/review.component';
 import { ReviewpageComponent } from './customer/reviewpage/reviewpage.component';
 import { CheckouttestComponent } from './customer/checkouttest/checkouttest.component';
+import { StoreComponent } from './customer/store/store.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -37,5 +38,6 @@ export const routes: Routes = [
     {path: 'review', component: ReviewComponent},
     {path: 'reviewpage', component: ReviewpageComponent},
     {path: 'checkouttest', component: CheckouttestComponent},
+    {path: 'store/:vendorId', component: StoreComponent},
     {path: '**', component: LoginComponent } 
 ];

@@ -119,9 +119,9 @@
                                 </div>
                                 <div
                                     class="md:col-span-4 col-span-12 justify-between items-center gap-4 flex md:flex-row flex-col">
-                                    <h4 class="text-gray-500 text-xl font-semibold leading-8">₱{{item.product_price}} x
+                                    <h4 class="text-gray-500 text-xl font-semibold leading-8">₱{{item.unit_price}} x
                                         {{item.quantity}}</h4>
-                                    <h4 class="text-gray-900 text-xl font-semibold leading-8">₱{{item.product_price *
+                                    <h4 class="text-gray-900 text-xl font-semibold leading-8">₱{{item.unit_price *
                                         item.quantity }}</h4>
                                 </div>
                             </div>
@@ -258,7 +258,7 @@
                                 <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
                                     Rate
                                 </h5>
-                                <p class="text-gray-800 dark:text-neutral-200">{{formatCurrency(item.product_price)}}
+                                <p class="text-gray-800 dark:text-neutral-200">{{formatCurrency(item.unit_price)}}
                                 </p>
                             </div>
                             <div>
@@ -266,7 +266,7 @@
                                     Amount</h5>
                                 <p class="sm:text-end text-gray-800 dark:text-neutral-200">
                                     {{formatCurrency(item.quantity *
-                                    item.product_price)}}</p>
+                                    item.unit_price)}}</p>
                             </div>
                             <div class="sm:hidden border-b border-gray-200 dark:border-neutral-700"></div>
 

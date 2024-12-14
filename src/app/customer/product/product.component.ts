@@ -42,6 +42,7 @@ export interface VendorProfile {
   operating_hours: string;
   rating: number;
   description: string;
+  vendor_profile_image: string;
 }
 
 @Component({
@@ -68,6 +69,9 @@ export class ProductComponent implements OnInit {
   pickup_time = '0000-00-00 12:00';
   order_status = 'Pending';
   categories: any;
+
+  selectedProduct: any;
+  selectedVariations: any;
   
   averageRating: number = 0;
   ratingDistribution: { [key: number]: number } = {}; 
@@ -77,7 +81,7 @@ export class ProductComponent implements OnInit {
   
 
 
-  vendorProfile: VendorProfile = { rating: 0, vendor_id: 0, vendor_name: '', image: '', location: '', operating_hours: '', description: '' };
+  vendorProfile: VendorProfile = { rating: 0, vendor_id: 0, vendor_name: '', image: '', location: '', operating_hours: '', description: '', vendor_profile_image: '' };
   constructor(private route: ActivatedRoute, 
               private api: ApiService, 
               private auth: AuthService, 
@@ -104,6 +108,8 @@ export class ProductComponent implements OnInit {
     this.loadCart()
     this.getRatings(this.vendorId);
   }
+
+  
 
   setupBreadcrumbs(): void {
     this.breadcrumbs = [
@@ -218,6 +224,23 @@ export class ProductComponent implements OnInit {
   
     this.loadCart(); 
   }
+
+  openProductModal(product: any) {
+    this.selectedProduct = product;
+  }
+
+  closeModal() {
+    this.selectedProduct = null;
+  }
+
+
+  addToCartWithSelection(): void {
+    if (this.selectedProduct) {
+      this.cart.addToCart(this.selectedProduct, this.quantity);
+      alert(`${this.quantity} of ${this.selectedProduct.product_name} added to the cart!`);
+      this.closeModal();
+    }
+  }
   
   
 
@@ -226,13 +249,13 @@ export class ProductComponent implements OnInit {
     this.loadCart();
   }
 
-  increment(item: any): void {
-    item.quantity++; 
+  increment(): void {
+    this.quantity += 1;
   }
-  
-  decrement(item: any): void {
-    if (item.quantity > 1) {
-      item.quantity--; 
+
+  decrement(): void {
+    if (this.quantity > 1) {
+      this.quantity -= 1;
     }
   }
 

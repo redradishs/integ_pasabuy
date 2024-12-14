@@ -8,6 +8,7 @@ import { CartServiceService } from '../../service/cart-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { PaymongoService } from '../../service/paymongo.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -351,14 +352,45 @@ sub(order_id: number, product_id: number){
 }
 
 delete(order_id: number, product_id: number){
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to delete this item?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+  }).then((result) => {
+    if (result.isConfirmed) {
   this.api.deleteItem(this.order_id, product_id).subscribe((resp: any) => {
     try {
       this.getCheckout(this.order_id);
-      console.log(this.cartItems);
+      console.log(this.cartItems); 
+      Swal.fire({
+        title: 'Deleted!',
+        text: 'Your item has been deleted.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#28a745'
+      });
+
     } catch (err) {
       console.error("Error fetching cart", err);
+      Swal.fire('Error', 'There was an error processing your request.', 'error');
     }
-  })
+  });
+}else {
+  // If user cancels, show cancellation message
+  Swal.fire({
+  title: 'Cancelled',
+        text: 'Your item is safe :)',
+        icon: 'info',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#28a745'
+});
 }
-
+});
+}
 }

@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartServiceService } from '../../service/cart-service.service';
 import { AuthService } from '../../service/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { ApiService } from '../../service/api.service';
+import { ChangeDetectorRef } from '@angular/core';
 import Swal from 'sweetalert2';
 
 interface VendorProfile {
@@ -56,11 +55,10 @@ export class HeaderComponent implements OnInit {
   vendorProfile: VendorProfile | null = null;
 
   constructor(private cart: CartServiceService,
-              private api: ApiService,
               private auth: AuthService, 
-              private router: Router,
-              private route: ActivatedRoute, 
-              private http: HttpClient
+              private route: ActivatedRoute,
+              private cdr: ChangeDetectorRef,
+              private router: Router
 
   ) { }
 
@@ -70,6 +68,7 @@ export class HeaderComponent implements OnInit {
     this.openCartDropdown();
 
     this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
+    this.cdr.detectChanges();
 
 
     this.auth.getCurrentUser().subscribe(user => {
@@ -78,11 +77,19 @@ export class HeaderComponent implements OnInit {
                   } else {
                     console.log("User not found");
                   }
+                  this.cdr.detectChanges();
+                });
+                this.router.events.subscribe((event) => {
+                  if (event instanceof NavigationEnd) {
+                    this.loadCartItems();
+                    this.cdr.detectChanges();
+                  }
                 });
   }
 
   loadCartItems(): void {
     this.cartItems = this.cart.getCartItems();
+    this.cdr.detectChanges();
   }
   
   openCartDropdown(): void {
@@ -90,13 +97,12 @@ export class HeaderComponent implements OnInit {
     if (cartButton) {
       cartButton.click();
     }
+    this.cdr.detectChanges();
   }
   
   getProductPrice(item: any): number {
     return item.price * item.quantity;
   }
-
-
 
   removeItem(item: any): void {
   Swal.fire({
@@ -112,7 +118,17 @@ export class HeaderComponent implements OnInit {
     if (result.isConfirmed) {
       this.cart.removeFromCart(item.product_id);
       this.loadCartItems();
-      Swal.fire('Removed!', 'The item has been removed from your cart.', 'success');
+      Swal.fire({
+        title: 'Removed!',
+        text: 'The item has been removed from your cart.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#28a745',
+        customClass: {
+          confirmButton: 'custom-ok-btn'
+        }
+      });
+      this.cdr.detectChanges();
     }
   });
 }

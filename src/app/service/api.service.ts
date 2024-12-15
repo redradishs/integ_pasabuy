@@ -94,6 +94,26 @@ export class ApiService {
     return this.http.put(`${this.apiUrl}/cancelorder/${order_id}`, {});
   }
 
+  complete_confirm(order_id: number){
+    return this.http.post(`${this.apiUrl}/received_conf/${order_id}`, {});
+  }
+
+
+  submitan_issue(id: number, data: any){
+    return this.http.post(`${this.apiUrl}/submit_issue/${id}`, data);
+  }
+
+  get_reports(id: number){
+    return this.http.get(`${this.apiUrl}/getIssueStatus/${id}`);
+  }
+
+  prod_review(id: number,ord: number, data: any){
+    return this.http.post(`${this.apiUrl}/prod_review/${id}/${ord}`, data);
+  }
+
+  get_prodrev(id: number){
+    return this.http.get(`${this.apiUrl}/getProdReview/${id}`);
+  }
 
   //endpoints for order history
 

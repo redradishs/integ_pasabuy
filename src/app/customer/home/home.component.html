@@ -35,6 +35,7 @@
           <h2 class="text-xl font-semibold">{{vendor.vendor_name}}</h2>
         </a>
 
+
         <div class="flex space-x-2">
           <i class="fas fa-eye"></i>
           <i class="far fa-heart"></i>
@@ -50,16 +51,21 @@
         </div>
         <span class="ml-2 text-gray-700">4.5</span>
       </div>
-      <p class="text-gray-600 mb-4">{{vendor.location}}</p>
+      <p class="text-gray-600">{{vendor.location}}</p>
       <div class="flex space-x-4 text-gray-600">
-        <div class="flex items-center space-x-1">
+        <div *ngIf="isStoreOpen()" class="flex items-center space-x-1">
           <i class="fas fa-shipping-fast"></i>
           <span>Fast Service</span>
+        </div>
+        <div *ngIf="!isStoreOpen()" class="flex items-center space-x-1">
+          <i class="fas fa-shipping-fast"></i>
+          <span text-red-400 text-bold>Closed</span>
         </div>
         <div class="flex items-center space-x-1">
           <i class="fas fa-tags"></i>
           <span>Best Price</span>
         </div>
+
       </div>
     </div>
   </div>

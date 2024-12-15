@@ -7,6 +7,7 @@ import { CommonModule, DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { PaymongoService } from '../../service/paymongo.service';
+import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 
 
 interface cartsSS {
@@ -22,11 +23,21 @@ interface cartsSS {
   vendor_id: number
 }
 
+interface issue {
+  additional_details: string,
+  issue_type: string,
+  order_id: number,
+  user_id: number,
+  resolved_date: string,
+  report_date: string,
+  status: string
+}
+
 
 @Component({
   selector: 'app-orderstatus',
   standalone: true,
-  imports: [HeaderComponent, NgIf, CommonModule, NgClass],
+  imports: [HeaderComponent, NgIf, CommonModule, NgClass, FormsModule],
   templateUrl: './orderstatus.component.html',
   styleUrl: './orderstatus.component.css',
   providers: [DatePipe]
@@ -57,6 +68,21 @@ export class OrderstatusComponent {
   paymentStatus: string = '';
   vendor_id: number = 0;
   linkId: string = '';
+  orderReceived: boolean = false;
+
+  isIssueReported: boolean = false;
+  issueDescription: string = '';
+  issueType: string = '';
+  description: string = '';
+  hasFiledissue: boolean = false;
+  issueReps: issue[] = []; 
+
+
+  isModalOpen: boolean = false;
+  selectedItem: any = null;
+  reviewText: string = '';
+  selectedRating: number = 0;
+
 
   ngOnInit(): void {
     this.getCart(this.order_id);
@@ -72,6 +98,7 @@ export class OrderstatusComponent {
       }
     })
     this.startPolling();
+    this.getIssueReport(this.order_id);
   }
 
   ngOnDestroy(): void {
@@ -96,6 +123,7 @@ export class OrderstatusComponent {
         this.linkId = resp.data.payment_id;
         console.log("this is the link id", this.linkId)
         this.retrieveLink(this.linkId);
+        
 
 
         console.log("cart res", this.carts);
@@ -136,7 +164,121 @@ export class OrderstatusComponent {
     })
   }
 
-  
+
+markOrderAsReceived() {
+  this.api.complete_confirm(this.order_id).subscribe((resp: any) => {
+    if (resp){
+      console.log('Order Received Successfully');
+      this.orderStatus = "received";
+      this.orderReceived = true;
+      this.getSpecificStatus(this.order_id);
+    } else {
+      console.error('Failed to mark order as received');
+    }
+  })
+}
+
+openModal() {
+  this.isIssueReported = true;
+}
+
+closeModal() {
+  this.isIssueReported = false;
+}
+
+setRating(star: number): void {
+  this.selectedRating = star; 
+}
+
+
+
+submitProdReview(prod_id: number) {
+  const reviewData = {
+    user_id: this.userId,
+    vendor_id: this.vendor_id,
+    rating: this.selectedRating,
+    review: this.reviewText
+  };
+
+  try {
+    this.api.prod_review(this.selectedItem.product_id, this.order_id, reviewData).subscribe((resp: any) => {
+      console.log('Product Review Submitted Successfully');
+      this.offModal();
+      this.reviewText = '';
+      this.selectedRating = 0;
+      this.getCart(this.order_id);
+    })
+  } catch (error) {
+    console.error('Error submitting product review:', error);
+  }
+
+
+}
+
+toggleModal(item: any): void {
+  this.selectedItem = item;
+  console.log("This is the content of selected item", item)
+  this.isModalOpen = !this.isModalOpen;
+}
+
+offModal(): void {
+  this.isModalOpen = false;
+  this.selectedItem = null;
+}
+
+
+
+
+
+
+
+showIssueReport() {
+  this.isIssueReported = true;
+}
+
+cancelIssueReport() {
+  this.isIssueReported = false;
+  this.issueDescription = ''; 
+}
+
+submitIssue() {
+  const issueData = {
+    user_id: this.userId,
+    issue_type: this.issueType,
+    additional_details: this.description,
+  };
+
+  this.api.submitan_issue(this.order_id, issueData).subscribe((resp: any) => {
+    if (resp) {
+      console.log('Issue Reported Successfully');
+      this.isIssueReported = false;
+      this.issueDescription = '';
+      this.hasFiledissue = true;
+      this.closeModal();
+    } else {
+      console.error('Failed to report issue');
+    }
+  }, error => {
+    console.error('Error submitting issue report:', error);
+  })
+}
+
+getIssueReport(orderId: number): void {
+  this.api.get_reports(orderId).subscribe((resp: any) => {
+    if (resp && resp.data) {
+      this.issueReps = resp.data;  
+      console.log('Issue Reports:', this.issueReps);
+      this.hasFiledissue = true;
+    } else {
+      console.log('No issue reports found');
+      this.issueReps = []; 
+      this.hasFiledissue = false;
+    }
+  });
+}
+
+
+
 
   
   getCheckout(order_id: number): void {

@@ -35,9 +35,20 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.vendor();
+    this.isStoreOpen();
 
    
   }
+
+  isStoreOpen(): boolean {
+    const currentTime = new Date().getHours() * 100 + new Date().getMinutes(); 
+    
+    const storeOpenTime = 900; 
+    const storeCloseTime = 1800; 
+  
+    return currentTime >= storeOpenTime && currentTime <= storeCloseTime;
+  }
+  
 
   vendor(): void {
     this.api.getVendors().subscribe((resp:any) => {

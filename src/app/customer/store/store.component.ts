@@ -130,7 +130,7 @@ isStoreOpen(): boolean {
   const currentTime = new Date().getHours() * 100 + new Date().getMinutes(); 
   
   const storeOpenTime = 900; 
-  const storeCloseTime = 1800; 
+  const storeCloseTime = 1600; 
 
   return currentTime >= storeOpenTime && currentTime <= storeCloseTime;
 }

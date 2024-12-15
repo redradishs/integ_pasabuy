@@ -21,6 +21,22 @@ export interface VendorProfile {
   vendor_profile_image: string;
 }
 
+interface CartItem {
+  product_id: number;
+  product_name: string;
+  fullImageUrl: string;
+  vendor_id: number;
+  vendor_name: string;
+  category_id: string;
+  category_name: string;
+  size: string;
+  price: number;
+  quantity: number;
+  total: string;
+  variation_id: string | null;
+}
+
+
 export interface Product {
   product_id: number;
   vendor_id: number;
@@ -88,6 +104,7 @@ ngOnInit(): void {
       console.log("User not found");
     }
   });
+  
 
 
   this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
@@ -100,6 +117,7 @@ ngOnInit(): void {
   this.viewVendorProfile(this.vendorId)
   this.getRatings(this.vendorId);
   this.loadCart();
+  this.isStoreOpen();
 
   
 }
@@ -107,6 +125,16 @@ ngOnInit(): void {
 shuffleProducts(): void {
   this.products.sort(() => Math.random() - 0.5);
 }
+
+isStoreOpen(): boolean {
+  const currentTime = new Date().getHours() * 100 + new Date().getMinutes(); 
+  
+  const storeOpenTime = 900; 
+  const storeCloseTime = 1800; 
+
+  return currentTime >= storeOpenTime && currentTime <= storeCloseTime;
+}
+
 
 previousProduct(): void {
   this.currentIndex = this.currentIndex > 0 ? this.currentIndex - 1 : this.products.length - 1;
@@ -153,6 +181,8 @@ viewproducts(vendorId: number): void {
 
 closeModal() {
   this.selectedProduct = null;
+  this.selectedSize = null; 
+  this.quantity = 1;
 }
 
 openProductModal(product: any) {
@@ -170,6 +200,10 @@ decrementQuantity(): void {
   }
 }
 
+deleteItem(item: any) {
+  this.cartItems = this.cartItems.filter(i => i !== item);
+  this.saveCartToLocalStorage();
+}
 proceedToCheckout() {
   const totalAmount = this.getTotalPrice();
   const order = {
@@ -242,34 +276,34 @@ getProductPrice(item: any): number {
   return item.price * item.quantity;  
 } 
 
-// addToCart(product: any, quantity: number, size?: any): void {
+
+// this is a bit buggy
+// addToCart(product: any, quantity: number, selectedSize: any): void {
 //   if (product && quantity > 0) {
 //     const cartItem = {
 //       product_id: product.product_id,
 //       product_name: product.product_name,
 //       fullImageUrl: product.fullImageUrl || `http://localhost/tindahub_backend/api/${product.prod_img}`,
 //       vendor_id: product.vendor_id,
-//       vendor_name: product.vendor_name,
-//       category_id: product.category_id,
-//       category_name: product.category_name,
-//       size: size ? size.variation_name : 'Default', 
-//       price: size ? parseFloat(size.price) : parseFloat(product.price), 
+//       vendor_name: product.vendor_name || 'Default Vendor',
+//       category_id: product.category_id || 'Default Category',
+//       category_name: product.category_name || 'Default Category Name',
+//       size: selectedSize ? selectedSize.variation_name : 'Default',
+//       price: selectedSize ? parseFloat(selectedSize.price) : parseFloat(product.price),
 //       quantity: quantity,
-//       total: size 
-//         ? (parseFloat(size.price) * quantity).toFixed(2)
-//         : (parseFloat(product.price) * quantity).toFixed(2), 
-//       variation_id: size ? size.variation_id : null, 
+//       total: selectedSize ? (parseFloat(selectedSize.price) * quantity).toFixed(2) : (parseFloat(product.price) * quantity).toFixed(2),
+//       variation_id: selectedSize ? selectedSize.variation_id : null, 
 //     };
 
-//     if (cartItem.variation_id) {
+//     console.log('Cart item:', cartItem); 
 
-//       this.cart.addToCart(cartItem);
-//       console.log(`${product.product_name} with variation added to cart`, cartItem);
-//     } else {
+//     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-//       this.cart.addToCart(cartItem);
-//       console.log(`${product.product_name} added to cart (grouped)`, cartItem);
-//     }
+//     cart.push(cartItem);
+
+//     localStorage.setItem('cart', JSON.stringify(cart));
+
+//     console.log('Cart saved to localStorage:', cart);
 
 //     this.loadCart();
 //     this.closeModal();
@@ -278,9 +312,10 @@ getProductPrice(item: any): number {
 //   }
 // }
 
+
 addToCart(product: any, quantity: number, selectedSize: any): void {
   if (product && quantity > 0) {
-    const cartItem = {
+    const cartItem: CartItem = {
       product_id: product.product_id,
       product_name: product.product_name,
       fullImageUrl: product.fullImageUrl || `http://localhost/tindahub_backend/api/${product.prod_img}`,
@@ -291,26 +326,32 @@ addToCart(product: any, quantity: number, selectedSize: any): void {
       size: selectedSize ? selectedSize.variation_name : 'Default',
       price: selectedSize ? parseFloat(selectedSize.price) : parseFloat(product.price),
       quantity: quantity,
-      total: selectedSize ? (parseFloat(selectedSize.price) * quantity).toFixed(2) : (parseFloat(product.price) * quantity).toFixed(2),
-      variation_id: selectedSize ? selectedSize.variation_id : null, 
+      total: selectedSize 
+        ? (parseFloat(selectedSize.price) * quantity).toFixed(2) 
+        : (parseFloat(product.price) * quantity).toFixed(2),
+      variation_id: selectedSize ? selectedSize.variation_id : null,
     };
 
-    console.log('Cart item:', cartItem); 
+    let cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
 
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingItemIndex = cart.findIndex((item: CartItem) =>
+      item.product_id === cartItem.product_id && item.variation_id === cartItem.variation_id
+    );
 
-    cart.push(cartItem);
-
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].quantity += quantity;
+      cart[existingItemIndex].total = (cart[existingItemIndex].price * cart[existingItemIndex].quantity).toFixed(2);
+    } else {
+      cart.push(cartItem);
+    }
     localStorage.setItem('cart', JSON.stringify(cart));
-
-    console.log('Cart saved to localStorage:', cart);
-
     this.loadCart();
     this.closeModal();
   } else {
     console.error('Invalid product or quantity');
   }
 }
+
 
 
 

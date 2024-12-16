@@ -137,8 +137,8 @@ shuffleProducts(): void {
 isStoreOpen(): boolean {
   const currentTime = new Date().getHours() * 100 + new Date().getMinutes(); 
   
-  const storeOpenTime = 900; 
-  const storeCloseTime = 1600; 
+  const storeOpenTime = 0; 
+  const storeCloseTime = 900; 
 
   return currentTime >= storeOpenTime && currentTime <= storeCloseTime;
 }

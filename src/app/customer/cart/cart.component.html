@@ -158,7 +158,7 @@
 
 
 
-
+<!-- 
 <div class="container py-8 bg-gray-100 flex items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-full">
         <div class="flex items-center mb-6">
@@ -223,5 +223,119 @@
             <i class="fas fa-shopping-cart mr-2"></i>
             Proceed to Checkout
         </button>
+    </div>
+</div> -->
+
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">
+                    Personal details
+                </h2>
+                <a class="text-blue-600" href="#">
+                    Edit
+                </a>
+            </div>
+            <div *ngIf="prifiledata">
+                <p class="text-lg font-semibold">
+                    {{prifiledata.name}}
+                </p>
+                <p class="text-gray-600">
+                    {{prifiledata.email}}
+                </p>
+                <p class="text-gray-600">
+                    {{prifiledata.contact_number}}
+                </p>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">
+                    Payment
+                </h2>
+                <a class="text-blue-600" (click)="togglePaymentSection()">
+                    Show all
+                </a>
+            </div>
+
+            <div class="border rounded-lg p-4 mb-4 cursor-pointer" (click)="orderData.modeOfPayment = 'Cash-on-Pickup'"
+                [class.border-blue-500]="orderData.modeOfPayment === 'Cash-on-Pickup'">
+                <div class="flex items-center mb-2">
+                    <input checked class="mr-2" name="payment" type="radio" [(ngModel)]="orderData.modeOfPayment"
+                        value="Cash-on-Pickup" />
+                    <img alt="Cash on Pickup icon" class="mr-2" height="40"
+                        src="https://storage.googleapis.com/a1aa/image/ALHcZXXjIIZFKxCAFwsqw7aGfHWlLDXuzHkdjUCNIb28Cw9JA.jpg"
+                        width="40" />
+                    <span class="text-lg font-semibold">
+                        Cash on Pickup
+                    </span>
+                    <span class="ml-auto bg-blue-100 text-blue-600 text-sm font-semibold px-2 py-1 rounded">
+                        Primary
+                    </span>
+                </div>
+                <p class="text-gray-600">
+                    Pay in cash when you pick up your order. This is a convenient option for in-store or designated
+                    pickup locations.
+                </p>
+            </div>
+            <div class="border rounded-lg p-4 mb-4 cursor-pointer" [class.hidden]="!showCashlessPayment"
+                (click)="orderData.modeOfPayment = 'Gcash'"
+                [class.border-blue-500]="orderData.modeOfPayment === 'Gcash'">
+                <div class="flex items-center mb-2">
+                    <input class="mr-2" name="payment" type="radio" [(ngModel)]="orderData.modeOfPayment"
+                        value="Gcash" />
+                    <img alt="Cashless Payment icon" class="mr-2" height="40"
+                        src="https://storage.googleapis.com/a1aa/image/8fCZifmJyqqy6kHx9afa5XQnC4fAnq6bew0xRMPF0EewyB4eJA.jpg"
+                        width="40" />
+                    <span class="text-lg font-semibold">
+                        Cashless Payment
+                    </span>
+                </div>
+                <p class="text-gray-600">
+                    Pay using your online e-wallet (GCash, Paymaya) or Credit and Debit Card.
+                </p>
+            </div>
+            <div class="flex items-center text-blue-600">
+                <i class="fas fa-tag mr-2"></i>
+                <a class="font-semibold" href="#">
+                    Apply a voucher
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">
+                    Special Instructions
+                </h2>
+            </div>
+            <div>
+                <textarea class="w-full border rounded-lg p-2" placeholder="Enter any special instructions here..."
+                    rows="4" [(ngModel)]="orderData.specialInstruction"></textarea>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">
+                    Pickup Time
+                </h2>
+            </div>
+            <div>
+                <input class="w-full border rounded-lg p-2" type="datetime-local" [(ngModel)]="orderData.pickupTime"
+                    name="pickupTime" />
+            </div>
+            <p class="text-gray-600 mt-2">PickUp time for: {{ getCurrentDateTime() }}</p>
+        </div>
+    </div>
+    <div class="lg:col-span-2 flex justify-center">
+        <button (click)="proceedToCheckout()" class=" bg-blue-600 text-white py-2 px-4 sm:py-3 sm:px-6 rounded-lg w-full text-base sm:text-lg
+        font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+            <i class="fas fa-shopping-cart mr-2"></i>
+            Proceed to Checkout
+        </button>
+
     </div>
 </div>

@@ -42,6 +42,7 @@ export class CartComponent {
 
   amount: number = 999999; 
   description: string = 'Payment for Order #12345'; 
+  showCashlessPayment = false; 
 
 
 
@@ -97,6 +98,10 @@ export class CartComponent {
       }
   
     ];
+  }
+
+   togglePaymentSection(): void {
+    this.showCashlessPayment = !this.showCashlessPayment;
   }
 
   

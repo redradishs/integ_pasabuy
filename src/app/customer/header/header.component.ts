@@ -5,6 +5,7 @@ import { AuthService } from '../../service/auth.service';
 import { ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 interface VendorProfile {
@@ -53,6 +54,8 @@ export class HeaderComponent implements OnInit {
   pickup_time = '0000-00-00 12:00';
   order_status = 'Pending';
   vendorProfile: VendorProfile | null = null;
+  //add
+  cartSubscription: Subscription | null = null;
 
   constructor(private cart: CartServiceService,
               private auth: AuthService, 
@@ -63,7 +66,10 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadCartItems();
+   this.loadCartItems();
+   this.cartSubscription = this.cart.cartItems$.subscribe((items) => {
+    this.cartItems = items;  
+  });
 
     this.openCartDropdown();
 
@@ -81,16 +87,23 @@ export class HeaderComponent implements OnInit {
                 });
                 this.router.events.subscribe((event) => {
                   if (event instanceof NavigationEnd) {
-                    this.loadCartItems();
+                    //this.loadCartItems();
                     this.cdr.detectChanges();
                   }
                 });
   }
 
-  loadCartItems(): void {
-    this.cartItems = this.cart.getCartItems();
+ loadCartItems(): void {
+   this.cartItems = this.cart.getCartItems();
     this.cdr.detectChanges();
   }
+
+  ngOnDestroy(): void {
+    if (this.cartSubscription) {
+      this.cartSubscription.unsubscribe();
+    }
+  }
+
   
   openCartDropdown(): void {
     const cartButton = document.getElementById('myCartDropdownButton1');

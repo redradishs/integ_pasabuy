@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartServiceService {
   private cartItems: any[] = [];
+  //add
+  private cartSubject = new BehaviorSubject<any[]>([]); // Observable for cart state
+  cartItems$ = this.cartSubject.asObservable();
 
   constructor() {
     this.loadCartFromLocalStorage();
+    //add
+    this.updateCartSubject();
    }
 
 
@@ -28,8 +34,10 @@ export class CartServiceService {
     }
   
     this.saveCartToLocalStorage();
+    //add
+    this.updateCartSubject();
   }
-  
+
     // Get all cart items
     getCartItems(): any[] {
       this.loadCartFromLocalStorage();
@@ -43,12 +51,14 @@ export class CartServiceService {
     
       // Save the updated cart to localStorage or backend
       this.saveCartToLocalStorage();
+      this.updateCartSubject();
     }
     
     // Clear the entire cart
     clearCart(): void {
       this.cartItems = [];
       this.saveCartToLocalStorage();
+      this.updateCartSubject();
     }
   
     // Save cart to local storage
@@ -61,7 +71,13 @@ export class CartServiceService {
       const storedCart = localStorage.getItem('cart');
       if (storedCart) {
         this.cartItems = JSON.parse(storedCart);
+      }else {
+        this.cartItems = [];
       }
+    }
+    //add
+    private updateCartSubject(): void {
+      this.cartSubject.next([...this.cartItems]); // Emit a new value for the observable
     }
   }
   

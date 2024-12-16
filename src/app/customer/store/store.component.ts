@@ -8,6 +8,7 @@ import { CartServiceService } from '../../service/cart-service.service';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../../service/shared.service';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 
 export interface VendorProfile {
@@ -118,9 +119,16 @@ ngOnInit(): void {
   this.getRatings(this.vendorId);
   this.loadCart();
   this.isStoreOpen();
-
-  
+  this.cart.cartItems$.subscribe((items) => {
+    this.cartItems = items.map((item: any) => {
+      return {
+        ...item,
+        fullImageUrl: item.fullImageUrl || `http://localhost/tindahub_backend/api/${item.prod_img}`,
+      };
+    });
+  });
 }
+
 
 shuffleProducts(): void {
   this.products.sort(() => Math.random() - 0.5);
@@ -200,10 +208,32 @@ decrementQuantity(): void {
   }
 }
 
-deleteItem(item: any) {
-  this.cartItems = this.cartItems.filter(i => i !== item);
-  this.saveCartToLocalStorage();
+deleteItem(item: any): void {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you want to delete this item from your cart?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'Cancel',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Filter out the item to delete it
+      this.cartItems = this.cartItems.filter(i => i !== item);
+      this.saveCartToLocalStorage();  // Save the updated cart to local storage
+      Swal.fire({
+        title: 'Deleted!',
+        text: 'The item has been removed from your cart.',
+        icon: 'success',
+        confirmButtonColor: '#28a745',
+        confirmButtonText: 'OK'
+      });
+    }
+  });
 }
+
 proceedToCheckout() {
   const totalAmount = this.getTotalPrice();
   const order = {
@@ -347,19 +377,51 @@ addToCart(product: any, quantity: number, selectedSize: any): void {
     localStorage.setItem('cart', JSON.stringify(cart));
     this.loadCart();
     this.closeModal();
+    this.showNotification();
   } else {
     console.error('Invalid product or quantity');
   }
+}
+//VALIDATION NOTIF FOR ITEMS ADDED TO CART
+showNotification(): void {
+  const notification = document.createElement('div');
+  notification.className =
+    'fixed flex items-center px-6 py-4 space-x-4 text-lg text-white transition-transform duration-500 ease-in-out transform translate-x-full bg-green-500 rounded-lg shadow-xl top-4 right-4';
+  notification.innerHTML = `
+    <span class="material-icons text-2xl">check_circle</span>
+    <span>Item added to cart successfully!</span>
+  `;
+
+  document.body.appendChild(notification);
+
+  
+  setTimeout(() => {
+    notification.classList.remove('translate-x-full');
+    notification.classList.add('translate-x-0');
+  }, 100);
+
+  setTimeout(() => {
+    notification.classList.add('translate-x-full');
+    setTimeout(() => {
+      notification.remove();
+    }, 500);
+  }, 3000);
 }
 
 
 
 
-
-
-
-
 saveOrder(order: any, orderItems: any[]) {
+  if (orderItems.length === 0) {
+    Swal.fire({
+      title: 'No items in cart!',
+      text: 'You need to add items to your cart before proceeding with the order.',
+      icon: 'info',
+      confirmButtonColor: '#3085d6',
+      confirmButtonText: 'OK',
+    });
+    return; // Stop execution if there are no items
+  }
 
   this.http.post('http://localhost/unimart_pasabuy/api/add_order', order).subscribe(
     (response: any) => {

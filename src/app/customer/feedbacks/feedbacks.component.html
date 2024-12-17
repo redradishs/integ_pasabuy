@@ -1,15 +1,15 @@
 <app-header></app-header>
-<div class="relative text-white bg-orange-400 bg-opacity-80 backdrop-blur-md">
+<div class="relative text-white bg-orange-400 bg-opacity-100 backdrop-blur-lg">
     <div class="container flex flex-col items-center py-8 mx-auto">
-        <h1 class="text-4xl font-bold">
+        <h1 class="text-4xl font-bold leading-tight text-center font-playfair">
             Services and Products backed up by customer feedbacks
         </h1>
-        <p class="mt-2 text-lg">
-            <span class="px-2 py-1 text-orange-500 bg-white rounded">
+        <p class="mt-4 text-2xl font-semibold text-center font-playfair">
+            <span class="px-4 py-2 text-orange-600 bg-white rounded-lg shadow-md">
                 ICTe Solutions
             </span>
         </p>
-        <p class="mt-1 text-sm italic">
+        <p class="mt-2 text-base italic font-medium text-center text-gray-600">
             Your trust matters. </p>
         <div class="absolute top-0 right-0 mt-4 mr-4">
 
@@ -21,13 +21,13 @@
         <span class="mr-2 font-semibold text-gray-600">
             SEARCH A STORE:
         </span>
-        <input [(ngModel)]="searchQuery" (input)="searchStore()" class="w-1/2 px-6 py-3 transition-all border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
+        <input [(ngModel)]="searchQuery" (input)="searchStore()" class="w-1/2 px-6 py-3 text-sm truncate transition-all border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400 sm:text-base"
             type="text" placeholder="Enter store name or location" />
-        <button class="ml-2 text-gray-600" (click)="clearSearch()">
+        <button class="ml-2 text-gray-600" (click)="clearSearch()" class="relative text-gray-600 transform -translate-y-1/2 right-7 top-3">
             <i class="fas fa-times"></i>
         </button>
     </div>
-</div>
+    </div>
 <div class="container py-8 mx-auto">
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div *ngFor="let vendor of vendorList"

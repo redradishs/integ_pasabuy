@@ -58,7 +58,9 @@ module.exports = {
         ],
         cursive: [
           'Dancing Script', 'cursive',
-        ]
+        ],
+        playfair: ['Playfair Display', 'serif'],
+
       },
     },
   },

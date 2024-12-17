@@ -17,27 +17,32 @@ import { ReviewComponent } from './customer/review/review.component';
 import { ReviewpageComponent } from './customer/reviewpage/reviewpage.component';
 import { CheckouttestComponent } from './customer/checkouttest/checkouttest.component';
 import { StoreComponent } from './customer/store/store.component';
+import { FeedbacksComponent } from './customer/feedbacks/feedbacks.component';
+import { ReviewhomeComponent } from './customer/reviewhome/reviewhome.component';
+import { authGuard } from './service/auth.guard';
 
 export const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
     {path: 'login', component: LoginComponent},
     {path: 'signup', component: SignupComponent},
     {path: 'forgot-password', component: ForgotPasswordComponent},
-    {path: 'terms', component: TermsComponent},
-    {path: 'home', component: HomeComponent},
-    {path: 'product/:vendorId', component: ProductComponent},
-    {path: 'productDetails/:vendorId', component: ProductDetailsComponent},
-    {path: 'profile', component: ProfileComponent},
-    {path: 'cart', component: CheckoutComponent },
-    {path: 'checkout', component: CartComponent},
-    {path: 'checkout/:order_id', component: CartComponent},
-    {path: 'orderstatus', component: OrderstatusComponent},
-    {path: 'invoice', component: InvoiceComponent },
-    {path: 'orderhistory', component: OrderhistoryComponent},
-    {path: 'chat', component: ChatComponent},
-    {path: 'review', component: ReviewComponent},
-    {path: 'reviewpage', component: ReviewpageComponent},
-    {path: 'checkouttest', component: CheckouttestComponent},
-    {path: 'store/:vendorId', component: StoreComponent},
+    {path: 'terms', component: TermsComponent, canActivate: [authGuard]},
+    {path: 'home', component: HomeComponent, canActivate: [authGuard]},
+    {path: 'product/:vendorId', component: ProductComponent, canActivate: [authGuard]},
+    {path: 'productDetails/:vendorId', component: ProductDetailsComponent, canActivate: [authGuard]},
+    {path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
+    {path: 'cart', component: CheckoutComponent, canActivate: [authGuard]},
+    {path: 'checkout', component: CartComponent, canActivate: [authGuard]},
+    {path: 'checkout/:order_id', component: CartComponent, canActivate: [authGuard]},
+    {path: 'orderstatus', component: OrderstatusComponent, canActivate: [authGuard]},
+    {path: 'invoice', component: InvoiceComponent , canActivate: [authGuard]},
+    {path: 'orderhistory', component: OrderhistoryComponent, canActivate: [authGuard]},
+    {path: 'chat', component: ChatComponent, canActivate: [authGuard]},
+    {path: 'review', component: ReviewComponent, canActivate: [authGuard]},
+    {path: 'reviewpage', component: ReviewpageComponent, canActivate: [authGuard]},
+    {path: 'checkouttest', component: CheckouttestComponent, canActivate: [authGuard]},
+    {path: 'store/:vendorId', component: StoreComponent, canActivate: [authGuard]},
+    {path: 'feedbacks', component: FeedbacksComponent, canActivate: [authGuard]},
+    {path: 'reviewvendor/:id', component: ReviewhomeComponent, canActivate: [authGuard]},
     {path: '**', component: LoginComponent } 
 ];

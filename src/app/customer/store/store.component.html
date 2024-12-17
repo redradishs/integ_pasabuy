@@ -215,7 +215,8 @@
                     <p class="text-gray-700">Total payment to complete: </p>
                     <p class="text-gray-700">{{ formatCurrency(getTotalPrice()) }}</p>
                 </div>
-                <a class="block py-2 text-center text-white bg-pink-500 rounded-lg cursor-pointer" (click)="proceedToCheckout()">Review
+                <a class="block py-2 text-center text-white bg-pink-500 rounded-lg cursor-pointer"
+                    (click)="proceedToCheckout()">Review
                     Pickup and Payment</a>
             </div>
         </div>
@@ -230,7 +231,7 @@
         </button>
         <div class="flex justify-center mb-4">
             <img [src]="selectedProduct.fullImageUrl" alt="{{ selectedProduct.product_name }}"
-                class="object-cover w-full h-64 border-4 border-gray-200 rounded-lg" />
+                class="object-contain w-full h-64 border-4 border-gray-200 rounded-lg" />
         </div>
 
         <div class="text-center">

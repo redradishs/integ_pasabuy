@@ -4,7 +4,7 @@
 
       <div class="flex items-center space-x-8">
         <div class="shrink-0">
-          <a href="#" title="" class="">
+          <a [routerLink]="['/home']" title="" class="">
             <img class="block w-auto h-8 dark:hidden" src="assets/unimartLogo.png" alt="Unimart Logo">
             <img class="hidden w-auto h-8 dark:block" src="assets/unimartLogo.png" alt="Unimart Logo">
           </a>
@@ -28,14 +28,14 @@
 
           <!--FEEDBACK-->
           <li class="shrink-0">
-            <a href="#" title=""
+            <a [routerLink]="['/feedbacks']" title=""
               class="flex text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
               Feedback
             </a>
           </li>
           <!--TODAYS DEAL-->
           <li class="shrink-0">
-            <a href="#" title=""
+            <a [routerLink]="['/chat']" title=""
               class="text-sm font-medium text-gray-900 hover:text-primary-700 dark:text-white dark:hover:text-primary-500">
               Message
             </a>

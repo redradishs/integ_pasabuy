@@ -136,4 +136,9 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/getreviews/${id}`);
   }
 
+
+  getVendorReviewProd(id: number) {
+    return this.http.get(`${this.apiUrl}/getreviewsVendor/${id}`);
+  }
+
 }

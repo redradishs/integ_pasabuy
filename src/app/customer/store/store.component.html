@@ -229,18 +229,19 @@
         <button class="absolute text-gray-500 top-4 right-4 hover:text-gray-700" (click)="closeModal()">
             <i class="text-2xl fas fa-times"></i>
         </button>
-        <div class="flex justify-center mb-4">
+
+        <div class="flex justify-center mb-6">
             <img [src]="selectedProduct.fullImageUrl" alt="{{ selectedProduct.product_name }}"
-                class="object-contain w-full h-64 border-4 border-gray-200 rounded-lg" />
+                class="object-contain w-full h-64 border-2 border-gray-300 rounded-lg shadow-lg" />
         </div>
 
         <div class="text-center">
-            <h2 class="mb-2 text-2xl font-bold">{{ selectedProduct.product_name }}</h2>
-            <p class="mb-2 text-xl text-gray-700">₱{{ selectedProduct.price }}</p>
-            <p class="mb-4 text-gray-500">{{ selectedProduct.description }}</p>
+            <h2 class="mb-2 text-2xl font-semibold text-gray-900">{{ selectedProduct.product_name }}</h2>
+            <p class="mb-2 text-xl font-medium text-gray-700">₱{{ selectedProduct.price }}</p>
+            <p class="mb-4 text-lg text-gray-600">{{ selectedProduct.description }}</p>
 
             <div class="mb-4">
-                <label class="block mb-2 text-sm font-bold text-gray-700" for="size">Size</label>
+                <label class="block mb-2 text-sm font-medium text-gray-700" for="size">Size</label>
                 <div class="flex justify-center space-x-2 sm:space-x-4">
                     <button *ngFor="let size of selectedProduct.variations" (click)="selectSize(size)"
                         [class.bg-pink-500]="selectedSize?.variation_id === size.variation_id"
@@ -269,7 +270,7 @@
             </button>
 
             <button *ngIf="!isStoreOpen()"
-                class="px-6 py-2 text-lg font-semibold text-white bg-black rounded-full hover:bg-pink-600"
+                class="px-6 py-2 text-lg font-semibold text-white bg-red-600 rounded-full hover:bg-pink-600"
                 (click)="closeModal()">
                 Store Closed
             </button>

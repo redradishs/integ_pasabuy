@@ -1,39 +1,39 @@
 <app-header></app-header>
-<div class="relative bg-orange-400 text-white">
-    <div class="container mx-auto flex flex-col items-center py-8">
+<div class="relative text-white bg-orange-400 bg-opacity-80 backdrop-blur-md">
+    <div class="container flex flex-col items-center py-8 mx-auto">
         <h1 class="text-4xl font-bold">
             Services and Products backed up by customer feedbacks
         </h1>
         <p class="mt-2 text-lg">
-            <span class="bg-white text-orange-500 px-2 py-1 rounded">
+            <span class="px-2 py-1 text-orange-500 bg-white rounded">
                 ICTe Solutions
             </span>
         </p>
         <p class="mt-1 text-sm italic">
             Your trust matters. </p>
-        <div class="absolute right-0 top-0 mt-4 mr-4">
+        <div class="absolute top-0 right-0 mt-4 mr-4">
 
         </div>
     </div>
 </div>
-<div class="bg-white shadow-md py-4">
-    <div class="container mx-auto flex items-center justify-center">
-        <span class="text-gray-600 font-semibold mr-2">
+<div class="py-4 bg-white shadow-md">
+    <div class="container flex items-center justify-center mx-auto">
+        <span class="mr-2 font-semibold text-gray-600">
             SEARCH A STORE:
         </span>
-        <input [(ngModel)]="searchQuery" (input)="searchStore()" class="border border-gray-300 rounded px-4 py-2 w-1/2"
+        <input [(ngModel)]="searchQuery" (input)="searchStore()" class="w-1/2 px-6 py-3 transition-all border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400"
             type="text" placeholder="Enter store name or location" />
         <button class="ml-2 text-gray-600" (click)="clearSearch()">
             <i class="fas fa-times"></i>
         </button>
     </div>
 </div>
-<div class="container mx-auto py-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<div class="container py-8 mx-auto">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div *ngFor="let vendor of vendorList"
-            class="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-500 hover:scale-105">
+            class="overflow-hidden transition duration-500 transform bg-white rounded-lg shadow-md hover:scale-105">
             <a [routerLink]="['/reviewvendor', vendor.vendor_id]">
-                <img alt="Mini Kong’s Express food" class="w-full h-40 object-cover" height="200"
+                <img alt="Mini Kong’s Express food" class="object-cover w-full h-40" height="200"
                     [src]="'http://localhost/tindahub_backend/api/' + (vendor.vendor_profile_image)" width="300" />
                 <div class="p-4">
                     <h2 class="text-lg font-semibold">
@@ -43,9 +43,9 @@
                         <span class="mr-2">Fast Service</span>
                         <span class="mr-2">•</span>
                         <span *ngIf="isStoreOpen()" class="mr-2">Open</span>
-                        <span *ngIf="!isStoreOpen()" class="mr-2 text-red-400 font-bold">Closed</span>
+                        <span *ngIf="!isStoreOpen()" class="mr-2 font-bold text-red-400">Closed</span>
                     </div>
-                    <div class=" flex items-center mt-2">
+                    <div class="flex items-center mt-2 ">
                         <span class="text-yellow-500">
                             <i class="fas fa-star"></i>
                         </span>

@@ -137,8 +137,8 @@ shuffleProducts(): void {
 isStoreOpen(): boolean {
   const currentTime = new Date().getHours() * 100 + new Date().getMinutes(); 
   
-  const storeOpenTime = 0; 
-  const storeCloseTime = 900; 
+  const storeOpenTime = 900; 
+  const storeCloseTime = 1800; 
 
   return currentTime >= storeOpenTime && currentTime <= storeCloseTime;
 }
@@ -307,41 +307,6 @@ getProductPrice(item: any): number {
 } 
 
 
-// this is a bit buggy
-// addToCart(product: any, quantity: number, selectedSize: any): void {
-//   if (product && quantity > 0) {
-//     const cartItem = {
-//       product_id: product.product_id,
-//       product_name: product.product_name,
-//       fullImageUrl: product.fullImageUrl || `http://localhost/tindahub_backend/api/${product.prod_img}`,
-//       vendor_id: product.vendor_id,
-//       vendor_name: product.vendor_name || 'Default Vendor',
-//       category_id: product.category_id || 'Default Category',
-//       category_name: product.category_name || 'Default Category Name',
-//       size: selectedSize ? selectedSize.variation_name : 'Default',
-//       price: selectedSize ? parseFloat(selectedSize.price) : parseFloat(product.price),
-//       quantity: quantity,
-//       total: selectedSize ? (parseFloat(selectedSize.price) * quantity).toFixed(2) : (parseFloat(product.price) * quantity).toFixed(2),
-//       variation_id: selectedSize ? selectedSize.variation_id : null, 
-//     };
-
-//     console.log('Cart item:', cartItem); 
-
-//     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-
-//     cart.push(cartItem);
-
-//     localStorage.setItem('cart', JSON.stringify(cart));
-
-//     console.log('Cart saved to localStorage:', cart);
-
-//     this.loadCart();
-//     this.closeModal();
-//   } else {
-//     console.error('Invalid product or quantity');
-//   }
-// }
-
 
 addToCart(product: any, quantity: number, selectedSize: any): void {
   if (product && quantity > 0) {
@@ -409,8 +374,6 @@ showNotification(): void {
 }
 
 
-
-
 saveOrder(order: any, orderItems: any[]) {
   if (orderItems.length === 0) {
     Swal.fire({
@@ -434,32 +397,6 @@ saveOrder(order: any, orderItems: any[]) {
     }
   );
 }
-
-
-// saveOrderItems(orderId: number, orderItems: any[]) {
-//   const orderData = {
-//     data2: orderItems.map(item => ({
-//       product_id: item.product_id,
-//       variation_id: item.variation_id || null,  
-//       quantity: item.quantity,
-//       unit_price: item.unit_price,
-//       special_instruction: item.special_instruction || ''  
-//     }))
-//   };
-
-//   this.http.post(`http://localhost/unimart_pasabuy/api/add_itemsOrder/${orderId}`, orderData).subscribe(
-//     (response) => {
-//       console.log('Order items saved successfully:', response);
-//         localStorage.removeItem('cart'); 
-//       this.router.navigate(['/checkout'], {
-//         state: { orderId: orderId }
-//       });
-//     },
-//     (error) => {
-//       console.error('Error saving order items:', error);
-//     }
-//   );
-// }
 
 saveOrderItems(orderId: number, orderItems: any[]) {
   const orderData = {
@@ -485,10 +422,6 @@ saveOrderItems(orderId: number, orderItems: any[]) {
     }
   );
 }
-
-
-
-
 
 
 

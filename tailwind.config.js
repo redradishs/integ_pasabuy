@@ -24,6 +24,12 @@ module.exports = {
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
+        lora: ['Lora', 'serif'],
+        merriweather: ['Merriweather', 'serif'],
+        libre: ['Libre Baskerville', 'serif'],
+        georgia: ['Georgia', 'serif'],
+        poppins: ['Poppins', 'sans-serif'],
+        quicksand: ['Quicksand', 'sans-serif'],
         body: [
           'Inter', 
           'ui-sans-serif', 

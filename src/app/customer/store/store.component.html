@@ -45,14 +45,16 @@
         class="flex flex-col items-center justify-end w-full p-10 space-y-6 bg-white border-gray-100 rounded-lg border-3 md:flex-row md:space-y-0 md:space-x-6 max-w-8xl">
         <img alt="{{ vendorProfile.vendor_name }}" class="w-24 h-24"
             [src]="'http://localhost/tindahub_backend/api/' + (vendorProfile.vendor_profile_image)" alt="dd">
-        <div class="flex-1 text-center md:text-left">
+        <div class="flex-1 font-semibold leading-tight text-center font-playfair md:text-left">
             <h1 class="text-2xl font-bold">{{vendorProfile.vendor_name}}</h1>
             <div class="flex flex-col items-center mt-2 md:flex-row md:space-x-2">
-                <i class="text-green-500 fas fa-check-circle"></i>
+                
                 <p *ngIf="isStoreOpen()">
+                    <i class="text-green-500 fas fa-check-circle"></i>
                     <span class="text-green-500">Open</span>
                 </p>
                 <p *ngIf="!isStoreOpen()">
+                <i class="text-red-500 fas fa-exclamation-circle"></i>
                     <span class="text-red-500">Closed</span>
                 </p>
                 <span class="text-gray-600">{{vendorProfile.operating_hours}}</span>
@@ -78,14 +80,14 @@
             </a>
         </div>
         <button (click)="goToChat({ vendor_id: vendorProfile.vendor_id, vendor_name: vendorProfile.vendor_name })"
-            class="px-4 py-2 text-white bg-blue-600 rounded-lg">
+            class="px-4 py-2 text-white bg-blue-600 rounded-lg font-quicksand">
             Chat with {{ vendorProfile.vendor_name }}
         </button>
     </div>
     <div
         class="relative flex flex-wrap items-center justify-center gap-3 py-2 mt-3 mb-2 md:py-8 sm:mt-6 sm: lg:mt-12 xl:mt-16">
         <button type="button" (click)="setCategory('All')"
-            class="px-3 py-1.5 mb-3 text-xs font-medium text-center text-blue-700 bg-white border border-blue-600 rounded-full hover:text-orange-600 hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 md:text-base md:px-5 me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">
+            class="px-3 py-1.5 mb-3 text-xs font-medium text-center font-poppins text-blue-700 bg-white border border-blue-600 rounded-full hover:text-orange-600 hover:bg-blue-700 focus:ring-2 focus:outline-none focus:ring-blue-300 md:text-base md:px-5 me-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">
             All categories
         </button>
         <button *ngFor="let item of categories" type="button" (click)="setCategory(item.category)"
@@ -96,10 +98,9 @@
 </div>
 
 
-
 <div class="container mx-auto">
     <div class="flex flex-col lg:flex-row">
-        <div class="w-full mb-12 overflow-hidden lg:w-2/3">
+        <div class="w-full mb-12 overflow-hidden text-lg font-poppins lg:w-2/3">
             <h1 *ngIf="selectedCategory == 'All'" class="flex items-center mb-4 text-2xl font-bold">
                 <i class="mr-2 text-yellow-500 fas fa-fire"></i>
                 Popular
@@ -112,7 +113,7 @@
                 favorite
                 {{selectedCategory}} right now.
             </p>
-            <p *ngIf="selectedCategory == 'All' && isStoreOpen()" class="mb-2 text-gray-600">Here are the popular
+            <p *ngIf="selectedCategory == 'All' && isStoreOpen()" class="p-2 mb-2 text-green-600 border border-green-500 rounded-md bg-green-50">Here are the popular
                 selection at the
                 moment.
             </p>
@@ -153,7 +154,7 @@
 
 
 
-        <div class="w-full mt-6 lg:w-1/3 lg:pl-4 lg:mt-0 lg:sticky lg:top-0">
+        <div class="w-full mt-6 font-poppins lg:w-1/3 lg:pl-4 lg:mt-0 lg:sticky lg:top-0">
             <div class="h-screen p-4 overflow-y-auto bg-white rounded-lg shadow your-section">
                 <div class="flex items-center justify-between mb-4">
                     <button class="w-full p-2 text-center bg-gray-200 rounded-lg">Pick-up</button>
@@ -198,10 +199,10 @@
                     </button>
 
 
-                    <div class="text-center">
+                    <div class="text-center ">
                         <a (click)="openProductModal(currentProduct)"> <img [src]="currentProduct.fullImageUrl"
                                 [alt]="currentProduct.product_name"
-                                class="object-cover w-32 h-32 mx-auto mb-2 rounded-lg" />
+                                class="object-cover w-32 h-32 mx-auto mb-2 rounded-lg " />
                             <p class="font-semibold">{{ currentProduct.product_name }}</p>
                         </a>
                     </div>
@@ -236,7 +237,7 @@
         </div>
 
         <div class="text-center">
-            <h2 class="mb-2 text-2xl font-semibold text-gray-900">{{ selectedProduct.product_name }}</h2>
+            <h2 class="mb-2 text-2xl font-semibold text-gray-900 font-playfair">{{ selectedProduct.product_name }}</h2>
             <p class="mb-2 text-xl font-medium text-gray-700">₱{{ selectedProduct.price }}</p>
             <p class="mb-4 text-lg text-gray-600">{{ selectedProduct.description }}</p>
 

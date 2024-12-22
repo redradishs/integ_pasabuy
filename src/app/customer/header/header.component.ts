@@ -71,8 +71,6 @@ export class HeaderComponent implements OnInit {
     this.cartItems = items;  
   });
 
-    this.openCartDropdown();
-
     this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
     this.cdr.detectChanges();
 

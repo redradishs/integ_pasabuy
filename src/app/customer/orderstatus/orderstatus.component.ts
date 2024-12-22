@@ -207,6 +207,9 @@ submitProdReview(prod_id: number) {
       this.reviewText = '';
       this.selectedRating = 0;
       this.getCart(this.order_id);
+      this.getCheckout(this.order_id);
+      this.getSpecificStatus(this.order_id);
+  
     })
   } catch (error) {
     console.error('Error submitting product review:', error);

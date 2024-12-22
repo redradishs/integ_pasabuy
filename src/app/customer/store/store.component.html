@@ -239,7 +239,7 @@
             <p class="mb-2 text-xl text-gray-700">₱{{ selectedProduct.price }}</p>
             <p class="mb-4 text-gray-500">{{ selectedProduct.description }}</p>
 
-            <div class="mb-4">
+            <div *ngIf="selectedProduct.variations != 0" class="mb-4">
                 <label class="block mb-2 text-sm font-bold text-gray-700" for="size">Size</label>
                 <div class="flex justify-center space-x-2 sm:space-x-4">
                     <button *ngFor="let size of selectedProduct.variations" (click)="selectSize(size)"

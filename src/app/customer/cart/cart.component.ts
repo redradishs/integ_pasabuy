@@ -43,6 +43,7 @@ export class CartComponent {
   amount: number = 999999; 
   description: string = 'Payment for Order #12345'; 
   showCashlessPayment = false; 
+  totalAmount: number = 0;
 
 
 
@@ -153,6 +154,11 @@ export class CartComponent {
                 : 'assets/unimartLogo.png',
             
             }));
+
+            this.totalAmount = this.cartItems.reduce((total, item) => {
+              return total + (item.unit_price * item.quantity);
+            }, 0);
+            console.log('Total amount:', this.totalAmount);
             console.log('Full API response:', resp);
             console.log('Response data:', resp.data);
             

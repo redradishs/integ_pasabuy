@@ -210,12 +210,13 @@
                     pickup locations.
                 </p>
             </div>
-            <div class="p-4 mb-4 border rounded-lg cursor-pointer" [class.hidden]="!showCashlessPayment"
-                (click)="orderData.modeOfPayment = 'Gcash'"
-                [class.border-blue-500]="orderData.modeOfPayment === 'Gcash'">
+            <div class="p-4 mb-4 border rounded-lg" [class.hidden]="!showCashlessPayment"
+                (click)="this.totalAmount >= 100 && (orderData.modeOfPayment = 'Gcash')"
+                [class.border-blue-500]="orderData.modeOfPayment === 'Gcash'"
+                [class.cursor-not-allowed]="this.totalAmount < 100" [class.opacity-50]="this.totalAmount < 100">
                 <div class="flex items-center mb-2">
                     <input class="mr-2" name="payment" type="radio" [(ngModel)]="orderData.modeOfPayment"
-                        value="Gcash" />
+                        [disabled]="this.totalAmount < 100" value="Gcash" />
                     <img alt="Cashless Payment icon" class="mr-2" height="40"
                         src="https://storage.googleapis.com/a1aa/image/8fCZifmJyqqy6kHx9afa5XQnC4fAnq6bew0xRMPF0EewyB4eJA.jpg"
                         width="40" />
@@ -255,14 +256,16 @@
                 </h2>
             </div>
             <div>
-                <input class="w-full p-3 text-gray-900 bg-transparent border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-blue-400" type="datetime-local" [(ngModel)]="orderData.pickupTime"
-                    name="pickupTime" />
+                <input
+                    class="w-full p-3 text-gray-900 bg-transparent border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-blue-400"
+                    type="datetime-local" [(ngModel)]="orderData.pickupTime" name="pickupTime" />
             </div>
             <p class="mt-2 text-gray-600">PickUp time for: {{ getCurrentDateTime() }}</p>
         </div>
     </div>
     <div class="flex justify-center cursor-pointer lg:col-span-2">
-        <button (click)="proceedToCheckout()" class="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-white transition duration-300 bg-blue-600 rounded-lg sm:py-3 sm:px-6 sm:text-lg hover:bg-blue-700">
+        <button (click)="proceedToCheckout()"
+            class="flex items-center justify-center w-full px-4 py-2 text-base font-semibold text-white transition duration-300 bg-blue-600 rounded-lg sm:py-3 sm:px-6 sm:text-lg hover:bg-blue-700">
             <i class="mr-2 fas fa-shopping-cart"></i>
             Proceed to Checkout
         </button>

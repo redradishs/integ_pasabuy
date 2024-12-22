@@ -1,19 +1,19 @@
 <app-header></app-header>
-<section *ngIf="carts" class="container py-10 relative bg-gray-100">
-    <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
-        <div class="w-full flex-col justify-start items-start gap-12 inline-flex">
-            <div class="w-full justify-between items-center flex sm:flex-row flex-col gap-3">
-                <div class="w-full flex-col justify-center sm:items-start items-center gap-1 inline-flex">
-                    <h2 class="text-gray-500 text-2xl font-semibold font-manrope leading-9">Order
+<section *ngIf="carts" class="container relative py-10 bg-gray-100">
+    <div class="w-full px-4 mx-auto max-w-7xl md:px-5 lg:px-5">
+        <div class="inline-flex flex-col items-start justify-start w-full gap-12">
+            <div class="flex flex-col items-center justify-between w-full gap-3 sm:flex-row">
+                <div class="inline-flex flex-col items-center justify-center w-full gap-1 sm:items-start">
+                    <h2 class="text-2xl font-semibold leading-9 text-gray-500 font-playfair">Order
                         <span class="text-indigo-600">#UNMEXP{{carts.order_id}}</span>
                     </h2>
-                    <span class="text-gray-500 text-base font-medium leading-relaxed">{{ formatDate(carts.order_date)
+                    <span class="text-base font-medium leading-relaxed text-gray-500">{{ formatDate(carts.order_date)
                         }}</span>
                 </div>
 
                 <!-- Print Invoice Button -->
                 <button
-                    class="sm:w-fit w-full px-3.5 py-2 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex mb-2 sm:mb-0"
+                    class="sm:w-fit w-full px-3.5 py-2 text-white backdrop-blur-md bg-opacity-90 bg-indigo-600 hover:bg-indigo-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex mb-2 sm:mb-0"
                     (click)="downloadPDF()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                         <path
@@ -25,30 +25,26 @@
 
                 <!-- Home Button -->
                 <button (click)="goHomeHehe()"
-                    class="sm:w-fit w-full px-3.5 py-2 bg-green-600 hover:bg-green-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex mb-2 sm:mb-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <path d="M9 3L3 9H5V15H11V9H13L9 3Z" fill="white" />
-                    </svg>
+                    class="sm:w-fit w-full px-3.5 py-2 text-white backdrop-blur-md bg-opacity-90 bg-green-600 hover:bg-green-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex mb-2 sm:mb-0">
+                    <i class="text-lg text-white fas fa-home"></i>
                     <span class="px-1.5 text-white text-sm font-medium leading-6 whitespace-nowrap">Home</span>
                 </button>
 
                 <!-- Cancel Order -->
                 <button (click)="cancelOrder(this.order_id)"
-                    class="sm:w-fit w-full px-3.5 py-2 bg-red-600 hover:bg-red-80 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex mb-2 sm:mb-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <path d="M9 3L3 9H5V15H11V9H13L9 3Z" fill="white" />
-                    </svg>
+                    class=" text-white backdrop-blur-md bg-opacity-90 sm:w-fit w-full px-3.5 py-2 bg-red-600 hover:bg-red-800 transition-all duration-700 ease-in-out rounded-lg shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] justify-center items-center flex mb-2 sm:mb-0">
+                    <i class="text-lg text-white fas fa-ban"></i>
                     <span class="px-1.5 text-white text-sm font-medium leading-6 whitespace-nowrap">Cancel Order</span>
                 </button>
             </div>
 
-            <div class="w-full justify-end items-start gap-8 inline-flex">
-                <div class="w-full flex-col justify-start items-start gap-8 inline-flex">
-                    <div class="w-full p-8 bg-white rounded-xl flex-col justify-start items-start gap-5 flex">
+            <div class="inline-flex items-start justify-end w-full gap-8 font-poppins">
+                <div class="inline-flex flex-col items-start justify-start w-full gap-8">
+                    <div class="flex flex-col items-start justify-start w-full gap-5 p-8 bg-white rounded-xl">
                         <h2
-                            class="w-full text-gray-900 text-2xl font-semibold font-manrope leading-9 pb-5 border-b border-gray-200">
-                            Oder Tracking</h2>
-                        <div class="w-full flex-col justify-center items-center">
+                            class="w-full pb-5 text-2xl font-semibold leading-9 text-gray-900 border-b-4 border-gray-200 font-poppins">
+                            <i class="mr-2 text-blue-600 fas fa-truck"></i>  Order Tracking</h2>
+                        <div class="flex-col items-center justify-center w-full">
                             <ol [ngClass]="{
                                 'flex md:flex-row flex-col md:items-start items-center': true,
                                 'justify-center': orderStatus.length <= 2,
@@ -59,12 +55,12 @@
                                     'text-gray-900': true,
                                     'border-green-500': currentstatus === status.status,
                                     'border-gray-500': currentstatus !== status.status
-                                  }" class="group flex relative justify-start"
+                                  }" class="relative flex justify-start group"
                                     [ngClass]="{ 'after:content-[]': isLast }">
 
-                                    <div class="w-full mr-1 block z-10 flex flex-col items-center justify-start gap-1">
+                                    <div class="z-10 flex flex-col items-center justify-start w-full gap-1 mr-1">
                                         <div class="justify-center items-center gap-1.5 inline-flex">
-                                            <h5 class="text-center text-gray-900 text-lg font-medium leading-normal">
+                                            <h5 class="text-lg font-medium leading-normal text-center text-gray-900">
                                                 {{ status.status | titlecase }}</h5>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 viewBox="0 0 20 20" fill="none"
@@ -83,7 +79,7 @@
 
                                             </svg>
                                         </div>
-                                        <h6 class="text-center text-gray-500 text-base font-normal leading-relaxed">
+                                        <h6 class="text-base font-normal leading-relaxed text-center text-gray-500">
                                             {{ status.status_timestamp | date: 'MMM d, y, h:mm a' }}</h6>
                                     </div>
                                 </li>
@@ -91,15 +87,15 @@
                             </ol>
 
                             <div *ngIf="currentstatus === 'ready_for_pickup'"
-                                class="shrink-0 space-y-4 p-4 sm:p-1 flex flex-col items-center">
+                                class="flex flex-col items-center p-4 space-y-4 shrink-0 sm:p-1">
                                 <!-- Ask if the order is received -->
-                                <p class="text-center text-gray-700 mb-2 text-sm sm:text-base">
+                                <p class="mb-2 text-sm text-center text-gray-700 sm:text-base">
                                     Have you received your order?
                                 </p>
 
                                 <!-- Buttons for user response -->
                                 <div
-                                    class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 w-full justify-center">
+                                    class="flex flex-col justify-center w-full space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                                     <button type="button" (click)="markOrderAsReceived()"
                                         class="w-full sm:w-auto rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300">
                                         Yes, I have
@@ -125,17 +121,17 @@
 
                             <!-- Modal Background -->
                             <div *ngIf="isIssueReported"
-                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                                 <!-- Modal Content -->
-                                <div class="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-                                    <h2 class="text-3xl font-bold mb-6 text-gray-800 text-center">Submit an Issue</h2>
+                                <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+                                    <h2 class="mb-6 text-3xl font-bold text-center text-gray-800">Submit an Issue</h2>
                                     <form (ngSubmit)="submitIssue()">
                                         <div class="mb-6">
-                                            <label for="issue-type" class="block text-gray-700 font-medium mb-2">Issue
+                                            <label for="issue-type" class="block mb-2 font-medium text-gray-700">Issue
                                                 Type</label>
                                             <div class="relative">
                                                 <select id="issue-type" name="issue-type" [(ngModel)]="issueType"
-                                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500">
                                                     <option value="">Select an issue type</option>
                                                     <option value="Missing Item">Missing Item</option>
                                                     <option value="Wrong Order">Wrong Order</option>
@@ -145,13 +141,13 @@
                                                 </select>
                                                 <div
                                                     class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                                                    <i class="fas fa-chevron-down text-gray-500"></i>
+                                                    <i class="text-gray-500 fas fa-chevron-down"></i>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mb-6">
                                             <label for="description"
-                                                class="block text-gray-700 font-medium mb-2">Description</label>
+                                                class="block mb-2 font-medium text-gray-700">Description</label>
                                             <textarea id="description" name="description" rows="5"
                                                 [(ngModel)]="description"
                                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -159,13 +155,13 @@
                                         </div>
                                         <div class="flex items-center justify-between">
                                             <button type="submit"
-                                                class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Submit</button>
+                                                class="px-6 py-3 text-white rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Submit</button>
                                             <button type="button" (click)="closeModal()"
-                                                class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
+                                                class="px-6 py-3 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">Cancel</button>
                                         </div>
                                     </form>
                                     <button (click)="closeModal()"
-                                        class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                                        class="absolute text-gray-500 top-2 right-2 hover:text-gray-700">
                                         <i class="fas fa-times"></i>
                                     </button>
                                 </div>
@@ -173,7 +169,7 @@
 
 
                             <div *ngIf="currentstatus === 'completed'"
-                                class="shrink-0 space-y-4 p-4 sm:p-1 flex justify-center">
+                                class="flex justify-center p-4 space-y-4 shrink-0 sm:p-1">
                                 <button type="button" (click)="review()"
                                     class="mb-2 me-2 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Write
                                     a review</button>
@@ -184,15 +180,15 @@
 
 
                     <div *ngIf="issueReps.length > 0 && currentstatus != 'completed'"
-                        class="w-full p-8 bg-white rounded-xl flex-col justify-start items-start gap-5 flex">
+                        class="flex flex-col items-start justify-start w-full gap-5 p-8 bg-white rounded-xl">
                         <h2
-                            class="w-full text-gray-900 text-2xl font-semibold font-manrope leading-9 pb-5 border-b border-gray-200">
+                            class="w-full pb-5 text-2xl font-semibold leading-9 text-gray-900 border-b border-gray-200 font-manrope">
                             Order Issue Tracking</h2>
-                        <div class="w-full flex-col justify-center items-center">
+                        <div class="flex-col items-center justify-center w-full">
 
 
 
-                            <div *ngFor="let issue of issueReps" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div *ngFor="let issue of issueReps" class="grid grid-cols-1 gap-4 md:grid-cols-4">
                                 <div class="col-span-1">
                                     <h2 class="text-lg font-semibold">Issue Type</h2>
                                     <p class="text-gray-700">{{issue.issue_type}}</p>
@@ -233,36 +229,36 @@
 
 
 
-                    <div class="w-full p-8 bg-white rounded-xl flex-col justify-start items-start gap-5 flex">
+                    <div class="flex flex-col items-start justify-start w-full gap-5 p-8 bg-white rounded-xl">
                         <h2
-                            class="w-full text-gray-900 text-2xl font-semibold font-manrope leading-9 pb-5 border-b border-gray-200">
-                            Order Items</h2>
-                        <div class="w-full flex-col justify-start items-start gap-5 flex pb-5 border-b border-gray-200">
+                            class="w-full pb-5 text-2xl font-semibold leading-9 text-gray-900 border-b-2 border-gray-200 font-poppins">
+                            <i class="mr-2 text-green-600 fas fa-shopping-cart"></i>Order Items</h2>
+                        <div class="flex flex-col items-start justify-start w-full gap-5 pb-5 border-b-2 border-gray-200">
                             <div *ngFor="let item of cartItems"
-                                class="w-full justify-start items-center lg:gap-8 gap-4 grid md:grid-cols-12 grid-cols-1">
+                                class="grid items-center justify-start w-full grid-cols-1 gap-4 lg:gap-8 md:grid-cols-12">
 
                                 <div
-                                    class="md:col-span-8 col-span-12 w-full justify-start items-center lg:gap-5 gap-4 flex md:flex-row flex-col">
-                                    <img class="rounded-md object-cover w-32 h-32 sm:w-64 sm:h-64"
+                                    class="flex flex-col items-center justify-start w-full col-span-12 gap-4 md:col-span-8 lg:gap-5 md:flex-row">
+                                    <img class="object-cover w-32 h-32 rounded-md sm:w-64 sm:h-64"
                                         [src]="item.fullImageUrl" alt="{{item.product_name}}" />
                                     <div
-                                        class="w-full flex-col justify-start md:items-start items-center gap-3 inline-flex">
-                                        <h4 class="text-gray-900 text-xl font-medium leading-8">{{item.product_name}}
+                                        class="inline-flex flex-col items-center justify-start w-full gap-3 md:items-start">
+                                        <h4 class="text-xl font-medium leading-8 text-gray-900">{{item.product_name}}
                                         </h4>
                                     </div>
                                 </div>
 
                                 <div
-                                    class="md:col-span-4 col-span-12 justify-between items-center gap-4 flex md:flex-row flex-col">
-                                    <h4 class="text-gray-500 text-xl font-semibold leading-8">₱{{item.unit_price}} x
+                                    class="flex flex-col items-center justify-between col-span-12 gap-4 md:col-span-4 md:flex-row">
+                                    <h4 class="text-xl font-semibold leading-8 text-gray-500">₱{{item.unit_price}} x
                                         {{item.quantity}}</h4>
-                                    <h4 class="text-gray-900 text-xl font-semibold leading-8">₱{{item.unit_price *
+                                    <h4 class="text-xl font-semibold leading-8 text-gray-900">₱{{item.unit_price *
                                         item.quantity}}</h4>
                                 </div>
 
                                 <div *ngIf="item.hasReviewed == null && currentstatus == 'completed'"
-                                    class="col-span-12 flex justify-end mt-4">
-                                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                                    class="flex justify-end col-span-12 mt-4">
+                                    <button class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                                         (click)="toggleModal(item)">
                                         Review Product
                                     </button>
@@ -278,46 +274,47 @@
                                 </ng-container>
 
                                 <ng-template #noReview>
-                                    <span class="text-gray-500 text-sm">No reviews yet</span>
+                                    <span class="text-sm text-gray-500">No reviews yet</span>
                                 </ng-template>
 
                             </div>
                         </div>
 
-                        <div *ngIf="carts" class="w-full flex-col justify-start items-start gap-5 flex">
+                        <div *ngIf="carts" class="flex flex-col items-start justify-start w-full gap-5">
                             <div class="w-full pb-1.5 flex-col justify-start items-start gap-4 flex">
-                                <div class="w-full justify-between items-start gap-6 inline-flex">
-                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Subtotal</h6>
-                                    <h6 class="text-right text-gray-500 text-base font-medium leading-relaxed">
+                                <div class="inline-flex items-start justify-between w-full gap-6">
+                                    <h6 class="text-base font-normal leading-relaxed text-gray-500">Subtotal</h6>
+                                    <h6 class="text-base font-medium leading-relaxed text-right text-gray-500">
                                         {{formatCurrency(carts.total_amount)}}</h6>
                                 </div>
                             </div>
                             <div class="w-full pb-1.5 flex-col justify-start items-start gap-4 flex">
-                                <div class="w-full justify-between items-start gap-6 inline-flex">
-                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Mode of Payment</h6>
-                                    <h6 class="text-right text-gray-500 text-base font-medium leading-relaxed">
+                                <div class="inline-flex items-start justify-between w-full gap-6">
+                                    <h6 class="text-base font-normal leading-relaxed text-gray-500">Mode of Payment</h6>
+                                    <h6 class="text-base font-medium leading-relaxed text-right text-gray-500">
                                         {{carts.mode_of_payment}}</h6>
                                 </div>
                             </div>
                             <div class="w-full pb-1.5 flex-col justify-start items-start gap-4 flex">
-                                <div class="w-full justify-between items-start gap-6 inline-flex">
-                                    <h6 class="text-gray-500 text-base font-normal leading-relaxed">Payment Status</h6>
-                                    <h6 class="text-right text-gray-500 text-base font-medium leading-relaxed">
+                                <div class="inline-flex items-start justify-between w-full gap-6">
+                                    <h6 class="text-base font-normal leading-relaxed text-gray-500">Payment Status</h6>
+                                    <h6 class="text-base font-medium leading-relaxed text-right text-gray-500">
                                         {{ carts.isPaid === 0 ? 'Not Paid' : 'Paid' }}
                                     </h6>
                                 </div>
                             </div>
-                            <div class="w-full justify-between items-start gap-6 inline-flex">
-                                <h5 class="text-gray-900 text-lg font-semibold leading-relaxed">Total</h5>
-                                <h5 class="text-right text-gray-900 text-lg font-semibold leading-relaxed">
+                            <div class="inline-flex items-start justify-between w-full gap-6">
+                                <h5 class="text-lg font-semibold leading-relaxed text-gray-900 font-montserrat">
+                                    <i class="mr-2 text-purple-600 fas fa-calculator"></i>Total</h5>
+                                <h5 class="text-lg font-semibold leading-relaxed text-right text-gray-900">
                                     {{formatCurrency(carts.total_amount)}}
                                 </h5>
                             </div>
                         </div>
                     </div>
                     <div *ngIf="carts" class="w-full flex-col justify-start items-start gap-1.5 flex">
-                        <h6 class="text-right text-gray-900 text-base font-medium leading-relaxed">Order Note:</h6>
-                        <p class="text-gray-500 text-sm font-normal leading-normal">{{carts.special_instruction}}</p>
+                        <h6 class="text-base font-medium leading-relaxed text-right text-gray-900">Order Note:</h6>
+                        <p class="text-sm font-normal leading-normal text-gray-500">{{carts.special_instruction}}</p>
                     </div>
                 </div>
             </div>
@@ -329,30 +326,30 @@
 <!-- this is the hidden invoice page-->
 
 <div class="container max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
-    <div class="sm:w-11/12 lg:w-3/4 mx-auto">
+    <div class="mx-auto sm:w-11/12 lg:w-3/4">
 
 
         <div id="invoice" class="hidden">
-            <div class="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+            <div class="flex flex-col p-4 bg-white shadow-md sm:p-10 rounded-xl dark:bg-neutral-800">
                 <div class="flex justify-between">
                     <div>
                         <img src="/assets/unimartLogo.png" class="w-16 h-16" alt="">
 
-                        <h1 class="mt-2 text-lg md:text-xl font-semibold text-blue-600 dark:text-white">UniMart Express.
+                        <h1 class="mt-2 text-lg font-semibold text-blue-600 md:text-xl dark:text-white">UniMart Express.
                         </h1>
                     </div>
 
 
                     <div class="text-end" *ngIf="carts">
-                        <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-neutral-200">Invoice #
+                        <h2 class="text-2xl font-semibold text-gray-800 md:text-3xl dark:text-neutral-200">Invoice #
                         </h2>
-                        <span class="mt-1 block text-gray-500 dark:text-neutral-500">#UNMEXP{{carts.order_id}}</span>
+                        <span class="block mt-1 text-gray-500 dark:text-neutral-500">#UNMEXP{{carts.order_id}}</span>
                     </div>
 
                 </div>
 
 
-                <div *ngIf="userProfile" class="mt-8 grid sm:grid-cols-2 gap-3">
+                <div *ngIf="userProfile" class="grid gap-3 mt-8 sm:grid-cols-2">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Bill to:</h3>
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">{{userProfile.name}}</h3>
@@ -362,9 +359,9 @@
                     </div>
 
 
-                    <div *ngIf="carts" class="sm:text-end space-y-2">
+                    <div *ngIf="carts" class="space-y-2 sm:text-end">
 
-                        <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-2">
                             <dl class="grid sm:grid-cols-5 gap-x-3">
                                 <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Order Date:
                                 </dt>
@@ -381,52 +378,52 @@
 
 
                 <div class="mt-6">
-                    <div class="border border-gray-200 p-4 rounded-lg space-y-4 dark:border-neutral-700">
+                    <div class="p-4 space-y-4 border border-gray-200 rounded-lg dark:border-neutral-700">
                         <div class="hidden sm:grid sm:grid-cols-5">
                             <div
-                                class="sm:col-span-2 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                class="text-xs font-medium text-gray-500 uppercase sm:col-span-2 dark:text-neutral-500">
                                 Item</div>
-                            <div class="text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                            <div class="text-xs font-medium text-gray-500 uppercase text-start dark:text-neutral-500">
                                 Qty
                             </div>
-                            <div class="text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                            <div class="text-xs font-medium text-gray-500 uppercase text-start dark:text-neutral-500">
                                 Rate
                             </div>
-                            <div class="text-end text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                            <div class="text-xs font-medium text-gray-500 uppercase text-end dark:text-neutral-500">
                                 Amount
                             </div>
                         </div>
 
-                        <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
+                        <div class="hidden border-b border-gray-200 sm:block dark:border-neutral-700"></div>
 
-                        <div *ngFor="let item of cartItems" class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                        <div *ngFor="let item of cartItems" class="grid grid-cols-3 gap-2 sm:grid-cols-5">
                             <div class="col-span-full sm:col-span-2">
-                                <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                <h5 class="text-xs font-medium text-gray-500 uppercase sm:hidden dark:text-neutral-500">
                                     Item
                                 </h5>
                                 <p class="font-medium text-gray-800 dark:text-neutral-200">{{item.product_name}}</p>
                             </div>
                             <div>
-                                <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                <h5 class="text-xs font-medium text-gray-500 uppercase sm:hidden dark:text-neutral-500">
                                     Qty
                                 </h5>
                                 <p class="text-gray-800 dark:text-neutral-200">{{item.quantity}}</p>
                             </div>
                             <div>
-                                <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                <h5 class="text-xs font-medium text-gray-500 uppercase sm:hidden dark:text-neutral-500">
                                     Rate
                                 </h5>
                                 <p class="text-gray-800 dark:text-neutral-200">{{formatCurrency(item.unit_price)}}
                                 </p>
                             </div>
                             <div>
-                                <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">
+                                <h5 class="text-xs font-medium text-gray-500 uppercase sm:hidden dark:text-neutral-500">
                                     Amount</h5>
-                                <p class="sm:text-end text-gray-800 dark:text-neutral-200">
+                                <p class="text-gray-800 sm:text-end dark:text-neutral-200">
                                     {{formatCurrency(item.quantity *
                                     item.unit_price)}}</p>
                             </div>
-                            <div class="sm:hidden border-b border-gray-200 dark:border-neutral-700"></div>
+                            <div class="border-b border-gray-200 sm:hidden dark:border-neutral-700"></div>
 
                         </div>
 
@@ -434,9 +431,9 @@
                 </div>
 
 
-                <div class="mt-8 flex sm:justify-end">
-                    <div *ngIf="carts" class="w-full max-w-2xl sm:text-end space-y-2">
-                        <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
+                <div class="flex mt-8 sm:justify-end">
+                    <div *ngIf="carts" class="w-full max-w-2xl space-y-2 sm:text-end">
+                        <div class="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-2">
                             <dl class="grid sm:grid-cols-5 gap-x-3">
                                 <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Subtotal:</dt>
                                 <dd class="col-span-2 text-gray-500 dark:text-neutral-500">
@@ -482,22 +479,22 @@
 
 
 
-<div *ngIf="isModalOpen" class="modal fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center"
+<div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 modal"
     id="reviewModal">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-bold mb-4 text-center">Review {{ selectedItem?.product_name }}</h2>
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="mb-4 text-2xl font-bold text-center">Review {{ selectedItem?.product_name }}</h2>
         <div class="flex items-center justify-center mb-4">
-            <span class="text-gray-700 mr-2">Rate this product:</span>
+            <span class="mr-2 text-gray-700">Rate this product:</span>
             <div class="flex">
-                <i class="fas fa-star text-gray-300 cursor-pointer hover:text-yellow-500"
+                <i class="text-gray-300 cursor-pointer fas fa-star hover:text-yellow-500"
                     *ngFor="let star of [1, 2, 3, 4, 5]" [class.text-yellow-500]="selectedRating >= star"
                     (click)="setRating(star)"></i>
             </div>
         </div>
-        <textarea [(ngModel)]="reviewText" class="w-full p-2 border border-gray-300 rounded-lg mb-4" rows="4"
+        <textarea [(ngModel)]="reviewText" class="w-full p-2 mb-4 border border-gray-300 rounded-lg" rows="4"
             placeholder="Write your review here..."></textarea>
         <div class="flex justify-center">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            <button class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600"
                 (click)="submitProdReview(selectedItem?.order_id)">Submit Review</button>
         </div>
         <div class="flex justify-center mt-4">

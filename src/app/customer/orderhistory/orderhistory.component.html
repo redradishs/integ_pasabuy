@@ -44,14 +44,14 @@
                         <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                             <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Order ID:</dt>
                             <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">
-                                <a href="#" class="hover:underline">#UNMEXP{{item.order_id}}</a>
+                                <a href="#" class="hover:underline">#UNMEXP{{item.order_id.slice(-4)}}</a>
                             </dd>
                         </dl>
 
                         <dl class="w-1/2 sm:w-1/4 lg:w-auto lg:flex-1">
                             <dt class="text-base font-medium text-gray-500 dark:text-gray-400">Date:</dt>
                             <dd class="mt-1.5 text-base font-semibold text-gray-900 dark:text-white">{{item.order_date |
-                                date: 'MMM d, y, h:mm a'}}
+                                date: 'MMM d, y'}}
                             </dd>
                         </dl>
 
@@ -68,7 +68,7 @@
                                 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300': item.order_status === 'pending',
                                 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300': item.order_status === 'completed',
                                 'bg-yellow-300 text-yellow-black dark:bg-green-900 dark:text-green-300': item.order_status === 'ready_for_pickup',
-                                'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': item.order_status === 'canceled',
+                                'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300': item.order_status === 'cancelled',
                                 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300': item.order_status === 'preparing',
                                 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300': item.order_status === 'placed',
                                 

@@ -94,7 +94,7 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
   }
 
 
-  viewVendorProfile(vendorId: number): void {
+  viewVendorProfile(vendorId: string): void {
     this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
       if (resp){
         this.vendor_img = resp.data.vendor_profile_image;
@@ -107,7 +107,7 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
   }
 
 
-  getVendorData(vendor_id: number): void {
+  getVendorData(vendor_id: string): void {
     let vendorReviews: any[] = [];
     let productReviews: any[] = [];
   
@@ -153,7 +153,7 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
 
 
 
-  getRatings(vendorId: number): void {
+  getRatings(vendorId: string): void {
     this.api.getreview(vendorId).subscribe((resp: any) => {
       if (resp && resp.data) {
         this.calculateAverageRating(resp.data);

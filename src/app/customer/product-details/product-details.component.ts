@@ -46,7 +46,7 @@ interface Product {
 export class ProductDetailsComponent implements OnInit {
   breadcrumbs: Array<{ label: string; link: string; iconViewBox: string }> = [];
   products: Product[] = [];
-  vendorId: number | null = null;
+  vendorId: string = "";
   cartItems: any[] = []; 
   quantity: number = 1;
   itemPrice: number = 0;
@@ -73,7 +73,7 @@ export class ProductDetailsComponent implements OnInit {
                   }
                 });
             
-                this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
+                this.vendorId = this.route.snapshot.paramMap.get('vendorId') || '';
                 console.log('Vendor ID:', this.vendorId);
                 this.viewVendorProfile(this.vendorId)
                 this.viewproducts(this.vendorId);
@@ -82,7 +82,7 @@ export class ProductDetailsComponent implements OnInit {
 
 
 
-viewVendorProfile(vendorId: number): void {
+viewVendorProfile(vendorId: string): void {
   this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
     if (resp){
       this.vendorProfile = resp.data;
@@ -93,7 +93,7 @@ viewVendorProfile(vendorId: number): void {
   })
 }
 
-viewproducts(vendorId: number): void {
+viewproducts(vendorId: string): void {
   this.api.getVendorProducts(vendorId).subscribe((resp: any) => {
     if(resp){ 
       this.products = resp.data.map((product: any) => {

@@ -4,14 +4,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedService {
-  private vendor: { vendor_id: number; vendor_name: string } | null = null;
+  private vendor: { vendor_id: string; vendor_name: string } | null = null;
 
-  setVendor(vendor: { vendor_id: number; vendor_name: string }): void {
+  setVendor(vendor: { vendor_id: string; vendor_name: string }): void {
     this.vendor = vendor;
     console.log('Vendor set in SharedService:', vendor);
   }
 
-  getVendor(): { vendor_id: number; vendor_name: string } | null {
+  getVendor(): { vendor_id: string; vendor_name: string } | null {
     return this.vendor;
   }
 }

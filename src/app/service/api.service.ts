@@ -6,15 +6,19 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  apiUrl = "http://localhost/unimart_pasabuy/api"
+  // apiUrl = "http://localhost/unimart_pasabuy/api"
+  apiUrl = "http://localhost:8000/api"
+  baseUrl = "http://localhost:8000/user"
+
+
 
   constructor(private http: HttpClient) { }
 
 
 
   //ENPOINTS FOR PROFILE PAGE
-  getProfile(id: number){
-    return this.http.get(`${this.apiUrl}/userDetails/${id}`);  
+  getProfile(id: any){
+    return this.http.get(`${this.baseUrl}/userDetails/${id}`);  
   }
 
 
@@ -26,15 +30,15 @@ export class ApiService {
 
   //endpoints for product vendor
 
-  getVendorProducts(vendorId: number){
+  getVendorProducts(vendorId: string){
     return this.http.get(`${this.apiUrl}/vendorcart/${vendorId}`);
   }
 
-  getVendorProfile(vendorId: number){
+  getVendorProfile(vendorId: string){
     return this.http.get(`${this.apiUrl}/viewvendorProfile/${vendorId}`);
   }
 
-  getCategories(id: number){
+  getCategories(id: string){
     return this.http.get(`${this.apiUrl}/productCategory/${id}`);
   }
 
@@ -42,102 +46,102 @@ export class ApiService {
 
   //endpoints for cart
 
-  getCheckout(id: number){
+  getCheckout(id: any){
     return this.http.get(`${this.apiUrl}/getCheckoutDetails/${id}`);  
   }
 
-  getCart(id: number){
+  getCart(id: any){
     return this.http.get(`${this.apiUrl}/getOrderDetails/${id}`);
   }
 
-  updateCartItem(id: number, quantity: any) {
+  updateCartItem(id: any, quantity: any) {
     return this.http.put(`${this.apiUrl}/updateCartItem/${id}`, {});
   }
 
-  checkout(id: number, data: any) {
+  checkout(id: any, data: any) {
     return this.http.put(`${this.apiUrl}/updateOrder/${id}`, data);
   }
 
-  deleteItem(order_id: number, product_id: number){
+  deleteItem(order_id: any, product_id: any){
     return this.http.delete(`${this.apiUrl}/deleteItemOrder/${order_id}/${product_id}`);
   }
 
-  addQuantity(order_id: number, product_id: number){
+  addQuantity(order_id: any, product_id: any){
     return this.http.put(`${this.apiUrl}/addQuantity/${order_id}/${product_id}`, {});
   }
   
-  subtractQuantity(order_id: number, product_id: number){
+  subtractQuantity(order_id: any, product_id: any){
     return this.http.put(`${this.apiUrl}/minusQuantity/${order_id}/${product_id}`, {});
   }
 
 
-  updatePaymentId(id:number, payment_id: any){
+  updatePaymentId(id:any, payment_id: any){
     return this.http.put(`${this.apiUrl}/paymentIdreg/${id}/${payment_id}`, {});
   }
 
-  paymentSuccess(id: number){
+  paymentSuccess(id: any){
     return this.http.put(`${this.apiUrl}/payment/${id}`, {});
   }
 
-  paymentRevert(id: number){
+  paymentRevert(id: any){
     return this.http.put(`${this.apiUrl}/unpaid/${id}`, {});
   }
 
   //orderstatus page
 
-  getOrderStatus(order_id: number) {
+  getOrderStatus(order_id: any) {
     return this.http.get(`${this.apiUrl}/getspecifiedorderStatus/${order_id}`);
   }
 
 
-  cancelorder(order_id: number) {
+  cancelorder(order_id: any) {
     return this.http.put(`${this.apiUrl}/cancelorder/${order_id}`, {});
   }
 
-  complete_confirm(order_id: number){
+  complete_confirm(order_id: any){
     return this.http.post(`${this.apiUrl}/received_conf/${order_id}`, {});
   }
 
 
-  submitan_issue(id: number, data: any){
+  submitan_issue(id: any, data: any){
     return this.http.post(`${this.apiUrl}/submit_issue/${id}`, data);
   }
 
-  get_reports(id: number){
+  get_reports(id: any){
     return this.http.get(`${this.apiUrl}/getIssueStatus/${id}`);
   }
 
-  prod_review(id: number,ord: number, data: any){
+  prod_review(id: any,ord: any, data: any){
     return this.http.post(`${this.apiUrl}/prod_review/${id}/${ord}`, data);
   }
 
-  get_prodrev(id: number){
+  get_prodrev(id: any){
     return this.http.get(`${this.apiUrl}/getProdReview/${id}`);
   }
 
   //endpoints for order history
 
-  orderhistory(id: number){
+  orderhistory(id: any){
     return this.http.get(`${this.apiUrl}/orderhistory/${id}`);
   }
 
-  orderagain(id: number){
+  orderagain(id: any){
     return this.http.post(`${this.apiUrl}/reorder/${id}`, {});
   }
 
 
   //review component
 
-  addreview(id: number, data: any){
+  addreview(id: any, data: any){
     return this.http.post(`${this.apiUrl}/add_review/${id}`, data);
   }
 
-  getreview(id: number){
+  getreview(id: string){
     return this.http.get(`${this.apiUrl}/getreviews/${id}`);
   }
 
 
-  getVendorReviewProd(id: number) {
+  getVendorReviewProd(id: any) {
     return this.http.get(`${this.apiUrl}/getreviewsVendor/${id}`);
   }
 

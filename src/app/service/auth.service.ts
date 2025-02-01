@@ -9,7 +9,8 @@ import { isLocalStorageAvailable } from '../../shared/environment.utils';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost/unimart_pasabuy/api';
+  // private baseUrl = 'http://localhost/unimart_pasabuy/api';
+  private baseUrl = 'http://localhost:8000/user';
   private tokenKey = 'jwt';
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 

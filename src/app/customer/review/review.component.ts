@@ -18,7 +18,7 @@ export class ReviewComponent {
   rating: number = 0; 
   comment: string = '';
   userid: number = 0;
-  vendor_id: number = 0;
+  vendor_id: string = "";
   reviews: any[] = [];
   name: string = '';
   reviewed: boolean = false;
@@ -93,7 +93,7 @@ export class ReviewComponent {
   }
 
 
-  getreview(vendor_id: number){
+  getreview(vendor_id: string){
     this.api.getreview(this.vendor_id).subscribe((resp: any) => {
       try {
         this.reviews = resp.data;
@@ -104,7 +104,7 @@ export class ReviewComponent {
     })
   }
 
-  getRatings(vendorId: number): void {
+  getRatings(vendorId: string): void {
     this.api.getreview(vendorId).subscribe((resp: any) => {
       if (resp && resp.data) {
         this.calculateAverageRating(resp.data);

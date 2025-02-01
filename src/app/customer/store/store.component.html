@@ -43,8 +43,8 @@
 <div *ngIf="vendorProfile" class="container w-full">
     <div
         class="flex flex-col items-center justify-end w-full p-10 space-y-6 bg-white border-gray-100 rounded-lg border-3 md:flex-row md:space-y-0 md:space-x-6 max-w-8xl">
-        <img alt="{{ vendorProfile.vendor_name }}" class="w-24 h-24"
-            [src]="'http://localhost/tindahub_backend/api/' + (vendorProfile.vendor_profile_image)" alt="dd">
+        <img alt="{{ vendorProfile.vendor_name }}" class="w-24 h-24" [src]="vendorProfile.vendor_profile_image"
+            alt="dd">
         <div class="flex-1 font-semibold leading-tight text-center font-playfair md:text-left">
             <h1 class="text-2xl font-bold">{{vendorProfile.vendor_name}}</h1>
             <div class="flex flex-col items-center mt-2 md:flex-row md:space-x-2">

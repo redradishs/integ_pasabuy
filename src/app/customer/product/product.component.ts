@@ -16,7 +16,7 @@ import { SharedService } from '../../service/shared.service';
 
 export interface Product {
   product_id: number;
-  vendor_id: number;
+  vendor_id: string;
   product_name: string;
   price: number;
   image: string;
@@ -38,7 +38,7 @@ export interface Vendor {
 
 
 export interface VendorProfile {
-  vendor_id: number;
+  vendor_id: string;
   vendor_name: string;
   image?: string;
   location: string;
@@ -63,7 +63,7 @@ export interface VendorProfile {
 export class ProductComponent implements OnInit {
   breadcrumbs: Array<{ label: string; link: string; iconViewBox: string }> = [];
   products: Product[] = [];
-  vendorId: number = 0;
+  vendorId: string = "";
   cartItems: any[] = []; 
   quantity: number = 1;
   itemPrice: number = 0;
@@ -85,7 +85,7 @@ export class ProductComponent implements OnInit {
   
 
 
-  vendorProfile: VendorProfile = { rating: 0, vendor_id: 0, vendor_name: '', image: '', location: '', operating_hours: '', description: '', vendor_profile_image: '' };
+  vendorProfile: VendorProfile = { rating: 0, vendor_id: '', vendor_name: '', image: '', location: '', operating_hours: '', description: '', vendor_profile_image: '' };
   constructor(private route: ActivatedRoute, 
               private api: ApiService, 
               private auth: AuthService, 
@@ -106,7 +106,7 @@ export class ProductComponent implements OnInit {
 
 
     this.setupBreadcrumbs();
-    this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
+    this.vendorId = this.route.snapshot.paramMap.get('vendorId') || '';
     this.viewVendorProfile(this.vendorId)
     this.viewproducts(this.vendorId);
     this.getCategories(this.vendorId);
@@ -170,7 +170,7 @@ export class ProductComponent implements OnInit {
   }
   
 
-  viewVendorProfile(vendorId: number): void {
+  viewVendorProfile(vendorId: string): void {
     this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
       if (resp){
         this.vendorProfile = resp.data;
@@ -181,7 +181,7 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  viewproducts(vendorId: number): void {
+  viewproducts(vendorId: string): void {
     this.api.getVendorProducts(vendorId).subscribe((resp: any) => {
       if(resp){ 
         this.products = resp.data.map((product: any) => {
@@ -375,7 +375,7 @@ export class ProductComponent implements OnInit {
 
   }
 
-  getCategories(vendorId: number){
+  getCategories(vendorId: string){
     this.api.getCategories(this.vendorId).subscribe((resp: any) => {
       if(resp){
         this.categories = resp.data;
@@ -386,12 +386,12 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  goToChat(vendor: { vendor_id: number; vendor_name: string }): void {
+  goToChat(vendor: { vendor_id: string; vendor_name: string }): void {
     this.sharedservice.setVendor(vendor);
     this.router.navigate(['/chat']);
   }
 
-  getRatings(vendorId: number): void {
+  getRatings(vendorId: string): void {
     this.api.getreview(vendorId).subscribe((resp: any) => {
         if (resp && resp.data) {
             this.calculateAverageRating(resp.data);

@@ -18,7 +18,7 @@ export class ReviewpageComponent {
   rating: number = 0; 
   comment: string = ''; 
   userid: number = 0;
-  vendor_id: number = 0;
+  vendor_id: string = "";
   reviews: any[] = [];
   name: string = '';
   reviewed: boolean = false;
@@ -96,7 +96,7 @@ export class ReviewpageComponent {
   }
 
 
-  getreview(vendor_id: number){
+  getreview(vendor_id: string){
     this.api.getreview(this.vendor_id).subscribe((resp: any) => {
       try {
         this.reviews = resp.data;
@@ -107,7 +107,7 @@ export class ReviewpageComponent {
     })
   }
 
-  viewVendorProfile(vendorId: number): void {
+  viewVendorProfile(vendorId: string): void {
     this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
       if (resp){
         this.vendor_img = resp.data.vendor_profile_image;
@@ -122,7 +122,7 @@ export class ReviewpageComponent {
 
 
 
-  getRatings(vendorId: number): void {
+  getRatings(vendorId: string): void {
     this.api.getreview(vendorId).subscribe((resp: any) => {
       if (resp && resp.data) {
         this.calculateAverageRating(resp.data);

@@ -122,7 +122,7 @@ export class WebsocketService {
    * Requests the list of messages for a specific recipient.
    * @param recipientId The ID of the recipient whose messages are being fetched.
    */
-  getMessages(recipientId: number): void {
+  getMessages(recipientId: string): void {
     this.sendAction({
       action: 'getMessages',
       senderType: 'user',

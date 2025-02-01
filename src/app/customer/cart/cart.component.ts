@@ -150,7 +150,7 @@ export class CartComponent {
             this.cartItems = resp.data.map((item: any) => ({
               ...item,
               fullImageUrl: item.product_prod_img
-                ? `http://localhost/tindahub_backend/api/${item.product_prod_img}`
+                ? `${item.product_prod_img}`
                 : 'assets/unimartLogo.png',
             
             }));
@@ -273,7 +273,8 @@ export class CartComponent {
   getUserDetails(id: number): void {
     this.api.getProfile(id).subscribe((resp: any) => {
       try {
-        this.prifiledata = resp.data[0];
+        this.prifiledata = resp.data;
+        console.log(this.prifiledata);
       } catch (error) {
         console.error("Error fetching user details", error);
       }

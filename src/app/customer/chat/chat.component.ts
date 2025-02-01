@@ -30,8 +30,8 @@ export class ChatComponent {
 
   showContacts = false;
   isLargeScreen = false;
-  contacts: { vendor_id: number; vendor_name: string }[] = [];
-  selectedContact: { vendor_id: number; vendor_name: string } | null = null;
+  contacts: { vendor_id: string; vendor_name: string }[] = [];
+  selectedContact: { vendor_id: string; vendor_name: string } | null = null;
   messages: { senderType: string; content: string; timestamp: string }[] = [];
   newMessage = '';
 
@@ -116,7 +116,7 @@ export class ChatComponent {
    * @param contacts - The contacts received from the WebSocket server.
    */
   private updateContacts(
-    contacts: { vendor_id: number; vendor_name: string }[]
+    contacts: { vendor_id: string; vendor_name: string }[]
   ): void {
     this.contacts = contacts;
   }
@@ -206,7 +206,7 @@ export class ChatComponent {
    * Selects a contact and fetches the chat history for the selected contact.
    * @param contact - The contact to select.
    */
-  selectContact(contact: { vendor_id: number; vendor_name: string }): void {
+  selectContact(contact: { vendor_id: string; vendor_name: string }): void {
     this.selectedContact = contact;
 
     if (this.websocketService.isConnected()) {

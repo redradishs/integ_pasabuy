@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 
 
 export interface VendorProfile {
-  vendor_id: number;
+  vendor_id: string;
   vendor_name: string;
   image?: string;
   location: string;
@@ -26,7 +26,7 @@ interface CartItem {
   product_id: number;
   product_name: string;
   fullImageUrl: string;
-  vendor_id: number;
+  vendor_id: string;
   vendor_name: string;
   category_id: string;
   category_name: string;
@@ -40,7 +40,7 @@ interface CartItem {
 
 export interface Product {
   product_id: number;
-  vendor_id: number;
+  vendor_id: string;
   product_name: string;
   price: number;
   image: string;
@@ -61,8 +61,8 @@ export interface Product {
 })
 export class StoreComponent {
   breadcrumbs: Array<{ label: string; link: string; iconViewBox: string }> = [];
-  vendorId: number = 0;
-  vendorProfile: VendorProfile = { rating: 0, vendor_id: 0, vendor_name: '', image: '', location: '', operating_hours: '', description: '', vendor_profile_image: '' };
+  vendorId: string = '';
+  vendorProfile: VendorProfile = { rating: 0, vendor_id: '', vendor_name: '', image: '', location: '', operating_hours: '', description: '', vendor_profile_image: '' };
   selectedCategory: String = 'All';
   averageRating: number = 0;
   ratingDistribution: { [key: number]: number } = {}; 
@@ -78,7 +78,7 @@ export class StoreComponent {
   selectedVariations: any;
   orderId: number = 0;
 
-  pickup_time = '0000-00-00 12:00';
+  pickup_time: string = new Date().toISOString();
   order_status = 'Pending';
   currentIndex: number = 0;
   selectedSize: any = null;
@@ -108,7 +108,8 @@ ngOnInit(): void {
   
 
 
-  this.vendorId = Number(this.route.snapshot.paramMap.get('vendorId'));
+  const routeVendorId = this.route.snapshot.paramMap.get('vendorId');
+  this.vendorId = routeVendorId || '0';
 
   this.setupBreadcrumbs();
   this.shuffleProducts();
@@ -123,7 +124,7 @@ ngOnInit(): void {
     this.cartItems = items.map((item: any) => {
       return {
         ...item,
-        fullImageUrl: item.fullImageUrl || `http://localhost/tindahub_backend/api/${item.prod_img}`,
+        fullImageUrl: item.fullImageUrl || `${item.prod_img}`,
       };
     });
   });
@@ -138,7 +139,7 @@ isStoreOpen(): boolean {
   const currentTime = new Date().getHours() * 100 + new Date().getMinutes(); 
   
   const storeOpenTime = 700; 
-  const storeCloseTime = 1800; 
+  const storeCloseTime = 2400; 
 
   return currentTime >= storeOpenTime && currentTime <= storeCloseTime;
 }
@@ -170,18 +171,18 @@ formatCurrency(value: number): string {
 }
 
 
-viewproducts(vendorId: number): void {
+viewproducts(vendorId: string): void {
   this.api.getVendorProducts(vendorId).subscribe((resp: any) => {
     if(resp){ 
       this.products = resp.data.map((product: any) => {
         return {
           ...product,
-          fullImageUrl: `http://localhost/tindahub_backend/api/${product.prod_img}`,
+          fullImageUrl: `${product.prod_img}`,
         };
       });
       console.log(this.products);
     } else {
-      console.error("Error no products")
+      console.log("Error no products")
     }
   })
 }
@@ -313,7 +314,7 @@ addToCart(product: any, quantity: number, selectedSize: any): void {
     const cartItem: CartItem = {
       product_id: product.product_id,
       product_name: product.product_name,
-      fullImageUrl: product.fullImageUrl || `http://localhost/tindahub_backend/api/${product.prod_img}`,
+      fullImageUrl: product.fullImageUrl,
       vendor_id: product.vendor_id,
       vendor_name: product.vendor_name || 'Default Vendor',
       category_id: product.category_id || 'Default Category',
@@ -386,7 +387,7 @@ saveOrder(order: any, orderItems: any[]) {
     return; // Stop execution if there are no items
   }
 
-  this.http.post('http://localhost/unimart_pasabuy/api/add_order', order).subscribe(
+  this.http.post('http://localhost:8000/api/add_order', order).subscribe(
     (response: any) => {
       this.orderId = response.data.order_id;
       orderItems.forEach(item => item.order_id = this.orderId);
@@ -400,7 +401,7 @@ saveOrder(order: any, orderItems: any[]) {
 
 saveOrderItems(orderId: number, orderItems: any[]) {
   const orderData = {
-    data2: orderItems.map(item => ({
+    items: orderItems.map(item => ({
       product_id: item.product_id,
       variation_id: item.variation_id || null,
       quantity: item.quantity,
@@ -409,7 +410,7 @@ saveOrderItems(orderId: number, orderItems: any[]) {
     }))
   };
 
-  this.http.post(`http://localhost/unimart_pasabuy/api/add_itemsOrder/${orderId}`, orderData).subscribe(
+  this.http.post(`http://localhost:8000/api/add_itemsOrder/${orderId}`, orderData).subscribe(
     (response) => {
       console.log('Order items saved successfully:', response);
       localStorage.removeItem('cart'); 
@@ -464,42 +465,42 @@ reviewpage(){
     }
 
 
-    viewVendorProfile(vendorId: number): void {
+    viewVendorProfile(vendorId: string): void {
       this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
         if (resp){
-          this.vendorProfile = resp.data;
-          console.log(this.vendorProfile);
+          this.vendorProfile = resp.data[0];
+          console.log("This is the vendor profile", this.vendorProfile);
         } else {
           console.error("Error no vendor")
         }
       })
     }
 
-    getCategories(vendorId: number){
+    getCategories(vendorId: string){
       this.api.getCategories(this.vendorId).subscribe((resp: any) => {
         if(resp){
           this.categories = resp.data;
           console.log(this.categories);
         } else {
-          console.error("Error no categories")
+          console.log("Error no categories")
         }
       })
     }
   
-    goToChat(vendor: { vendor_id: number; vendor_name: string }): void {
+    goToChat(vendor: { vendor_id: string; vendor_name: string }): void {
       this.sharedservice.setVendor(vendor);
       this.router.navigate(['/chat']);
     }
   
-    getRatings(vendorId: number): void {
+    getRatings(vendorId: string): void {
       this.api.getreview(vendorId).subscribe((resp: any) => {
           if (resp && resp.data) {
               this.calculateAverageRating(resp.data);
           } else {
-              console.error('No rating data found');
+              console.log('No rating data found');
           }
       }, error => {
-          console.error('Error fetching ratings:', error);
+          console.log('Error fetching ratings:', error);
       });
   }
   

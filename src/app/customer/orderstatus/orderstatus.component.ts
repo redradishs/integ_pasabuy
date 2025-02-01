@@ -294,7 +294,7 @@ getIssueReport(orderId: number): void {
             this.cartItems = resp.data.map((item: any) => ({
               ...item,
               fullImageUrl: item.product_prod_img
-                ? `http://localhost/tindahub_backend/api/${item.product_prod_img}`
+                ? `${item.product_prod_img}`
                 : 'assets/unimartLogi.png',
             
             }));

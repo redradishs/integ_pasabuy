@@ -3,11 +3,12 @@ import { ApiService } from '../../service/api.service';
 import { AuthService } from '../../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../header/header.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, HeaderComponent],
+  imports: [FormsModule, HeaderComponent, CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -34,7 +35,7 @@ export class ProfileComponent implements OnInit {
   getDetailsProf(){
     this.api.getProfile(this.userId).subscribe((response:any) => {
       if(response) {
-        this.userProfile = response.data[0];
+        this.userProfile = response.data;
         console.log(this.userProfile)
       } else {
         console.log('No user details found');

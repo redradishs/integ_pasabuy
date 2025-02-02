@@ -110,8 +110,10 @@ export class ReviewpageComponent {
   viewVendorProfile(vendorId: string): void {
     this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
       if (resp){
-        this.vendor_img = resp.data.vendor_profile_image;
-        this.vendor_name = resp.data.vendor_name;
+        const data = resp.data[0];
+        this.vendor_img = data.vendor_profile_image;
+        this.vendor_name = data.vendor_name;
+        console.log("This is the vendorName", this.vendor_name)
         console.log(resp.data);
       } else {
         console.error("Error no vendor")

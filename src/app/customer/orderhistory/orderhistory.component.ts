@@ -56,7 +56,7 @@ export class OrderhistoryComponent {
       return matchesType && matchesDate;
     });
   }
-  isWithinDuration(orderDate: Date, duration: string): boolean {
+  isWithinDuration(orderDate: Date | Date, duration: string): boolean {
     const today = new Date();
     const date = new Date(orderDate);
     switch (duration) {

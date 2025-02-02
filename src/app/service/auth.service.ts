@@ -10,7 +10,8 @@ import { isLocalStorageAvailable } from '../../shared/environment.utils';
 })
 export class AuthService {
   // private baseUrl = 'http://localhost/unimart_pasabuy/api';
-  private baseUrl = 'http://localhost:8000/user';
+  // private baseUrl = 'http://localhost:8000/user';
+  private baseUrl = 'https://unimartpasabuyapi.vercel.app/user';
   private tokenKey = 'jwt';
   private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 

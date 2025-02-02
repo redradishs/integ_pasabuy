@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production --force",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -22,6 +22,7 @@
     "@angular/router": "^18.2.0",
     "angular2-breadcrumb": "^0.0.2",
     "axios": "^1.7.9",
+    "canvg": "^4.0.2",
     "express": "^4.21.2",
     "flowbite": "^2.5.2",
     "html2canvas": "^1.4.1",

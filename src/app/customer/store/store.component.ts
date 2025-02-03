@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../../service/shared.service';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { NgxSpinnerModule } from 'ngx-spinner'; 
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 export interface VendorProfile {
@@ -55,7 +57,7 @@ export interface Product {
 @Component({
   selector: 'app-store',
   standalone: true,
-  imports: [HeaderComponent, RouterModule, FormsModule, CommonModule],
+  imports: [HeaderComponent, RouterModule, FormsModule, CommonModule, NgxSpinnerModule],
   templateUrl: './store.component.html',
   styleUrl: './store.component.css'
 })
@@ -94,7 +96,8 @@ export class StoreComponent {
                 private cart: CartServiceService,
                  private router: Router, 
                  private http: HttpClient,
-                private sharedservice: SharedService) {}
+                private sharedservice: SharedService,
+              private spinner: NgxSpinnerService) {}
 
 
 ngOnInit(): void {
@@ -172,6 +175,7 @@ formatCurrency(value: number): string {
 
 
 viewproducts(vendorId: string): void {
+  this.spinner.show();
   this.api.getVendorProducts(vendorId).subscribe((resp: any) => {
     if(resp){ 
       this.products = resp.data.map((product: any) => {
@@ -180,8 +184,10 @@ viewproducts(vendorId: string): void {
           fullImageUrl: `${product.prod_img}`,
         };
       });
+      this.spinner.hide();
       console.log(this.products);
     } else {
+      this.spinner.hide();
       console.log("Error no products")
     }
   })
@@ -466,12 +472,15 @@ reviewpage(){
 
 
     viewVendorProfile(vendorId: string): void {
+      this.spinner.show();
       this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
         if (resp){
           this.vendorProfile = resp.data[0];
           console.log("This is the vendor profile", this.vendorProfile);
+          this.spinner.hide();
         } else {
           console.error("Error no vendor")
+          this.spinner.hide();
         }
       })
     }

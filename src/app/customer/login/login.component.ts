@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../service/auth.service';
 import { RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
+import { NgxSpinnerModule } from 'ngx-spinner'; 
+import { NgxSpinnerService } from 'ngx-spinner'; 
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,8 @@ import Swal from 'sweetalert2';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    NgxSpinnerModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -37,7 +40,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private spinner: NgxSpinnerService
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', [
@@ -64,6 +68,7 @@ export class LoginComponent implements OnInit {
   userLogin(): void {
     if (this.loginForm.valid) {
       this.clicked = true;
+      this.spinner.show(); 
       this.loading = true;
   
       // Create a data object to pass to the service
@@ -99,9 +104,11 @@ export class LoginComponent implements OnInit {
             confirmButtonColor: '#FF5733'
           });
           this.resetFormState();
+          this.spinner.hide(); 
         },
         complete: () => {
           this.loading = false;
+          this.spinner.hide(); 
           this.clicked = false;
         }
       });

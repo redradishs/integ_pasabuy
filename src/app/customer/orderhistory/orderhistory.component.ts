@@ -5,11 +5,12 @@ import { AuthService } from '../../service/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-orderhistory',
   standalone: true,
-  imports: [HeaderComponent, CommonModule, FormsModule],
+  imports: [HeaderComponent, CommonModule, FormsModule, NgxSpinnerModule],
   templateUrl: './orderhistory.component.html',
   styleUrl: './orderhistory.component.css'
 })
@@ -23,7 +24,7 @@ export class OrderhistoryComponent {
 
   orderStatuses: string[] = ['All orders', 'pending', 'completed', 'canceled', 'preparing', 'placed'];
 
-  constructor(private api: ApiService, private auth: AuthService, private router: Router){
+  constructor(private api: ApiService, private auth: AuthService, private router: Router, private spinner: NgxSpinnerService){
   }
 
   ngOnInit(): void {
@@ -40,11 +41,13 @@ export class OrderhistoryComponent {
 
 
   viewOrderHistory(userId: number){
+    this.spinner.show();
     this.api.orderhistory(this.userId).subscribe((resp: any) => {
       if(resp){
         this.orders = resp.data;
         this.filteredOrders = this.orders; 
         console.log("Orders", this.orders);
+        this.spinner.hide();
       }
     })
   }

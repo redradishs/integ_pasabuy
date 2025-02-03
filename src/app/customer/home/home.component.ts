@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from "../header/header.component";
 import { ApiService } from '../../service/api.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { NgxSpinnerModule } from 'ngx-spinner'; 
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 interface Vendor {
@@ -21,7 +23,8 @@ interface Vendor {
   imports: [CommonModule,
             HeaderComponent,
             RouterModule, 
-            BreadcrumbComponent
+            BreadcrumbComponent,
+            NgxSpinnerModule
           ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -31,7 +34,7 @@ export class HomeComponent implements OnInit {
   vendorList: any[] = [];
    
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {
     this.vendor();
@@ -51,12 +54,15 @@ export class HomeComponent implements OnInit {
   
 
   vendor(): void {
+    this.spinner.show();
     this.api.getVendors().subscribe((resp:any) => {
       if(resp){
         this.vendorList = resp.data;
         console.log(this.vendorList);
+        this.spinner.hide();
       } else {
         console.error("Error fetching")
+        this.spinner.hide();
       }
     })
 

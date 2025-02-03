@@ -4,11 +4,12 @@ import { AuthService } from '../../service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
+import { NgxSpinner, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-reviewhome',
   standalone: true,
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, NgxSpinnerModule],
   templateUrl: './reviewhome.component.html',
   styleUrl: './reviewhome.component.css'
 })
@@ -28,7 +29,7 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
   totalRatings: number = 0;
   prodReviews: any;
 
-  constructor(private api: ApiService, private auth: AuthService, private router: Router, private route: ActivatedRoute){
+  constructor(private api: ApiService, private auth: AuthService, private router: Router, private route: ActivatedRoute, private spinner: NgxSpinnerService){
   }
 
   ngOnInit(): void {
@@ -78,10 +79,12 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
   }
 
   profile(id: number){
+    this.spinner.show();
     this.api.getProfile(this.userid).subscribe((resp: any) => {
       if(resp) {
         console.log(resp.data[0]);
         this.name = resp.data[0].name;
+        this.spinner.hide();
       } else {
         console.log('No user details found');
       }
@@ -95,11 +98,13 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
 
 
   viewVendorProfile(vendorId: string): void {
+    this.spinner.show();  
     this.api.getVendorProfile(vendorId).subscribe((resp: any) => {
       if (resp){
         this.vendor_img = resp.data.vendor_profile_image;
         this.vendor_name = resp.data.vendor_name;
         console.log(resp.data);
+        this.spinner.hide();
       } else {
         console.error("Error no vendor")
       }
@@ -108,6 +113,7 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
 
 
   getVendorData(vendor_id: string): void {
+    this.spinner.show();
     let vendorReviews: any[] = [];
     let productReviews: any[] = [];
   
@@ -116,6 +122,7 @@ export class ReviewhomeComponent {stars: number[] = [1, 2, 3, 4, 5];
         if (resp && resp.data) {
           vendorReviews = resp.data;
           this.mergeAndSortReviews(vendorReviews, productReviews);
+          this.spinner.hide();
         } else {
           console.error("Error fetching vendor reviews");
         }

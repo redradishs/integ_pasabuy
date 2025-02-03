@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { PaymongoService } from '../../service/paymongo.service';
 import Swal from 'sweetalert2';
+import { NgxSpinnerModule } from 'ngx-spinner'; 
+import { NgxSpinnerService } from 'ngx-spinner'; 
 
 
 
@@ -19,7 +21,8 @@ import Swal from 'sweetalert2';
             CommonModule, 
             FormsModule, 
             ReactiveFormsModule,
-            RouterModule
+            RouterModule,
+            NgxSpinnerModule
           ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
@@ -66,7 +69,7 @@ export class CartComponent {
     
   }
 
-  constructor(private api: ApiService, private router: Router, private auth: AuthService, private cart: CartServiceService, private paymongo: PaymongoService){
+  constructor(private api: ApiService, private router: Router, private auth: AuthService, private cart: CartServiceService, private paymongo: PaymongoService, private spinner: NgxSpinnerService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.order_id = navigation.extras.state['orderId'];
@@ -119,6 +122,7 @@ export class CartComponent {
   }
 
   getCart(id: number): Promise<any> {
+    this.spinner.show();
     return new Promise((resolve, reject) => {
       this.api.getCart(id).subscribe(
         (resp: any) => {
@@ -126,14 +130,17 @@ export class CartComponent {
             this.carts = resp.data;
             console.log(this.carts);
             resolve(this.carts); 
+            this.spinner.hide();
           } catch (error) {
             console.error("Error fetching cart", error);
             reject(error);
+            this.spinner.hide();
           }
         },
         (error) => {
           console.error("Error fetching cart", error);
           reject(error);
+          this.spinner.hide();
         }
       );
     });
@@ -141,6 +148,7 @@ export class CartComponent {
 
 
   getCheckout(order_id: number): void {
+    this.spinner.show();
     this.api.getCheckout(order_id).subscribe(
       (resp: any) => {
         try {
@@ -161,18 +169,22 @@ export class CartComponent {
             console.log('Total amount:', this.totalAmount);
             console.log('Full API response:', resp);
             console.log('Response data:', resp.data);
+            this.spinner.hide();
             
           } else {
             console.error('Response data is not an array or is missing');
             this.carts = [];
+            this.spinner.hide();
           }
         } catch (error) {
           console.error('Error processing checkout response', error);
           this.cartItems = [];
+          this.spinner.hide();
         }
       },
       (error) => {
         console.error('Error fetching checkout data:', error);
+        
       }
     );
   }
@@ -202,6 +214,7 @@ export class CartComponent {
 
 
   async proceedToCheckout() {
+    this.spinner.show();
   const cartResponse = await this.getCart(this.order_id); 
 
     if (!cartResponse) {
@@ -252,6 +265,7 @@ export class CartComponent {
           this.router.navigate(['/orderstatus'], {
             state: { orderId: this.order_id }
           });
+          this.spinner.hide();
         }
       },
       (error) => {

@@ -5,11 +5,12 @@ import { AuthService } from '../../service/auth.service';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule, NgModel } from '@angular/forms';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-feedbacks',
   standalone: true,
-  imports: [HeaderComponent, NgFor, NgIf, RouterLink, FormsModule],
+  imports: [HeaderComponent, NgFor, NgIf, RouterLink, FormsModule, NgxSpinnerModule],
   templateUrl: './feedbacks.component.html',
   styleUrl: './feedbacks.component.css'
 })
@@ -18,7 +19,7 @@ export class FeedbacksComponent {
   vendorList: any[] = [];
   searchQuery: string = '';
 
-  constructor(private api: ApiService, private auth: AuthService) { }
+  constructor(private api: ApiService, private auth: AuthService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.getVendors();
@@ -38,10 +39,12 @@ export class FeedbacksComponent {
   
 
   getVendors(): void {
+    this.spinner.show();
     this.api.getVendors().subscribe((resp: any) => {
       if (resp && resp.data) {
         this.vendors = resp.data; // Save original list
         this.vendorList = [...this.vendors]; // Copy it for display
+        this.spinner.hide();
       } else {
         console.error("Error fetching vendors");
       }

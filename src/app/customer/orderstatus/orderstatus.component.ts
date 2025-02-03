@@ -8,6 +8,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { PaymongoService } from '../../service/paymongo.service';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 
 interface cartsSS {
@@ -37,7 +38,7 @@ interface issue {
 @Component({
   selector: 'app-orderstatus',
   standalone: true,
-  imports: [HeaderComponent, NgIf, CommonModule, NgClass, FormsModule],
+  imports: [HeaderComponent, NgIf, CommonModule, NgClass, FormsModule, NgxSpinnerModule],
   templateUrl: './orderstatus.component.html',
   styleUrl: './orderstatus.component.css',
   providers: [DatePipe]
@@ -105,7 +106,7 @@ export class OrderstatusComponent {
     this.stopPolling();
   }
 
-  constructor(private api: ApiService, private auth: AuthService, private router: Router, private datePipe: DatePipe, private paymongo: PaymongoService){
+  constructor(private api: ApiService, private auth: AuthService, private router: Router, private datePipe: DatePipe, private paymongo: PaymongoService, private spinner: NgxSpinnerService){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.order_id = navigation.extras.state['orderId'];
@@ -116,6 +117,7 @@ export class OrderstatusComponent {
 
 
   getCart(id: number): void {
+    this.spinner.show();
     this.api.getCart(this.order_id).subscribe((resp: any) => {
       try {
         this.carts = resp.data;
@@ -127,6 +129,7 @@ export class OrderstatusComponent {
 
 
         console.log("cart res", this.carts);
+        this.spinner.hide();
       } catch (error) {
         console.error("Error fetching cart", error);
       }
@@ -285,6 +288,7 @@ getIssueReport(orderId: number): void {
 
   
   getCheckout(order_id: number): void {
+    this.spinner.show();
     this.api.getCheckout(order_id).subscribe(
       (resp: any) => {
         try {
@@ -300,14 +304,17 @@ getIssueReport(orderId: number): void {
             }));
             console.log('Full API response:', resp);
             console.log('Response data:', resp.data);
+            this.spinner.hide();
             
           } else {
             console.error('Response data is not an array or is missing');
             this.carts = [];
+            this.spinner.hide();
           }
         } catch (error) {
           console.error('Error processing checkout response', error);
           this.cartItems = [];
+          this.spinner.hide();
         }
       },
       (error) => {

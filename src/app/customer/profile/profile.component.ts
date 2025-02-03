@@ -4,11 +4,12 @@ import { AuthService } from '../../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, HeaderComponent, CommonModule],
+  imports: [FormsModule, HeaderComponent, CommonModule, NgxSpinnerModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -17,7 +18,7 @@ export class ProfileComponent implements OnInit {
   userProfile: any = {};
   userId = 0;
 
-  constructor(private api: ApiService, private auth: AuthService){
+  constructor(private api: ApiService, private auth: AuthService, private spinner: NgxSpinnerService){
   }
   ngOnInit(): void {
     this.auth.getCurrentUser().subscribe(user => {
@@ -33,10 +34,12 @@ export class ProfileComponent implements OnInit {
 
 
   getDetailsProf(){
+    this.spinner.show();
     this.api.getProfile(this.userId).subscribe((response:any) => {
       if(response) {
         this.userProfile = response.data;
         console.log(this.userProfile)
+        this.spinner.hide();
       } else {
         console.log('No user details found');
       }

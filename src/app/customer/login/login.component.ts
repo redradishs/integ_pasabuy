@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgxSpinnerModule } from 'ngx-spinner'; 
 import { NgxSpinnerService } from 'ngx-spinner'; 
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private title: Title
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl('', [
@@ -59,6 +61,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.title.setTitle('Login - PasaBuy');
     const storedEmail = localStorage.getItem('rememberedEmail');
     if (storedEmail) {
       this.loginForm.patchValue({ email: storedEmail });

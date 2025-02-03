@@ -11,6 +11,7 @@ import { PaymongoService } from '../../service/paymongo.service';
 import Swal from 'sweetalert2';
 import { NgxSpinnerModule } from 'ngx-spinner'; 
 import { NgxSpinnerService } from 'ngx-spinner'; 
+import { Title } from '@angular/platform-browser';
 
 
 
@@ -52,6 +53,7 @@ export class CartComponent {
 
   
   ngOnInit(): void {
+    this.title.setTitle('Cart - PasaBuy');
     initFlowbite();
     this.getCart(this.order_id);
     this.getCheckout(this.order_id);
@@ -69,7 +71,7 @@ export class CartComponent {
     
   }
 
-  constructor(private api: ApiService, private router: Router, private auth: AuthService, private cart: CartServiceService, private paymongo: PaymongoService, private spinner: NgxSpinnerService){
+  constructor(private api: ApiService, private router: Router, private auth: AuthService, private cart: CartServiceService, private paymongo: PaymongoService, private spinner: NgxSpinnerService, private title: Title){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.order_id = navigation.extras.state['orderId'];

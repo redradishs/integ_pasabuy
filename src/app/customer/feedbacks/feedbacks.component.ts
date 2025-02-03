@@ -6,6 +6,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule, NgModel } from '@angular/forms';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-feedbacks',
@@ -19,9 +20,10 @@ export class FeedbacksComponent {
   vendorList: any[] = [];
   searchQuery: string = '';
 
-  constructor(private api: ApiService, private auth: AuthService, private spinner: NgxSpinnerService) { }
+  constructor(private api: ApiService, private auth: AuthService, private spinner: NgxSpinnerService, private title: Title) { }
 
   ngOnInit(): void {
+    this.title.setTitle('Feedbacks - PasaBuy');
     this.getVendors();
     this.isStoreOpen();
   }

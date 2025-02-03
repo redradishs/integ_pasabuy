@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from "../header/header.component";
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -18,9 +19,10 @@ export class ProfileComponent implements OnInit {
   userProfile: any = {};
   userId = 0;
 
-  constructor(private api: ApiService, private auth: AuthService, private spinner: NgxSpinnerService){
+  constructor(private api: ApiService, private auth: AuthService, private spinner: NgxSpinnerService, private title: Title){
   }
   ngOnInit(): void {
+    this.title.setTitle('Profile - PasaBuy');
     this.auth.getCurrentUser().subscribe(user => {
       if (user) {
         this.userId = user.id;

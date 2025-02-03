@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-orderhistory',
@@ -24,10 +25,11 @@ export class OrderhistoryComponent {
 
   orderStatuses: string[] = ['All orders', 'pending', 'completed', 'canceled', 'preparing', 'placed'];
 
-  constructor(private api: ApiService, private auth: AuthService, private router: Router, private spinner: NgxSpinnerService){
+  constructor(private api: ApiService, private auth: AuthService, private router: Router, private spinner: NgxSpinnerService, private title: Title){
   }
 
   ngOnInit(): void {
+    this.title.setTitle('History - PasaBuy');
     this.auth.getCurrentUser().subscribe(user => {
       if (user) {
         this.userId = user.id;

@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { NgxSpinnerModule } from 'ngx-spinner'; 
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Title } from '@angular/platform-browser';
 
 
 export interface VendorProfile {
@@ -97,10 +98,12 @@ export class StoreComponent {
                  private router: Router, 
                  private http: HttpClient,
                 private sharedservice: SharedService,
-              private spinner: NgxSpinnerService) {}
+              private spinner: NgxSpinnerService,
+            private title: Title) {}
 
 
 ngOnInit(): void {
+  this.title.setTitle('Stores - PasaBuy');
   this.auth.getCurrentUser().subscribe(user => {
     if (user) {
       this.userId = user.id;

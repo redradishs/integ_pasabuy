@@ -9,6 +9,7 @@ import html2canvas from 'html2canvas';
 import { PaymongoService } from '../../service/paymongo.service';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { Title } from '@angular/platform-browser';
 
 
 interface cartsSS {
@@ -86,6 +87,7 @@ export class OrderstatusComponent {
 
 
   ngOnInit(): void {
+    this.title.setTitle('Order Status - PasaBuy');
     this.getCart(this.order_id);
     this.getCheckout(this.order_id);
     this.getSpecificStatus(this.order_id);
@@ -106,7 +108,7 @@ export class OrderstatusComponent {
     this.stopPolling();
   }
 
-  constructor(private api: ApiService, private auth: AuthService, private router: Router, private datePipe: DatePipe, private paymongo: PaymongoService, private spinner: NgxSpinnerService){
+  constructor(private api: ApiService, private auth: AuthService, private router: Router, private datePipe: DatePipe, private paymongo: PaymongoService, private spinner: NgxSpinnerService, private title: Title){
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
       this.order_id = navigation.extras.state['orderId'];

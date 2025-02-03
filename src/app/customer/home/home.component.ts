@@ -6,6 +6,7 @@ import { ApiService } from '../../service/api.service';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 import { NgxSpinnerModule } from 'ngx-spinner'; 
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Title } from '@angular/platform-browser';
 
 
 interface Vendor {
@@ -34,9 +35,10 @@ export class HomeComponent implements OnInit {
   vendorList: any[] = [];
    
 
-  constructor(private api: ApiService, private spinner: NgxSpinnerService) {}
+  constructor(private api: ApiService, private spinner: NgxSpinnerService, private title: Title) {}
 
   ngOnInit(): void {
+    this.title.setTitle('Home - PasaBuy');
     this.vendor();
     this.isStoreOpen();
 

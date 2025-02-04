@@ -32,7 +32,7 @@ export class WebsocketService {
     }
 
     this.socket = new WebSocket(
-      `ws://localhost:3000/ws/chat?token=${token}&senderType=${senderType}`
+      `wss://tindahub-chatserver.onrender.com/ws/chat?token=${token}&senderType=${senderType}`
     );
     this.socket.onopen = this.handleOpen.bind(this);
     this.socket.onmessage = this.handleMessage.bind(this);
@@ -134,7 +134,7 @@ export class WebsocketService {
    * Requests the list of contacts from the WebSocket server.
    */
   getContacts(): void {
-    this.sendAction({ action: 'getUserContacts' });
+    this.sendAction({ action: 'getContacts' });
   }
 
   /**

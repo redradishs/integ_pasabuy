@@ -18,6 +18,21 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 
+interface Vendor {
+  vendor_id: string;
+  vendor_name: string;
+}
+
+interface Contact {
+  _id: string;
+  vendor_name: string;
+  vendor_email: string;
+  lastMessage?: {
+    message: string;
+    created_at: string;
+  };
+}
+
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -30,8 +45,8 @@ export class ChatComponent {
 
   showContacts = false;
   isLargeScreen = false;
-  contacts: { vendor_id: string; vendor_name: string }[] = [];
-  selectedContact: { vendor_id: string; vendor_name: string } | null = null;
+  contacts: Contact[] = [];
+  selectedContact: Vendor | null = null;
   messages: { senderType: string; content: string; timestamp: string }[] = [];
   newMessage = '';
 
@@ -115,11 +130,11 @@ export class ChatComponent {
    * Updates the list of contacts.
    * @param contacts - The contacts received from the WebSocket server.
    */
-  private updateContacts(
-    contacts: { vendor_id: string; vendor_name: string }[]
-  ): void {
+  private updateContacts(contacts: Contact[]): void {
+    console.log('Raw contacts data:', contacts);
     this.contacts = contacts;
   }
+
 
   /**
    * Updates the message history for the selected contact.
@@ -127,7 +142,7 @@ export class ChatComponent {
    */
   private updateMessageHistory(messages: any[]): void {
     this.messages = messages.map((msg) => ({
-      senderType: msg.sender_type,
+      senderType: msg.sender.type,
       content: msg.message,
       timestamp: new Date(msg.created_at).toLocaleString(),
     }));
@@ -140,15 +155,23 @@ export class ChatComponent {
    */
   private processRealTimeMessage(message: any): void {
     const newMessage = {
-      senderType: message.sender_type,
+      senderType: message.sender.type,
       content: message.message,
       timestamp: new Date(message.created_at).toLocaleString(),
     };
 
-    if (this.isMessageRelevantToSelectedContact(message)) {
+    // Check if this message is already in the current chat
+    const isDuplicate = this.messages.some(
+      msg => msg.content === newMessage.content &&
+        msg.timestamp === newMessage.timestamp
+    );
+
+    if (!isDuplicate &&
+      this.selectedContact &&
+      (message.sender.id === this.selectedContact.vendor_id ||
+        message.recipient.id === this.selectedContact.vendor_id)) {
       this.messages = [...this.messages, newMessage];
-    } else {
-      console.log('Message not for the selected contact, ignoring.');
+      setTimeout(() => this.scrollToBottom(), 0);
     }
   }
 
@@ -157,11 +180,14 @@ export class ChatComponent {
    * @param message - The message object to check.
    * @returns True if the message is relevant, false otherwise.
    */
-  private isMessageRelevantToSelectedContact(message: any) {
+  private isMessageRelevantToSelectedContact(message: any): boolean {
+    if (!this.selectedContact) {
+      return false;
+    }
+    
     return (
-      this.selectedContact &&
-      (message.recipient_vendor_id === this.selectedContact.vendor_id ||
-        message.sender_vendor_id === this.selectedContact.vendor_id)
+      message.recipient_vendor_id === this.selectedContact.vendor_id ||
+      message.sender_vendor_id === this.selectedContact.vendor_id
     );
   }
 
@@ -206,17 +232,22 @@ export class ChatComponent {
    * Selects a contact and fetches the chat history for the selected contact.
    * @param contact - The contact to select.
    */
-  selectContact(contact: { vendor_id: string; vendor_name: string }): void {
-    this.selectedContact = contact;
+  selectContact(contact: Contact | Vendor): void {
+    // Convert Contact to Vendor format if needed
+    this.selectedContact = {
+      vendor_id: 'vendor_id' in contact ? contact.vendor_id : contact._id,
+      vendor_name: contact.vendor_name
+    };
 
     if (this.websocketService.isConnected()) {
-      this.websocketService.getMessages(contact.vendor_id);
+      this.websocketService.getMessages(this.selectedContact.vendor_id);
     } else {
       console.error('WebSocket connection not established yet.');
     }
 
     setTimeout(() => this.scrollToBottom(), 0);
   }
+
 
   /**
    * Checks the screen size and adjusts the visibility of the contacts list accordingly.

@@ -396,7 +396,7 @@ saveOrder(order: any, orderItems: any[]) {
     return; // Stop execution if there are no items
   }
 
-  this.http.post('http://localhost:8000/api/add_order', order).subscribe(
+  this.http.post('https://unimartpasabuyapi.vercel.app/api/add_order', order).subscribe(
     (response: any) => {
       this.orderId = response.data.order_id;
       orderItems.forEach(item => item.order_id = this.orderId);
@@ -419,7 +419,7 @@ saveOrderItems(orderId: number, orderItems: any[]) {
     }))
   };
 
-  this.http.post(`http://localhost:8000/api/add_itemsOrder/${orderId}`, orderData).subscribe(
+  this.http.post(`https://unimartpasabuyapi.vercel.app/api/add_itemsOrder/${orderId}`, orderData).subscribe(
     (response) => {
       console.log('Order items saved successfully:', response);
       localStorage.removeItem('cart'); 

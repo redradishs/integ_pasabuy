@@ -115,15 +115,6 @@
                             </div>
 
 
-                            <!-- Write a review button shown only if marked as received -->
-                            <!-- <div *ngIf="orderReceived" class="mt-4">
-                                <button type="button" (click)="review()"
-                                    class="mb-2 me-2 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                    Write a Review
-                                </button>
-                            </div> -->
-
-
                             <!-- Modal Background -->
                             <div *ngIf="isIssueReported"
                                 class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -484,9 +475,6 @@
 
     </div>
 </div>
-
-
-
 
 <div *ngIf="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 modal"
     id="reviewModal">

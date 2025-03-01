@@ -423,11 +423,11 @@ getIssueReport(orderId: number): void {
     }).format(value);
   }
 
-  review(){
-    this.router.navigate(['/review'], {
-      state: { vendor_id: this.vendor_id }
-    });
-  }
+    review(){
+      this.router.navigate(['/review'], {
+        state: { vendor_id: this.vendor_id }
+      });
+    }
 
 
   async retrieveLink(linkId: string): Promise<void> {

@@ -1,22 +1,34 @@
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { isLocalStorageAvailable } from '../../shared/environment.utils';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   // private baseUrl = 'http://localhost/unimart_pasabuy/api';
   // private baseUrl = 'http://localhost:8000/user';
-  private baseUrl = 'https://unimartpasabuyapi.vercel.app/user';
+  // private baseUrl = 'https://unimartpasabuyapi.vercel.app/user';
+  private baseUrl = 'https://unimartpasabuyapi.onrender.com/user';
+
   //private baseUrl = 'https://cdnunimartpasabuyapi.onrender.com/user';
   private tokenKey = 'jwt';
-  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private currentUserSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
 
-  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
+  ) {
     if (isPlatformBrowser(this.platformId)) {
       const token = this.getToken();
       if (token) {
@@ -26,17 +38,15 @@ export class AuthService {
   }
 
   userLogin(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, data)
-     .pipe(
-        catchError(this.handleError)
-      );
+    return this.http
+      .post<any>(`${this.baseUrl}/login`, data)
+      .pipe(catchError(this.handleError));
   }
 
   userSignUp(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/signup`, data)
-     .pipe(
-        catchError(this.handleError)
-      );
+    return this.http
+      .post<any>(`${this.baseUrl}/signup`, data)
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -61,7 +71,6 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-
   setToken(token: string): void {
     if (isPlatformBrowser(this.platformId) && isLocalStorageAvailable()) {
       localStorage.setItem(this.tokenKey, token);
@@ -77,10 +86,9 @@ export class AuthService {
   }
 
   getCollage(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/api/getImage`)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http
+      .get<any>(`${this.baseUrl}/api/getImage`)
+      .pipe(catchError(this.handleError));
   }
 
   isAuthenticated(): boolean {
@@ -92,7 +100,7 @@ export class AuthService {
     const token = this.getToken();
     return new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
   }
 
@@ -100,7 +108,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId) && isLocalStorageAvailable()) {
       localStorage.removeItem(this.tokenKey);
       this.currentUserSubject.next(null);
-      this.router.navigate(['/login']); 
+      this.router.navigate(['/login']);
     }
   }
 
@@ -117,7 +125,7 @@ export class AuthService {
       return null;
     }
   }
-  
+
   // Check if the token is expired
   private isTokenExpired(token: string): boolean {
     const decodedToken = this.decodeToken(token);
@@ -133,5 +141,4 @@ export class AuthService {
   getCurrentUser(): Observable<any> {
     return this.currentUserSubject.asObservable();
   }
-  
 }
